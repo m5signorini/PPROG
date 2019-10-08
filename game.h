@@ -1,0 +1,163 @@
+/**
+ * @brief It defines the game interface
+ * for each command
+ *
+ * Added descriptions
+ *
+ * @file game.h
+ * @author Profesores PPROG
+ * @version 2.0
+ * @date 13-01-2015
+ * @copyright GNU Public License
+ */
+
+#ifndef GAME_H
+#define GAME_H
+
+typedef struct _Game Game;
+
+#include "command.h"
+#include "space.h"
+#include "player.h"
+#include "object.h"
+
+/**
+* @brief Creates a new game
+*
+* game_create creates a game and returns it changing the parameter
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game that will be created
+* @return the status of the function for error management
+*/
+Game* game_create();
+
+/**
+* @brief Updates the game
+*
+* game_update updates the state of the game based on the commands
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game that will be updated
+* @param cmd the command used to update the game
+* @return the status of the function for error management
+*/
+STATUS game_update(Game* game, T_Command cmd);
+
+/**
+* @brief Ends a game
+*
+* game_destroy destroys the game freeing its resources
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game that will be destroyed
+* @return the status of the function for error management
+*/
+STATUS game_destroy(Game* game);
+
+/**
+* @brief Checks if the game is over
+*
+* game_is_over checks if the game is over, returning TRUE if it is over
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game that will be checked
+* @return TRUE if it is game over, FALSE otherwise
+*/
+BOOL   game_is_over(Game* game);
+
+/*
+*/
+void   game_print_screen(Game* game);
+
+/**
+* @brief Prints the data of the game
+*
+* game_print_data prints all the data that the game manages
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game whose data will be printed
+*/
+void   game_print_data(Game* game);
+
+/**
+* @brief Gets a specific space from a game
+*
+* game_get_space returns the space matching the passed id, in a game
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game where it will try to find the space
+* @param id the id of the space to return
+* @return the space matching the passed id
+*/
+Space* game_get_space(Game* game, Id id);
+
+/**
+* @brief Adds a space in a game
+*
+* game_add_space adds a specific space to the game
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game in which it will add the new space
+* @param space the space that will be inserted in the game
+* @return the status of the function for error management
+*/
+STATUS game_add_space(Game* game, Space* space);
+Id     game_get_space_id_at(Game* game, int position);
+
+/**
+* @brief Gets the player location
+*
+* game_get_player_location returns the location of the player inside the game
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game from which it will return its player's position
+* @return the id of the  location of the player in the game
+*/
+Player* game_get_player(Game* game);
+STATUS game_set_player(Game* game, Player* player);
+
+/**
+* @brief Gets the object location
+*
+* game_get_object_location returns the location of the object inside the game
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game from which it will return its object's position
+* @return the id of the  location of the object in the game
+*/
+Object* game_get_object(Game* game);
+STATUS game_set_object(Game* game, Object* obj);
+Id game_get_object_location(Game* game);
+
+/**
+* @brief Gets the last command
+*
+* game_get_last_command returns the location of the player inside the game
+*
+* @date 19/09/2019
+* @author: Instructors
+*
+* @param game the game from which it will return its last command
+* @return the last command executed in the game
+*/
+T_Command game_get_last_command(Game* game);
+#endif
