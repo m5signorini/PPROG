@@ -74,6 +74,9 @@ STATUS game_destroy(Game* game);
 */
 BOOL   game_is_over(Game* game);
 
+/*
+*/
+void   game_print_screen(Game* game);
 
 /**
 * @brief Prints the data of the game
