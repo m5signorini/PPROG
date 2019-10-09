@@ -1,5 +1,5 @@
 /**
- * @brief It defines the game reader
+ * @brief It defines the game reader for reading data
  *
  * @file game_reader.c
  * @author Martin Sanchez Signorini
@@ -7,7 +7,6 @@
  * @date 19-09-2019
  * @copyright GNU Public License
  */
-
 
 
 #include <stdio.h>
@@ -56,30 +55,32 @@ Game* game_reader_create_from_file(char* filename) {
 
   if (game_reader_load_spaces(game, filename) == ERROR) {
     game_destroy(game);
-    return ERROR;
+    return NULL;
   }
 
   player = player_create(1);
   if(player == NULL) {
     game_destroy(game);
-    return ERROR;
+    return NULL;
   }
 
   object = object_create(1);
   if(object == NULL) {
     player_destroy(player);
     game_destroy(game);
-    return ERROR;
+    return NULL;
   }
 
   space_ini = game_get_space_id_at(game, 0);
+  
   /*Obtenida la id del espacio inicial, colocamos el objeto en ese espacio*/
   space_set_object(game_get_space(game,space_ini), object_get_id(object));
   /*Obtenida la id del espacio inicial, colocamos al jugador en ese espacio*/
   player_set_location(player,space_ini);
+  
   game_set_player(game, player);
   game_set_object(game, object);
-
+  
   return game;
 }
 
