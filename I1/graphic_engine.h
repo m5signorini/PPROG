@@ -2,7 +2,7 @@
  * @brief It defines a textual graphic engine
  *
  * @file graphic_engine.h
- * @author Profesores PPROG
+ * @author Martin Sanchez Signorini
  * @version 1.0
  * @date 18-01-2017
  * @copyright GNU Public License
@@ -18,10 +18,10 @@ typedef struct _Graphic_engine Graphic_engine;
 /**
 * @brief Creates a graphic engine
 *
-* graphic_engine_crete Creates a graphic engine for the game reserving memory for it
+* graphic_engine_crete Creates a graphic engine allocating memory for it
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @return the graphic engine created
 */
@@ -30,27 +30,25 @@ Graphic_engine* graphic_engine_create();
 /**
 * @brief Destroys a graphic engine previously created
 *
-* graphic_engine_destroy Destroys a graphic engine freeing its memory previosly reserved
+* graphic_engine_destroy Destroys a graphic engine freeing its memory previously allocated
 *
 * @date 15/01/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
-* @param coffee the coffee whose price is computed
-* @param size the size of the input coffee
-* @return the price in Euro of the input coffee
+* @param ge the graphic engine to destroy
 */
 void graphic_engine_destroy(Graphic_engine *ge);
 
 /**
-* @brief It gives colour to the graphic engine created
+* @brief Displays the game
 *
-*graphic_engine_paint_game Giuves colour to the graphic engine for the game
+* graphic_engine_paint_game paints the graphics of the game 
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
-* @param ge the graphic engine the is going to be painted
-* @param game the game whose graphic engine is going to be painted
+* @param ge the graphic engine 
+* @param game the game that the graphic engine is going to use
 */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game);
 
@@ -60,7 +58,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game);
 * graphic_engine_write_command
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param ge
 * @param str
