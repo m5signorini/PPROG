@@ -2,12 +2,12 @@
  * @brief It defines the game interface
  * for each command
  *
- * Added descriptions
+ * The game manages the spaces, players and objects
  *
  * @file game.h
- * @author Profesores PPROG
+ * @author Martin Sanchez Signorini
  * @version 2.0
- * @date 13-01-2015
+ * @date 03-10-2019
  * @copyright GNU Public License
  */
 
@@ -40,7 +40,7 @@ Game* game_create();
 * game_update updates the state of the game based on the commands
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game that will be updated
 * @param cmd the command used to update the game
@@ -54,7 +54,7 @@ STATUS game_update(Game* game, T_Command cmd);
 * game_destroy destroys the game freeing its resources
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game that will be destroyed
 * @return the status of the function for error management
@@ -67,16 +67,13 @@ STATUS game_destroy(Game* game);
 * game_is_over checks if the game is over, returning TRUE if it is over
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game that will be checked
 * @return TRUE if it is game over, FALSE otherwise
 */
 BOOL   game_is_over(Game* game);
 
-/*
-*/
-void   game_print_screen(Game* game);
 
 /**
 * @brief Prints the data of the game
@@ -84,7 +81,7 @@ void   game_print_screen(Game* game);
 * game_print_data prints all the data that the game manages
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game whose data will be printed
 */
@@ -96,7 +93,7 @@ void   game_print_data(Game* game);
 * game_get_space returns the space matching the passed id, in a game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game where it will try to find the space
 * @param id the id of the space to return
@@ -110,28 +107,81 @@ Space* game_get_space(Game* game, Id id);
 * game_add_space adds a specific space to the game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game in which it will add the new space
 * @param space the space that will be inserted in the game
 * @return the status of the function for error management
 */
 STATUS game_add_space(Game* game, Space* space);
+
+/**
+* @brief Gets the id of a space in a game
+*
+* game_get_space_id_at gets the id of the space in a given position
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game in which it will look for the space
+* @param position index of the space that will be looked for
+* @return the id of the space or NO_ID
+*/
 Id     game_get_space_id_at(Game* game, int position);
 
 /**
-* @brief Gets the player location
+* @brief Gets the player
 *
-* game_get_player_location returns the location of the player inside the game
+* game_get_player returns the player inside the game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
-* @param game the game from which it will return its player's position
-* @return the id of the  location of the player in the game
+* @param game the game from which it will return its player
+* @return the player in the game
 */
 Player* game_get_player(Game* game);
+
+/**
+* @brief Sets the player
+*
+* game_set_player sets the player inside the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game in which it will set the player
+* @param player the player to set in the game
+* @return the status of the function for error management
+*/
 STATUS game_set_player(Game* game, Player* player);
+
+/**
+* @brief Gets the object
+*
+* game_get_object returns the object inside the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game from which it will return its object
+* @return the object in the game
+*/
+Object* game_get_object(Game* game);
+
+/**
+* @brief Sets the object
+*
+* game_set_object sets the object inside the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game in which it will set the object
+* @param obj the object to set in the game
+* @return the status of the function for error management
+*/
+STATUS game_set_object(Game* game, Object* obj);
 
 /**
 * @brief Gets the object location
@@ -139,13 +189,11 @@ STATUS game_set_player(Game* game, Player* player);
 * game_get_object_location returns the location of the object inside the game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game from which it will return its object's position
 * @return the id of the  location of the object in the game
 */
-Object* game_get_object(Game* game);
-STATUS game_set_object(Game* game, Object* obj);
 Id game_get_object_location(Game* game);
 
 /**
@@ -154,7 +202,7 @@ Id game_get_object_location(Game* game);
 * game_get_last_command returns the location of the player inside the game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game from which it will return its last command
 * @return the last command executed in the game
