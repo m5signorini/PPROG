@@ -1,3 +1,13 @@
+/**
+ * @brief It implements the graphic_engine
+ *
+ * @file graphic_engine.c
+ * @author Martin Sanchez Signorini
+ * @version 2.0
+ * @date 03-08-2019
+ * @copyright GNU Public License
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "screen.h"
@@ -54,11 +64,13 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
+  /* Set id_act to the id of the space of the player */
   if ((id_act = player_get_location(game_get_player(game))) != NO_ID){
     space_act = game_get_space(game, id_act);
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
-
+    
+    /* Check if there is an object in the previous space */
     if (space_get_object(game_get_space(game,id_back)) != NO_ID)
       obj='*';
     else
@@ -75,6 +87,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
     }
 
+    /* Check if there is an object in this space */
     if (space_get_object(space_act) != NO_ID)
       obj='*';
     else
@@ -90,7 +103,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       sprintf(str, "  +-----------+");
       screen_area_puts(ge->map, str);
     }
-
+    
+    /* Check if there is an object in the next space */
     if (space_get_object(game_get_space(game,id_next)) != NO_ID)
       obj='*';
     else
@@ -108,7 +122,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     }
   }
 
-  /* Paint the in the description area */
+  /* Paint the object location in the description area */
+  /* None if the player has it */
   screen_area_clear(ge->descript);
   if ((obj_loc = game_get_object_location(game)) != NO_ID){
     sprintf(str, "  Object location:%d", (int)obj_loc);
