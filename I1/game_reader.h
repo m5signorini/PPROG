@@ -22,7 +22,7 @@
 * game_reader_create_from_file creates a game based on the data of a file
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game that will be created
 * @param filename the name of the file with the data for creating the game
