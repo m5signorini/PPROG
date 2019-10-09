@@ -32,14 +32,14 @@ int main(int argc, char *argv[]) {
     game_destroy(game); return 1;
   }
 
-	while ( (command != EXIT) && !game_is_over(game) ) {
-		graphic_engine_paint_game(gengine, game);
+  while ( (command != EXIT) && !game_is_over(game) ) {
+    graphic_engine_paint_game(gengine, game);
     command = get_user_input();
     game_update(game, command);
-	}
+  }
 
   game_destroy(game);
-	graphic_engine_destroy(gengine);
+  graphic_engine_destroy(gengine);
 
   return 0;
 }
