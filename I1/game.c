@@ -3,9 +3,9 @@
  * for each command
  *
  * @file game.c
- * @author Profesores PPROG
- * @version 1.0
- * @date 13-01-2015
+ * @author Martin Sanchez Signorini
+ * @version 2.0
+ * @date 03-08-2019
  * @copyright GNU Public License
  */
 
@@ -47,10 +47,6 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_take,
   game_callback_leave};
 
-/**
-   Private functions
-*/
-
 
 /**
    Game interface implementation
@@ -62,7 +58,8 @@ Game* game_create() {
 
   game = (Game *) malloc(sizeof (Game));
   if(game == NULL) return NULL;
-
+  
+  /* Initial Set of the game*/
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
   }
@@ -75,9 +72,9 @@ Game* game_create() {
 }
 
 STATUS game_destroy(Game* game) {
-  int i = 0;
   if (game == NULL) return ERROR;
-
+  int i = 0;
+  
   for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
     space_destroy(game->spaces[i]);
   }
@@ -93,11 +90,11 @@ STATUS game_destroy(Game* game) {
 */
 
 STATUS game_add_space(Game* game, Space* space) {
-  int i = 0;
-
   if (game == NULL || space == NULL) {
     return ERROR;
   }
+  
+  int i = 0;
 
   while ( (i < MAX_SPACES) && (game->spaces[i] != NULL)){
     i++;
@@ -200,6 +197,7 @@ T_Command game_get_last_command(Game* game){
 }
 
 void game_print_data(Game* game) {
+  if(game == NULL) return;
   int i = 0;
 
   printf("\n\n-------------\n\n");
@@ -229,6 +227,7 @@ void game_callback_exit(Game* game) {
 }
 
 void game_callback_next(Game* game) {
+  if(game == NULL) return;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
@@ -243,7 +242,7 @@ void game_callback_next(Game* game) {
     if (current_id == space_id) {
       current_id = space_get_south(game->spaces[i]);
       if (current_id != NO_ID) {
-	       player_set_location(game->player, current_id);
+         player_set_location(game->player, current_id);
       }
       return;
     }
@@ -251,6 +250,7 @@ void game_callback_next(Game* game) {
 }
 
 void game_callback_back(Game* game) {
+  if(game == NULL) return;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
@@ -266,7 +266,7 @@ void game_callback_back(Game* game) {
     if (current_id == space_id) {
       current_id = space_get_north(game->spaces[i]);
       if (current_id != NO_ID) {
-	       player_set_location(game->player, current_id);
+        player_set_location(game->player, current_id);
       }
       return;
     }
@@ -274,10 +274,9 @@ void game_callback_back(Game* game) {
 }
 
 void game_callback_take(Game* game){
+  if(game == NULL) return;
   Id obj_id = NO_ID;
   Space* space_act = NULL;
-
-  if(game == NULL) return;
 
   /*We obtain the space where the player is*/
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
@@ -285,6 +284,8 @@ void game_callback_take(Game* game){
   /*We obtain the id of the object in said space*/
   obj_id = space_get_object(space_act);
   if(obj_id == NO_ID) return;
+  
+  /*We set the object in the player*/
   player_set_object(game_get_player(game), obj_id);
 
   /*We remove the object from the space*/
@@ -292,10 +293,10 @@ void game_callback_take(Game* game){
 }
 
 void game_callback_leave(Game* game){
+  if(game == NULL) return;
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
 
-  if(game == NULL) return;
   /*We obtain the id of the space where the player is*/
   space_id = player_get_location(game_get_player(game));
 
