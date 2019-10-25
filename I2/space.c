@@ -112,21 +112,21 @@ STATUS space_set_image_down(Space* space, char* image_down){
   return OK;
 }
 
-STATUS space_get_image_up(Space* space){
+const char* space_get_image_up(Space* space){
   if (space == NULL){
     return ERROR;
   }
   return space->image_up;
 }
 
-STATUS space_get_image_mid(Space* space){
+const char* space_get_image_mid(Space* space){
   if (space == NULL){
     return ERROR;
   }
   return space->image_mid;
 }
 
-STATUS space_get_image_down(Space* space, char* image_down){
+const char* space_get_image_down(Space* space){
   if (space == NULL){
     return ERROR;
   }

@@ -270,8 +270,8 @@ STATUS space_set_image_up(Space* space, char* image_up);
 STATUS space_set_image_mid(Space* space, char* image_mid);
 STATUS space_set_image_down(Space* space, char* image_down);
 
-STATUS space_get_image_up(Space* space);
-STATUS space_get_image_mid(Space*space);
-STATUS space_get_image_down(Space*space);
+const char* space_get_image_up(Space* space);
+const char* space_get_image_mid(Space*space);
+const char* space_get_image_down(Space*space);
 
 #endif
