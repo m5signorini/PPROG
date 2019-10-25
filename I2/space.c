@@ -93,7 +93,7 @@ STATUS space_set_image_up(Space* space, char* image_up){
 }
 
 STATUS space_set_image_mid(Space* space, char* image_mid){
-  if (image_mid == NULL || spce == NULL){
+  if (image_mid == NULL || space == NULL){
     return ERROR;
   }
   if (!strcpy(space->image_mid, image_mid)){
