@@ -34,7 +34,6 @@
 */
 STATUS game_reader_load_spaces(Game* game, char* filename);
 
-STATUS game_reader_load_objects(Game* game, char* filename);
 
 
 /**
@@ -46,18 +45,15 @@ Game* game_reader_create_from_file(char* filename) {
 
   Game* game = NULL;
   Player* player = NULL;
+  Object* object = NULL;
   Id space_ini = NO_ID;
 
   game = game_create();
   if (game == NULL)
     return NULL;
 
-  if (game_reader_load_spaces(game, filename) == ERROR) {
-    game_destroy(game);
-    return NULL;
-  }
 
-  if (game_reader_load_objects(game, filename) == ERROR) {
+  if (game_reader_load_spaces(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
@@ -68,11 +64,22 @@ Game* game_reader_create_from_file(char* filename) {
     return NULL;
   }
 
+  object = object_create(1);
+  if(object == NULL) {
+    player_destroy(player);
+    game_destroy(game);
+    return NULL;
+  }
+
   space_ini = game_get_space_id_at(game, 0);
 
+  /*Obtained the id of the initial space, we set the object in that space*/
+  space_set_object(game_get_space(game,space_ini), object_get_id(object));
   /*Obtained the id of the initial space, we set the player in that space*/
   player_set_location(player,space_ini);
+
   game_set_player(game, player);
+  game_set_object(game, object);
 
   return game;
 }
@@ -120,57 +127,6 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         space_set_south(space, south);
         space_set_west(space, west);
         game_add_space(game, space);
-      }
-    }
-  }
-
-  if (ferror(file)) {
-    status = ERROR;
-  }
-
-  fclose(file);
-
-  return status;
-}
-
-
-STATUS game_reader_load_objects(Game* game, char*filename) {
-  FILE* file = NULL;
-  char line[WORD_SIZE] = "";
-  char name[WORD_SIZE] = "";
-  char* toks = NULL;
-  STATUS status = OK;
-  Id id = NO_ID;
-  Id pos_ini = NO_ID;
-  Object* obj = NULL;
-
-  if (filename == NULL) {
-    return ERROR;
-  }
-
-  file = fopen(filename, "r");
-  if (file == NULL) {
-    return ERROR;
-  }
-
-  while (fgets(line, WORD_SIZE, file)) {
-    if (strncmp("#o:", line, 3) == 0) {
-      toks = strtok(line + 3, "|");
-      id = atol(toks);
-      toks = strtok(NULL, "|");
-      strcpy(name, toks);
-      toks = strtok(NULL, "|");
-      pos_ini = atol(toks);
-      #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld\n", id, name, pos_ini);
-      #endif
-      obj = object_create(id);
-      if (obj != NULL) {
-        object_set_name(obj, name);
-        if(space_add_object(game_get_space(game, pos_ini), id) == ERROR) {
-          return ERROR;
-        }
-        game_add_object(game, obj);
       }
     }
   }

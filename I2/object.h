@@ -15,7 +15,6 @@
 
 #include "types.h"
 
-
 typedef struct _Object Object;
 /**
 * @brief Creates an object

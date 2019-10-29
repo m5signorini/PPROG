@@ -2,8 +2,6 @@
  * @brief It implements the game interface and all the associated callbacks
  * for each command
  *
- * Modified the struct of game adding more objects and a dice
- *
  * @file game.c
  * @author Martin Sanchez Signorini
  * @version 2.0
@@ -16,11 +14,11 @@
 #include <string.h>
 #include "game.h"
 
+
 #define N_CALLBACK 6
-#define MAX_OBJECTS 50
 
 struct _Game {
-  Object* objects[MAX_OBJECTS + 1];
+  Object* object;
   Player* player;
   Space* spaces[MAX_SPACES + 1];
   T_Command last_cmd;
@@ -60,17 +58,14 @@ Game* game_create() {
 
   game = (Game *) malloc(sizeof (Game));
   if(game == NULL) return NULL;
-
+  
   /* Initial Set of the game*/
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
   }
 
-  for (i = 0; i < MAX_OBJECTS; i++) {
-    game->objects[i] = NULL;
-  }
-
   game->player = NULL;
+  game->object = NULL;
   game->last_cmd = NO_CMD;
 
   return game;
@@ -79,15 +74,11 @@ Game* game_create() {
 STATUS game_destroy(Game* game) {
   if (game == NULL) return ERROR;
   int i = 0;
-
+  
   for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
     space_destroy(game->spaces[i]);
   }
-
-  for (i = 0; (i < MAX_OBJECTS) && (game->objects[i] != NULL); i++) {
-    object_destroy(game->objects[i]);
-  }
-
+  object_destroy(game->object);
   player_destroy(game->player);
   free(game);
 
@@ -102,7 +93,7 @@ STATUS game_add_space(Game* game, Space* space) {
   if (game == NULL || space == NULL) {
     return ERROR;
   }
-
+  
   int i = 0;
 
   while ( (i < MAX_SPACES) && (game->spaces[i] != NULL)){
@@ -139,6 +130,7 @@ Space* game_get_space(Game* game, Id id){
       return game->spaces[i];
     }
   }
+
   return NULL;
 }
 
@@ -163,66 +155,26 @@ Player* game_get_player(Game* game) {
   Object Management
 */
 
-STATUS game_add_object(Game* game, Object* obj) {
+STATUS game_set_object(Game* game, Object* obj) {
   if (game == NULL || obj == NULL ) {
     return ERROR;
   }
-
-  int i = 0;
-
-  while((i<MAX_OBJECTS) && game->objects[i] != NULL) {
-    i++;
-  }
-
-  if(i>MAX_OBJECTS) {
-    return ERROR;
-  }
-
-  game->objects[i] = obj;
+  game->object = obj;
   return OK;
 }
 
-Id game_get_object_id_at(Game* game, int position) {
-  if(game == NULL || position < 0 || position > MAX_OBJECTS) {
-    return NO_ID;
-  }
-
-  Object* obj = NULL;
-
-  obj = game->objects[position];
-  if(obj == NULL) return NO_ID;
-
-  return object_get_id(obj);
-}
-
-Object* game_get_object(Game* game, Id id) {
+Object* game_get_object(Game* game) {
   if(game == NULL) return NULL;
-  int i = 0;
-
-  if (id == NO_ID) {
-    return NULL;
-  }
-
-  for (i = 0; i < MAX_OBJECTS && game->objects[i] != NULL; i++) {
-    if (id == object_get_id(game->objects[i])){
-      return game->objects[i];
-    }
-  }
-
-  return NULL;
+  return game->object;
 }
 
-Id game_get_object_location(Game* game, Id obj) {
-  if(game == NULL || obj == NO_ID) return NO_ID;
+Id game_get_object_location(Game* game) {
+  if(game == NULL) return NO_ID;
   int i;
-  int j = 0;
-  Id idaux = NO_ID;
 
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
-    while((idaux = space_get_object(game->spaces[i], j++)) != NO_ID) {
-      if (idaux == obj){
-        return space_get_id(game->spaces[i]);
-      }
+    if (space_get_object(game->spaces[i])!=NO_ID){
+      return space_get_id(game->spaces[i]);
     }
   }
 
@@ -255,10 +207,7 @@ void game_print_data(Game* game) {
     space_print(game->spaces[i]);
   }
 
-  for (i = 0; i < MAX_OBJECTS && game->objects[i] != NULL; i++) {
-    object_print(game->objects[i]);
-  }
-
+  object_print(game->object);
   player_print(game->player);
   printf("prompt:> ");
 }
@@ -333,16 +282,15 @@ void game_callback_take(Game* game){
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
   /*We obtain the id of the object in said space*/
-  obj_id = space_get_object(space_act, 0);
+  obj_id = space_get_object(space_act);
   if(obj_id == NO_ID) return;
-
+  
   /*We set the object in the player*/
   player_set_object(game_get_player(game), obj_id);
 
   /*We remove the object from the space*/
-  space_add_object(space_act, NO_ID);
+  space_set_object(space_act, NO_ID);
 }
-
 
 void game_callback_leave(Game* game){
   if(game == NULL) return;
@@ -357,7 +305,7 @@ void game_callback_leave(Game* game){
   if(obj_id == NO_ID) return;
 
   /*We set the object in the space*/
-  space_add_object(game_get_space(game, space_id), obj_id);
+  space_set_object(game_get_space(game, space_id), obj_id);
 
   /*We remove the object from the player*/
   player_set_object(game_get_player(game), NO_ID);
