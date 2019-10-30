@@ -10,10 +10,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "graphic_engine.h"
 #include "game_reader.h"
 
-STATUS game_loop_command(T_Command command, STATUS stat, char* filename);
+STATUS game_loop_command(T_Command command, STATUS stat, FILE* filename);
 
 int main(int argc, char *argv[]) {
   Game* game = NULL;
@@ -23,17 +24,16 @@ int main(int argc, char *argv[]) {
   FILE *filename = NULL;
 
    if (argc < 4) {
-     fprintf(stderr, "%s <game_data_file> -l <log_file>\n", argv[0]);
+     fprintf(stderr, "ERROR, USE : %s <game_data_file> -l <log_file>\n", argv[0]);
      return EXIT_FAILURE;
    }
 
    if (strcmp(argv[2], "-l") != 0 || argv[3] == NULL){
-      fprintf(stderr, "%s <game_data_file> -l <log_file>\n", argv[0]);
+      fprintf(stderr, " ERROR, USE : %s <game_data_file> -l <log_file>\n", argv[0]);
       return EXIT_FAILURE;
    }
 
    filename = fopen(argv[3], "w");
-
    if(filename == NULL){
      return EXIT_FAILURE;
    }
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     graphic_engine_paint_game(gengine, game);
     command = get_user_input();
     stat = game_update(game, command);
-    game_loop_command(command, stat, argv[3]);
+    game_loop_command(command, stat, filename);
   }
 
   game_destroy(game);
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-STATUS game_loop_command(T_Command command, STATUS stat, char* filename){
+STATUS game_loop_command(T_Command command, STATUS stat, FILE* filename){
   if(command == NEXT){
     if(stat == OK){
       if(fprintf(filename, "next: OK\n") < 0){

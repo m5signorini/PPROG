@@ -17,8 +17,11 @@ typedef enum enum_Command {
   EXIT,
   NEXT,
   BACK,
+  RIGHT,
+  LEFT,
   TAKE,
-  DROP} T_Command;
+  DROP,
+  ROLL} T_Command;
 
 T_Command get_user_input();
 

@@ -262,13 +262,6 @@ Id space_get_object(Space* space, int index) {
   return set_get_id_at(space->object, index);
 }
 
-int space_n_of_objects(Space* space) {
-  if (!space) {
-    return -1;
-  }
-  return set_get_n_elements(space->object);
-}
-
 STATUS space_print(Space* space) {
   Id idaux = NO_ID;
 

@@ -242,6 +242,8 @@ Id game_get_object_location(Game* game, Id id);
 */
 T_Command game_get_last_command(Game* game);
 
+STATUS game_get_last_command_stat(Game* game);
+
 Die* game_get_die(Game* game);
 STATUS game_set_die(Game* game, Die* die);
 #endif

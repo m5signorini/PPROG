@@ -180,12 +180,18 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     next or n, back or b, exit or e, take or t, leave or l");
+  sprintf(str, "    next or n, back or b, roll or r, take or t, drop or d, right or r, left or l, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint the in the feedback area */
   last_cmd = game_get_last_command(game);
-  sprintf(str, " %s", cmd_to_str[last_cmd-NO_CMD]);
+  sprintf(str, " %s:", cmd_to_str[last_cmd-NO_CMD]);
+  if(game_get_last_command_stat(game) == OK) {
+    strcat(str, "OK");
+  }
+  else {
+    strcat(str, "ERROR");
+  }
   screen_area_puts(ge->feedback, str);
 
   /* Dump to the terminal */
@@ -218,7 +224,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
 
     /* If the object is in a space */
     if(obj_loc != NO_ID) {
-      sprintf(str, "  %s:%d", object_get_name(game_get_object(game, obj_id)),(int)obj_loc);
+      sprintf(str, "    %s:%d", object_get_name(game_get_object(game, obj_id)),(int)obj_loc);
       screen_area_puts(ge->descript, str);
     }
 
@@ -229,6 +235,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
     }
   }
 
+  screen_area_puts(ge->descript, " ");
   /* Print the last die */
   sprintf(str, "  Last die value:%d", die_get_last(game_get_die(game)));
   screen_area_puts(ge->descript, str);

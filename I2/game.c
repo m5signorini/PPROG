@@ -16,7 +16,7 @@
 #include <string.h>
 #include "game.h"
 
-#define N_CALLBACK 6
+#define N_CALLBACK 9
 #define MAX_OBJECTS 50
 
 struct _Game {
@@ -25,6 +25,7 @@ struct _Game {
   Space* spaces[MAX_SPACES + 1];
   Die* die;
   T_Command last_cmd;
+  STATUS last_cmd_stat;
 };
 
 /**
@@ -43,6 +44,7 @@ STATUS game_callback_right(Game* game);
 STATUS game_callback_left(Game* game);
 STATUS game_callback_take(Game* game);
 STATUS game_callback_drop(Game* game);
+STATUS game_callback_roll(Game* game);
 
 static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_unknown,
@@ -52,7 +54,8 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_right,
   game_callback_left,
   game_callback_take,
-  game_callback_drop};
+  game_callback_drop,
+  game_callback_roll};
 
 
 /**
@@ -78,6 +81,7 @@ Game* game_create() {
   game->player = NULL;
   game->last_cmd = NO_CMD;
   game->die = NULL;
+  game->last_cmd_stat = OK;
 
   return game;
 }
@@ -259,12 +263,16 @@ STATUS game_set_die(Game* game, Die* die) {
 STATUS game_update(Game* game, T_Command cmd) {
   if(game == NULL) return ERROR;
   game->last_cmd = cmd;
-  (*game_callback_fn_list[cmd])(game);
-  return OK;
+  game->last_cmd_stat = (*game_callback_fn_list[cmd])(game);
+  return game->last_cmd_stat;
 }
 
 T_Command game_get_last_command(Game* game){
   return game->last_cmd;
+}
+
+STATUS game_get_last_command_stat(Game* game){
+  return game->last_cmd_stat;
 }
 
 void game_print_data(Game* game) {
@@ -319,10 +327,12 @@ STATUS game_callback_next(Game* game) {
       current_id = space_get_south(game->spaces[i]);
       if (current_id != NO_ID) {
          player_set_location(game->player, current_id);
+         return OK;
       }
-      return OK;
+      return ERROR;
     }
   }
+  return ERROR;
 }
 
 STATUS game_callback_back(Game* game) {
@@ -343,10 +353,12 @@ STATUS game_callback_back(Game* game) {
       current_id = space_get_north(game->spaces[i]);
       if (current_id != NO_ID) {
         player_set_location(game->player, current_id);
+        return OK;
       }
-      return OK;
+      return ERROR;
     }
   }
+  return ERROR;
 }
 
 STATUS game_callback_right(Game* game){
@@ -366,10 +378,12 @@ STATUS game_callback_right(Game* game){
       current_id = space_get_east(game->spaces[i]);
       if (current_id != NO_ID) {
          player_set_location(game->player, current_id);
+         return OK;
       }
-      return OK;
+      return ERROR;
     }
   }
+  return ERROR;
 }
 
 STATUS game_callback_left(Game* game){
@@ -389,40 +403,48 @@ STATUS game_callback_left(Game* game){
       current_id = space_get_west(game->spaces[i]);
       if (current_id != NO_ID) {
          player_set_location(game->player, current_id);
+         return OK;
       }
-      return OK;
+      return ERROR;
     }
   }
+  return ERROR;
 }
 
-STATUS game_callback_take(Game* game, char* name){
+STATUS game_callback_take(Game* game){
   if(game == NULL) return ERROR;
-  if(arg == NULL) return ERROR;
 
   Id obj_id = NO_ID;
   Space* space_act = NULL;
-  int num_objects = 0, i;
-  int* object_array = NULL;
+  Object* obj = NULL;
+  char name[WORD_SIZE + 1];
+  int i = 0;
+
+  /* Scan the next string to get the name of the object, if none return ERROR*/
+  if(scanf("%s", name) < 1) {
+    return ERROR;
+  }
+
+  if(player_get_object(game_get_player(game)) != NO_ID) {
+    return ERROR;
+  }
 
   /*We obtain the space where the player is*/
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
-  num_objects = space_n_of_objects(space_act);
-
-  for (i = 0; i < num_objects; i++){
-    object_array = space_get_objects_array(space_act);
-    if(object_array == NULL){
+  while((obj_id = space_get_object(space_act, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
       return ERROR;
     }
-    if(strcmp(object_get_name(object_array[i]), name) == 0) {
-        obj_id = space_get_object(space_act, object_array[i]);
-        player_set_object(game_get_player(game), obj_id);
-        if((space_delete_object(space_act, object_array[i]))== ERROR) {
-          return ERROR;
-        }
+
+    if(strcmp(object_get_name(obj), name) == 0) {
+      player_set_object(game_get_player(game), obj_id);
+      space_delete_object(space_act, obj_id);
+      return OK;
     }
   }
-  return OK;
+  return ERROR;
 }
 
 STATUS game_callback_drop(Game* game){
@@ -444,5 +466,11 @@ STATUS game_callback_drop(Game* game){
   /*We remove the object from the player*/
   player_set_object(game_get_player(game), NO_ID);
 
-  return ERROR;
+  return OK;
+}
+
+STATUS game_callback_roll(Game* game) {
+  if(game == NULL) return ERROR;
+  die_roll(game_get_die(game));
+  return OK;
 }

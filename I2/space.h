@@ -258,12 +258,7 @@ BOOL space_has_object(Space* space, Id id);
 
 /*comentar funciones a partir de aqui*/
 
-
-
 STATUS space_delete_object(Space* space, Id value);
-
-
-Id* space_get_objects_array(Space* space);
 
 STATUS space_set_image_up(Space* space, char* image_up);
 STATUS space_set_image_mid(Space* space, char* image_mid);

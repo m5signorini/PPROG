@@ -69,4 +69,4 @@ run:
 
 runv:
 	@echo ">>>>>>Running the GAME"
-	valgrind --leak-check=full ./game_exe data.dat
+	valgrind --leak-check=full ./game_exe data.dat -l game_log.log
