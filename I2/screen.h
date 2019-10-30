@@ -50,14 +50,14 @@ void  screen_destroy();
 void  screen_paint();
 
 /**
-* @brief
+* @brief Gets and replaces line with null
 *
-* screen_gets
+* screen_gets gets and replaces line with null
 *
 * @date 19/09/2019
 * @author: Profesores PPROG
 *
-* @param *str
+* @param *str string used in the gets
 */
 void  screen_gets(char *str);
 
