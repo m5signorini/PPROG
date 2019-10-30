@@ -55,7 +55,15 @@ die_test: die_test.o die.o
 
 die_test.o: die_test.c die.c die.h
 	$(CC) $(CFLAGS) -c die_test.c
+
+# SET
 #############
+set_test: set_test.o set.o
+	$(CC) $(CFLAGS) -o set_test $^
+
+set_test.o: set_test.c set.c set.h
+	$(CC) $(CFLAGS) -c set_test.c
+#######################
 
 clear:
 	rm -rf *.o
@@ -65,7 +73,7 @@ clean:
 
 run:
 	@echo ">>>>>>Running the GAME"
-	./game_exe data.dat
+	./game_exe data.dat -l game_log.log
 
 runv:
 	@echo ">>>>>>Running the GAME"
