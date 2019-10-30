@@ -30,23 +30,27 @@ struct _Game {
 /**
    Define the function type for the callbacks
 */
-typedef void (*callback_fn)(Game* game);
+typedef STATUS (*callback_fn)(Game* game);
 
 /**
    List of callbacks for each command in the game
 */
-void game_callback_unknown(Game* game);
-void game_callback_exit(Game* game);
-void game_callback_next(Game* game);
-void game_callback_back(Game* game);
-void game_callback_take(Game* game);
-void game_callback_drop(Game* game);
+STATUS game_callback_unknown(Game* game);
+STATUS game_callback_exit(Game* game);
+STATUS game_callback_next(Game* game);
+STATUS game_callback_back(Game* game);
+STATUS game_callback_right(Game* game);
+STATUS game_callback_left(Game* game);
+STATUS game_callback_take(Game* game);
+STATUS game_callback_drop(Game* game);
 
 static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_unknown,
   game_callback_exit,
   game_callback_next,
   game_callback_back,
+  game_callback_right,
+  game_callback_left,
   game_callback_take,
   game_callback_drop};
 
@@ -299,7 +303,7 @@ STATUS game_callback_exit(Game* game) {
 }
 
 STATUS game_callback_next(Game* game) {
-  if(game == NULL) return;
+  if(game == NULL) return ERROR;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
@@ -322,7 +326,7 @@ STATUS game_callback_next(Game* game) {
 }
 
 STATUS game_callback_back(Game* game) {
-  if(game == NULL) return;
+  if(game == NULL) return ERROR;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
@@ -346,7 +350,7 @@ STATUS game_callback_back(Game* game) {
 }
 
 STATUS game_callback_right(Game* game){
-  if(game == NULL) return;
+  if(game == NULL) return ERROR;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
@@ -369,7 +373,7 @@ STATUS game_callback_right(Game* game){
 }
 
 STATUS game_callback_left(Game* game){
-  if(game == NULL) return;
+  if(game == NULL) return ERROR;
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
