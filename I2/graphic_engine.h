@@ -53,16 +53,7 @@ void graphic_engine_destroy(Graphic_engine *ge);
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game);
 
 /**
-* @brief
-*
-* graphic_engine_write_command
-*
-* @date 19/09/2019
-* @author: Martin Sanchez Signorini
-*
-* @param ge
-* @param str
-* @return
+* @brief Not defined yet
 */
 void graphic_engine_write_command(Graphic_engine *ge, char *str);
 
