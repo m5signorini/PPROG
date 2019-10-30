@@ -13,6 +13,7 @@
 #include <string.h>
 #include "types.h"
 #include "space.h"
+#include "set.h"
 
 struct _Space {
   Id id;
@@ -21,12 +22,16 @@ struct _Space {
   Id south;
   Id east;
   Id west;
-  Id object;
+  Set* object;
+  char image_up[IMG_SIZE];
+  char image_mid[IMG_SIZE];
+  char image_down[IMG_SIZE];
 };
 
 Space* space_create(Id id) {
 
   Space *newSpace = NULL;
+  Set* object = NULL;
 
   if (id == NO_ID)
     return NULL;
@@ -36,16 +41,27 @@ Space* space_create(Id id) {
   if (newSpace == NULL) {
     return NULL;
   }
-  newSpace->id = id;
 
-  newSpace->name[0] = '\0';
+  object =set_create();
+
+  if (object == NULL) {
+    free(newSpace);
+    return NULL;
+  }
+
+  newSpace->id = id;
 
   newSpace->north = NO_ID;
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
 
-  newSpace->object = NO_ID;
+  newSpace->object = object;
+
+  memset(newSpace->name, 0, WORD_SIZE + 1);
+  memset(newSpace->image_up, 0, IMG_SIZE);
+  memset(newSpace->image_mid, 0, IMG_SIZE);
+  memset(newSpace->image_down, 0, IMG_SIZE);
 
   return newSpace;
 }
@@ -55,10 +71,65 @@ STATUS space_destroy(Space* space) {
     return ERROR;
   }
 
+  if(set_destroy(space->object) == ERROR){
+    return ERROR;
+  }
+
   free(space);
   space = NULL;
 
   return OK;
+}
+
+STATUS space_set_image_up(Space* space, char* image_up){
+  if (image_up == NULL || space == NULL){
+    return ERROR;
+  }
+  if (!strncpy(space->image_up, image_up, IMG_SIZE-1)){
+    return ERROR;
+  }
+  return OK;
+}
+
+STATUS space_set_image_mid(Space* space, char* image_mid){
+  if (image_mid == NULL || space == NULL){
+    return ERROR;
+  }
+  if (!strncpy(space->image_mid, image_mid, IMG_SIZE-1)){
+    return ERROR;
+  }
+  return OK;
+}
+
+STATUS space_set_image_down(Space* space, char* image_down){
+  if (image_down == NULL || space == NULL){
+    return ERROR;
+  }
+  if (!strncpy(space->image_down, image_down, IMG_SIZE-1)){
+    return ERROR;
+  }
+  return OK;
+}
+
+const char* space_get_image_up(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+  return space->image_up;
+}
+
+const char* space_get_image_mid(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+  return space->image_mid;
+}
+
+const char* space_get_image_down(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+  return space->image_down;
 }
 
 STATUS space_set_name(Space* space, char* name) {
@@ -66,7 +137,7 @@ STATUS space_set_name(Space* space, char* name) {
     return ERROR;
   }
 
-  if (!strcpy(space->name, name)) {
+  if (!strncpy(space->name, name, WORD_SIZE)) {
     return ERROR;
   }
 
@@ -105,11 +176,40 @@ STATUS space_set_west(Space* space, Id id) {
   return OK;
 }
 
-STATUS space_set_object(Space* space, Id value) {
-  if (!space) {
+BOOL space_has_object(Space* space, Id id){
+  if (space == NULL || id <= NO_ID){
+    return TRUE;
+  }
+   if (set_has_id (space->object, id) > -1){
+     return TRUE;
+   }
+  return FALSE;
+}
+
+
+STATUS space_add_object(Space* space, Id value) {
+  if (!space || value <= NO_ID) {
     return ERROR;
   }
-  space->object = value;
+  if (space_has_object(space, value) == TRUE){
+    return OK;
+  }
+  if (set_add_id(space->object, value) == ERROR){
+    return ERROR;
+  }
+  return OK;
+}
+
+STATUS space_delete_object(Space* space, Id value) {
+  if (!space || value <= NO_ID) {
+    return ERROR;
+  }
+  if (space_has_object(space, value) == FALSE){
+    return OK;
+  }
+  if (set_delete_id(space->object, value) == ERROR){
+    return ERROR;
+  }
   return OK;
 }
 
@@ -155,11 +255,18 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-Id space_get_object(Space* space) {
+Id space_get_object(Space* space, int index) {
   if (!space) {
-    return FALSE;
+    return NO_ID;
   }
-  return space->object;
+  return set_get_id_at(space->object, index);
+}
+
+int space_n_of_objects(Space* space) {
+  if (!space) {
+    return -1;
+  }
+  return set_get_n_elements(space->object);
 }
 
 STATUS space_print(Space* space) {
@@ -201,11 +308,14 @@ STATUS space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  if (space_get_object(space)) {
-    fprintf(stdout, "---> Object in the space.\n");
-  } else {
-    fprintf(stdout, "---> No object in the space.\n");
+  if (set_print(space->object) == ERROR){
+    return ERROR;
   }
+  fprintf(stdout, "%s\n", space->image_up);
+  fprintf(stdout, "%s\n", space->image_mid);
+  fprintf(stdout, "%s\n", space->image_down);
+
+
 
   return OK;
 }

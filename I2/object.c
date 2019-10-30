@@ -33,7 +33,7 @@ Object* object_create(Id id) {
     return NULL;
   }
   newobject->id = id;
-  newobject->name[0] = '\0';
+  memset(newobject->name, 0, WORD_SIZE + 1);
 
   return newobject;
 }
@@ -54,7 +54,7 @@ STATUS object_set_name(Object* object, char* name) {
     return ERROR;
   }
 
-  if (!strcpy(object->name, name)) {
+  if (!strncpy(object->name, name, WORD_SIZE)) {
     return ERROR;
   }
 

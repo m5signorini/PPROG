@@ -34,9 +34,9 @@ Player* player_create(Id id) {
     return NULL;
   }
   newplayer->id = id;
-  newplayer->name[0] = '\0';
   newplayer->object = NO_ID;
   newplayer->location = NO_ID;
+  memset(newplayer->name, 0, WORD_SIZE + 1);
 
   return newplayer;
 }
@@ -57,7 +57,7 @@ STATUS player_set_name(Player* player, char* name) {
     return ERROR;
   }
 
-  if (!strcpy(player->name, name)) {
+  if (!strncpy(player->name, name, WORD_SIZE)) {
     return ERROR;
   }
 
