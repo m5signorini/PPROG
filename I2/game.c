@@ -2,12 +2,12 @@
  * @brief It implements the game interface and all the associated callbacks
  * for each command
  *
- * Modified the struct of game adding more objects and a dice
+ * Modified the struct of game adding more objects, commands and a dice
  *
  * @file game.c
  * @author Martin Sanchez Signorini
- * @version 2.0
- * @date 03-08-2019
+ * @version 3.0
+ * @date 30-10-2019
  * @copyright GNU Public License
  */
 
@@ -267,11 +267,13 @@ STATUS game_update(Game* game, T_Command cmd) {
   return game->last_cmd_stat;
 }
 
-T_Command game_get_last_command(Game* game){
+T_Command game_get_last_command(Game* game) {
+  if(game == NULL) return ERROR;
   return game->last_cmd;
 }
 
-STATUS game_get_last_command_stat(Game* game){
+STATUS game_get_last_command_stat(Game* game) {
+  if(game == NULL) return ERROR;
   return game->last_cmd_stat;
 }
 
