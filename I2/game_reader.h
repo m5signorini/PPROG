@@ -24,9 +24,8 @@
 * @date 19/09/2019
 * @author: Martin Sanchez Signorini
 *
-* @param game the game that will be created
 * @param filename the name of the file with the data for creating the game
-* @return the status of the function for error management
+* @return game the game that will be created
 */
 Game* game_reader_create_from_file(char* filename);
 
