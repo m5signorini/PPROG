@@ -12,22 +12,22 @@ all: $(EJS)
 game_exe: $(OBJECTS)
 	$(CC) $(CFLAGS) -o game_exe $(OBJECTS)
 
-game_reader.o: game_reader.c game_reader.h game.h command.h space.h types.h
+game_reader.o: game_reader.c game_reader.h game.h command.h object.h player.h space.h die.h set.h types.h
 	$(CC) $(CFLAGS) -c game_reader.c
 
-game_loop.o: game_loop.c graphic_engine.h game.h game_reader.h command.h space.h types.h
+game_loop.o: game_loop.c graphic_engine.h game.h game_reader.h command.h object.h player.h space.h die.h set.h types.h
 	$(CC) $(CFLAGS) -c game_loop.c
 
-game.o: game.c game.h game_reader.h command.h space.h die.h types.h
+game.o: game.c game.h game_reader.h command.h space.h die.h object.h player.h set.h types.h
 	$(CC) $(CFLAGS) -c game.c
 
-graphic_engine.o: graphic_engine.c screen.h graphic_engine.h game.h command.h space.h die.h types.h
+graphic_engine.o: graphic_engine.c screen.h graphic_engine.h game.h command.h space.h object.h player.h die.h set.h types.h
 	$(CC) $(CFLAGS) -c graphic_engine.c
 
 screen.o: screen.c screen.h
 	$(CC) $(CFLAGS) -c screen.c
 
-space.o: space.c space.h set.c set.h types.h
+space.o: space.c space.h set.h types.h
 	$(CC) $(CFLAGS) -c space.c
 
 player.o: player.c player.h types.h
@@ -53,7 +53,7 @@ set.o: set.c set.h types.h
 die_test: die_test.o die.o
 	$(CC) $(CFLAGS) -o die_test $^
 
-die_test.o: die_test.c die.c die.h
+die_test.o: die_test.c die.h
 	$(CC) $(CFLAGS) -c die_test.c
 
 # SET
@@ -61,7 +61,7 @@ die_test.o: die_test.c die.c die.h
 set_test: set_test.o set.o
 	$(CC) $(CFLAGS) -o set_test $^
 
-set_test.o: set_test.c set.c set.h
+set_test.o: set_test.c set.h
 	$(CC) $(CFLAGS) -c set_test.c
 #######################
 
