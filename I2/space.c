@@ -22,7 +22,7 @@ struct _Space {
   Id south;
   Id east;
   Id west;
-  Set* object;
+  Set* objects;
   char image_up[IMG_SIZE];
   char image_mid[IMG_SIZE];
   char image_down[IMG_SIZE];
@@ -56,7 +56,7 @@ Space* space_create(Id id) {
   new_space->east = NO_ID;
   new_space->west = NO_ID;
 
-  new_space->object = objects;
+  new_space->objects = objects;
 
   memset(new_space->name, 0, WORD_SIZE + 1);
   memset(new_space->image_up, 0, IMG_SIZE);
@@ -71,7 +71,7 @@ STATUS space_destroy(Space* space) {
     return ERROR;
   }
 
-  if(set_destroy(space->object) == ERROR){
+  if(set_destroy(space->objects) == ERROR){
     return ERROR;
   }
 
@@ -113,21 +113,21 @@ STATUS space_set_image_down(Space* space, char* image_down){
 
 const char* space_get_image_up(Space* space){
   if (space == NULL){
-    return ERROR;
+    return NULL;
   }
   return space->image_up;
 }
 
 const char* space_get_image_mid(Space* space){
   if (space == NULL){
-    return ERROR;
+    return NULL;
   }
   return space->image_mid;
 }
 
 const char* space_get_image_down(Space* space){
   if (space == NULL){
-    return ERROR;
+    return NULL;
   }
   return space->image_down;
 }
@@ -180,7 +180,7 @@ BOOL space_has_object(Space* space, Id id){
   if (space == NULL || id <= NO_ID){
     return TRUE;
   }
-   if (set_has_id (space->object, id) > -1){
+   if (set_has_id (space->objects, id) > -1){
      return TRUE;
    }
   return FALSE;
@@ -194,7 +194,7 @@ STATUS space_add_object(Space* space, Id value) {
   if (space_has_object(space, value) == TRUE){
     return OK;
   }
-  if (set_add_id(space->object, value) == ERROR){
+  if (set_add_id(space->objects, value) == ERROR){
     return ERROR;
   }
   return OK;
@@ -207,7 +207,7 @@ STATUS space_delete_object(Space* space, Id value) {
   if (space_has_object(space, value) == FALSE){
     return OK;
   }
-  if (set_delete_id(space->object, value) == ERROR){
+  if (set_delete_id(space->objects, value) == ERROR){
     return ERROR;
   }
   return OK;
@@ -259,7 +259,7 @@ Id space_get_object(Space* space, int index) {
   if (!space) {
     return NO_ID;
   }
-  return set_get_id_at(space->object, index);
+  return set_get_id_at(space->objects, index);
 }
 
 STATUS space_print(Space* space) {
@@ -301,7 +301,7 @@ STATUS space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  if (set_print(space->object) == ERROR){
+  if (set_print(space->objects) == ERROR){
     return ERROR;
   }
   fprintf(stdout, "%s\n", space->image_up);
