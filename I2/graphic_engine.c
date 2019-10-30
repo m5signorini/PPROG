@@ -4,7 +4,7 @@
  * @file graphic_engine.c
  * @author Martin Sanchez Signorini
  * @version 3.0
- * @date 03-08-2019
+ * @date 30-10-2019
  * @copyright GNU Public License
  */
 
@@ -43,7 +43,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 * graphic_engine_get_object_str sets the obj_str to the objects in a space
 * inserting up to MAX_LINE characters
 *
-* @date 19/09/2019
+* @date 25/10/2019
 * @author: Martin Sanchez Signorini
 *
 * @param game the game that the graphic engine is going to use
