@@ -6,8 +6,8 @@
  *
  * @file game.h
  * @author Martin Sanchez Signorini
- * @version 2.0
- * @date 03-10-2019
+ * @version 3.0
+ * @date 30-10-2019
  * @copyright GNU Public License
  */
 
@@ -25,13 +25,12 @@ typedef struct _Game Game;
 /**
 * @brief Creates a new game
 *
-* game_create creates a game and returns it changing the parameter
+* game_create creates a game and returns it
 *
-* @date 19/09/2019
-* @author: Instructors
+* @date 25/10/2019
+* @author: Martin Sanchez Signorini
 *
-* @param game the game that will be created
-* @return the status of the function for error management
+* @return the game that will be created
 */
 Game* game_create();
 
@@ -45,7 +44,7 @@ Game* game_create();
 *
 * @param game the game that will be updated
 * @param cmd the command used to update the game
-* @return the status of the function for error management
+* @return the status of the function for command management
 */
 STATUS game_update(Game* game, T_Command cmd);
 
@@ -75,7 +74,8 @@ STATUS game_destroy(Game* game);
 */
 BOOL   game_is_over(Game* game);
 
-/*
+/**
+* @brief Not defined yet
 */
 void   game_print_screen(Game* game);
 
@@ -165,24 +165,25 @@ STATUS game_set_player(Game* game, Player* player);
 *
 * game_add_object adds a specific object to the game
 *
-* @date 19/09/2019
+* @date 25/10/2019
 * @author: Martin Sanchez Signorini
 *
 * @param game the game in which it will add the new object
-* @param object the object that will be inserted in the game
+* @param obj the object that will be inserted in the game
 * @return the status of the function for error management
 */
 STATUS game_add_object(Game* game, Object* obj);
 
 /**
-* @brief Gets the object
+* @brief Gets the object with matching id
 *
 * game_get_object returns the object inside the game
 *
-* @date 19/09/2019
+* @date 25/10/2019
 * @author: Martin Sanchez Signorini
 *
 * @param game the game from which it will return its object
+* @param id the id of the object to look for
 * @return the object in the game
 */
 Object* game_get_object(Game* game, Id id);
@@ -193,7 +194,7 @@ Object* game_get_object(Game* game, Id id);
 * game_get_object_id_at return the id of the object indexed at index
 * if NO_ID is returned there are no more objects in the game
 *
-* @date 19/09/2019
+* @date 25/10/2019
 * @author: Martin Sanchez Signorini
 *
 * @param game the game from which it will return the object
@@ -203,28 +204,15 @@ Object* game_get_object(Game* game, Id id);
 Id game_get_object_id_at(Game* game, int position);
 
 /**
-* @brief Sets the object
-*
-* game_set_object sets the object inside the game
-*
-* @date 19/09/2019
-* @author: Martin Sanchez Signorini
-*
-* @param game the game in which it will set the object
-* @param obj the object to set in the game
-* @return the status of the function for error management
-*/
-STATUS game_set_object(Game* game, Object* obj);
-
-/**
 * @brief Gets the object location
 *
-* game_get_object_location returns the location of the object inside the game
+* game_get_object_location returns the location of the specified object inside the game
 *
 * @date 19/09/2019
 * @author: Martin Sanchez Signorini
 *
 * @param game the game from which it will return its object's position
+* @param id the id of the object to look for
 * @return the id of the  location of the object in the game
 */
 Id game_get_object_location(Game* game, Id id);
@@ -232,7 +220,7 @@ Id game_get_object_location(Game* game, Id id);
 /**
 * @brief Gets the last command
 *
-* game_get_last_command returns the location of the player inside the game
+* game_get_last_command returns the last command executed
 *
 * @date 19/09/2019
 * @author: Martin Sanchez Signorini
@@ -242,8 +230,43 @@ Id game_get_object_location(Game* game, Id id);
 */
 T_Command game_get_last_command(Game* game);
 
+/**
+* @brief Gets the last command status
+*
+* game_get_last_command_stat returns the status of the last command
+*
+* @date 29/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game from which it will return its last command status
+* @return the lstatus of the last executed command
+*/
 STATUS game_get_last_command_stat(Game* game);
 
+/**
+* @brief Gets the die
+*
+* game_get_die returns the die inside the game
+*
+* @date 29/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game from which it will return its die
+* @return the die in the game
+*/
 Die* game_get_die(Game* game);
+
+/**
+* @brief Sets the die
+*
+* game_set_die returns the die inside the game
+*
+* @date 29/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game which will have its die set
+* @param die the die to be set in the game
+* @return the status of the operation for error management
+*/
 STATUS game_set_die(Game* game, Die* die);
 #endif
