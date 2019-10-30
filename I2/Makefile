@@ -18,10 +18,10 @@ game_reader.o: game_reader.c game_reader.h game.h command.h space.h types.h
 game_loop.o: game_loop.c graphic_engine.h game.h game_reader.h command.h space.h types.h
 	$(CC) $(CFLAGS) -c game_loop.c
 
-game.o: game.c game.h game_reader.h command.h space.h object.o player.o die.h types.h
+game.o: game.c game.h game_reader.h command.h space.h die.h types.h
 	$(CC) $(CFLAGS) -c game.c
 
-graphic_engine.o: graphic_engine.c screen.h graphic_engine.h game.h command.h space.h types.h
+graphic_engine.o: graphic_engine.c screen.h graphic_engine.h game.h command.h space.h die.h types.h
 	$(CC) $(CFLAGS) -c graphic_engine.c
 
 screen.o: screen.c screen.h
