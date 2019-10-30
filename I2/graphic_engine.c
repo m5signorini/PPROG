@@ -242,17 +242,17 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
     }
   }
 
-    /* Line jump */
+  /* Line jump */
   screen_area_puts(ge->descript, " ");
 
   /* Player object*/
   obj_id = player_get_object(game_get_player(game));
   if(obj_id != NO_ID) {
-    sprintf(str, "Player Object: %s", object_get_name(game_get_object(game, obj_id)));
+    sprintf(str, "  Player Object: %s", object_get_name(game_get_object(game, obj_id)));
     screen_area_puts(ge->descript, str);
-        /* Line jump */
+    /* Line jump */
     screen_area_puts(ge->descript, " ");
-    }
+  }
 
   /* Print the last die */
   sprintf(str, "  Last die value:%d", die_get_last(game_get_die(game)));
