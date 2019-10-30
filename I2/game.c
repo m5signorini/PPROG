@@ -290,13 +290,15 @@ BOOL game_is_over(Game* game) {
    Callbacks implementation for each action
 */
 
-void game_callback_unknown(Game* game) {
+STATUS game_callback_unknown(Game* game) {
+  return ERROR;
 }
 
-void game_callback_exit(Game* game) {
+STATUS game_callback_exit(Game* game) {
+  return OK;
 }
 
-void game_callback_next(Game* game) {
+STATUS game_callback_next(Game* game) {
   if(game == NULL) return;
   int i = 0;
   Id current_id = NO_ID;
@@ -304,7 +306,7 @@ void game_callback_next(Game* game) {
 
   space_id = player_get_location(game_get_player(game));
   if (space_id == NO_ID) {
-    return;
+    return ERROR;
   }
 
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
@@ -314,12 +316,12 @@ void game_callback_next(Game* game) {
       if (current_id != NO_ID) {
          player_set_location(game->player, current_id);
       }
-      return;
+      return OK;
     }
   }
 }
 
-void game_callback_back(Game* game) {
+STATUS game_callback_back(Game* game) {
   if(game == NULL) return;
   int i = 0;
   Id current_id = NO_ID;
@@ -328,7 +330,7 @@ void game_callback_back(Game* game) {
   space_id = player_get_location(game_get_player(game));
 
   if (NO_ID == space_id) {
-    return;
+    return ERROR;
   }
 
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
@@ -338,33 +340,90 @@ void game_callback_back(Game* game) {
       if (current_id != NO_ID) {
         player_set_location(game->player, current_id);
       }
-      return;
+      return OK;
     }
   }
 }
 
-void game_callback_take(Game* game){
+STATUS game_callback_right(Game* game){
   if(game == NULL) return;
+  int i = 0;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = player_get_location(game_get_player(game));
+  if (space_id == NO_ID) {
+    return ERROR;
+  }
+
+  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id == space_id) {
+      current_id = space_get_east(game->spaces[i]);
+      if (current_id != NO_ID) {
+         player_set_location(game->player, current_id);
+      }
+      return OK;
+    }
+  }
+}
+
+STATUS game_callback_left(Game* game){
+  if(game == NULL) return;
+  int i = 0;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = player_get_location(game_get_player(game));
+  if (space_id == NO_ID) {
+    return ERROR;
+  }
+
+  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id == space_id) {
+      current_id = space_get_west(game->spaces[i]);
+      if (current_id != NO_ID) {
+         player_set_location(game->player, current_id);
+      }
+      return OK;
+    }
+  }
+}
+
+STATUS game_callback_take(Game* game, char* name){
+  if(game == NULL) return ERROR;
+  if(arg == NULL) return ERROR;
+
   Id obj_id = NO_ID;
   Space* space_act = NULL;
+  int num_objects = 0, i;
+  int* object_array = NULL;
 
   /*We obtain the space where the player is*/
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
-  /*We obtain the id of the object in said space*/
-  obj_id = space_get_object(space_act, 0);
-  if(obj_id == NO_ID) return;
+  num_objects = space_n_of_objects(space_act);
 
-  /*We set the object in the player*/
-  player_set_object(game_get_player(game), obj_id);
-
-  /*We remove the object from the space*/
-  space_add_object(space_act, NO_ID);
+  for (i = 0; i < num_objects; i++){
+    object_array = space_get_objects_array(space_act);
+    if(object_array == NULL){
+      return ERROR;
+    }
+    if(strcmp(object_get_name(object_array[i]), name) == 0) {
+        obj_id = space_get_object(space_act, object_array[i]);
+        player_set_object(game_get_player(game), obj_id);
+        if((space_delete_object(space_act, object_array[i]))== ERROR) {
+          return ERROR;
+        }
+    }
+  }
+  return OK;
 }
 
+STATUS game_callback_drop(Game* game){
+  if(game == NULL) return ERROR;
 
-void game_callback_drop(Game* game){
-  if(game == NULL) return;
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
 
@@ -373,11 +432,13 @@ void game_callback_drop(Game* game){
 
   /*We obtain the id of the object*/
   obj_id = player_get_object(game_get_player(game));
-  if(obj_id == NO_ID) return;
+  if(obj_id == NO_ID) return ERROR;
 
   /*We set the object in the space*/
   space_add_object(game_get_space(game, space_id), obj_id);
 
   /*We remove the object from the player*/
   player_set_object(game_get_player(game), NO_ID);
+
+  return ERROR;
 }
