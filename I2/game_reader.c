@@ -1,12 +1,12 @@
 /**
- * @brief It defines the game reader for reading data
- *
- * @file game_reader.c
- * @author Martin Sanchez Signorini
- * @version 1.0
- * @date 19-09-2019
- * @copyright GNU Public License
- */
+* @brief It defines the game reader for reading data
+*
+* @file game_reader.c
+* @author Martin Sanchez Signorini
+* @version 3.0
+* @date 30-10-2019
+* @copyright GNU Public License
+*/
 
 
 #include <stdio.h>
@@ -16,7 +16,7 @@
 
 
 /**
-    Private Functions Prototypes
+Private Functions Prototypes
 */
 
 /**
@@ -26,7 +26,7 @@
 * to the game
 *
 * @date 19/09/2019
-* @author: Instructors
+* @author: Martin Sanchez Signorini
 *
 * @param game the game that will have its spaces loaded
 * @param filename the name of the file from which we will load the spaces
@@ -34,58 +34,75 @@
 */
 STATUS game_reader_load_spaces(Game* game, char* filename);
 
+/**
+* @brief Loads the objects from a file to the game
+*
+* game_reader_load_objects Given a file, it loads its data as objects and adds them
+* to the game
+*
+* @date 25/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game that will have its objects loaded
+* @param filename the name of the file from which we will load the objects
+* @return the status of the function for error management
+*/
 STATUS game_reader_load_objects(Game* game, char* filename);
 
 
 /**
-    Public functions
+Public functions
 */
 
 Game* game_reader_create_from_file(char* filename) {
   if(filename == NULL) return NULL;
-
+  
   Game* game = NULL;
   Player* player = NULL;
   Die* die = NULL;
   Id space_ini = NO_ID;
-
+  
   game = game_create();
   if (game == NULL)
-    return NULL;
-
+  return NULL;
+  
   if (game_reader_load_spaces(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
-
+  
   if (game_reader_load_objects(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
-
+  
   player = player_create(1);
   if(player == NULL) {
     game_destroy(game);
     return NULL;
   }
-
-  die = die_create(0, 1, 6);
+  
+  die = die_create(1, 1, 6);
   if(die == NULL) {
     player_destroy(player);
     game_destroy(game);
     return NULL;
   }
-
+  
   space_ini = game_get_space_id_at(game, 0);
   player_set_name(player, "Player 1");
   game_set_die(game, die);
-
+  
   /*Obtained the id of the initial space, we set the player in that space*/
   player_set_location(player,space_ini);
   game_set_player(game, player);
-
+  
   return game;
 }
+
+/**
+  Private Functions
+*/
 
 STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
@@ -98,16 +115,16 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   char img_up[IMG_SIZE] = "";
   char img_mid[IMG_SIZE] = "";
   char img_down[IMG_SIZE] = "";
-
+  
   if (!filename) {
     return ERROR;
   }
-
+  
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
   }
-
+  
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
@@ -145,13 +162,13 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
       }
     }
   }
-
+  
   if (ferror(file)) {
     status = ERROR;
   }
-
+  
   fclose(file);
-
+  
   return status;
 }
 
@@ -165,16 +182,16 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   Id id = NO_ID;
   Id pos_ini = NO_ID;
   Object* obj = NULL;
-
+  
   if (filename == NULL) {
     return ERROR;
   }
-
+  
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
   }
-
+  
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
@@ -190,18 +207,19 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
       if (obj != NULL) {
         object_set_name(obj, name);
         if(space_add_object(game_get_space(game, pos_ini), id) == ERROR) {
+          object_destroy(obj);
           return ERROR;
         }
         game_add_object(game, obj);
       }
     }
   }
-
+  
   if (ferror(file)) {
     status = ERROR;
   }
-
+  
   fclose(file);
-
+  
   return status;
 }
