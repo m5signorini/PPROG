@@ -3,7 +3,7 @@
  *
  * @file graphic_engine.c
  * @author Martin Sanchez Signorini
- * @version 2.0
+ * @version 3.0
  * @date 03-08-2019
  * @copyright GNU Public License
  */
