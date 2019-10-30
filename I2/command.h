@@ -23,6 +23,16 @@ typedef enum enum_Command {
   DROP,
   ROLL} T_Command;
 
+/**
+* @brief Gets the user input for the command
+*
+* get_user_input scans the input and return the specified command
+*
+* @date 25/10/2019
+* @author: Profesores PPROG
+*
+* @return the command scanned
+*/
 T_Command get_user_input();
 
 #endif
