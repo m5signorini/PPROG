@@ -37,13 +37,26 @@ struct _Graphic_engine{
 */
 void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 
+/**
+* @brief Gets the string of objects in a space
+*
+* graphic_engine_get_object_str sets the obj_str to the objects in a space
+* inserting up to MAX_LINE characters
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game that the graphic engine is going to use
+* @param space_id the id of the space
+* @param obj_str string of min size MAX_LINE that will store the objects names
+* @return the status of the function for error management
+*/
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str);
 
 
 /**
   Public Functions
 */
-
 
 
 Graphic_engine *graphic_engine_create(){
@@ -227,15 +240,20 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
       sprintf(str, "    %s:%d", object_get_name(game_get_object(game, obj_id)),(int)obj_loc);
       screen_area_puts(ge->descript, str);
     }
-
-    /* If the object is with the player */
-    if(player_get_object(game_get_player(game)) == obj_id) {
-      sprintf(str, "    %s:%s", object_get_name(game_get_object(game, obj_id)), player_get_name(game_get_player(game)));
-      screen_area_puts(ge->descript, str);
-    }
   }
-
+	
+	/* Line jump */
   screen_area_puts(ge->descript, " ");
+  
+  /* Player object*/
+  obj_id = player_get_object(game_get_player(game));
+  if(obj_id != NO_ID) {
+  	sprintf(str, "Player Object: %s", object_get_name(game_get_object(game, obj_id)));
+    screen_area_puts(ge->descript, str);
+		/* Line jump */
+  	screen_area_puts(ge->descript, " ");
+	}
+	
   /* Print the last die */
   sprintf(str, "  Last die value:%d", die_get_last(game_get_die(game)));
   screen_area_puts(ge->descript, str);
@@ -245,7 +263,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
 
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   if(game == NULL || space_id == NO_ID || obj_str == NULL) return ERROR;
-  /* k is the number of non-null chars that can be in obj_str its size must be MAX_LINE + 1*/
+  /* k is the number of non-null chars that can be in obj_str, its size must be at least MAX_LINE + 1*/
   int k = MAX_LINE;
   int i = 0;
   Id obj_id = NO_ID;
@@ -280,7 +298,7 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   }
 
   /* Null terminate for the string */
-  obj_str[MAX_LINE - k] = '\0';
+  obj_str[MAX_LINE] = '\0';
 
   return OK;
 }
