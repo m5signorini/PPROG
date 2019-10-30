@@ -119,7 +119,7 @@ Id set_get_id_at(Set* set, int index){
 
 int set_get_n_elements(Set* set){
   if (set == NULL){
-    return ERROR;
+    return -1;
   }
 
   return set->n_elements;
@@ -133,7 +133,7 @@ STATUS set_print(Set* set) {
     return ERROR;
   }
 
-  if (!fprintf(stdout, "--> Elements in the set:\n")){
+  if (!fprintf(stdout, "\n--> Elements in the set:\n")){
     return ERROR;
   }
   for (i = 0; i < set->n_elements; i++){

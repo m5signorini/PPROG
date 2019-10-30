@@ -96,17 +96,30 @@ STATUS set_delete_id(Set* set, Id id);
 STATUS set_print(Set* set);
 
 /**
-* @brief Prints a set
+* @brief gets the number of elements of a set
 *
-* set_print prints a set, the ids of its elements and the total elements in the set
+* set_get_n_elements returns the total number of elements stored in the set
 *
 * @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param set the set that will be printed
-* @return the status of the function, for error management
+* @param set the set we want to count its elements
+* @return the total number of elements
 */
 int set_get_n_elements(Set* set);
+
+/**
+* @brief gets the id of an element stored in a certain position of a set
+*
+* set_get_id_at returns the id of the element stored in a given postion
+*
+* @date 10/10/2019
+* @author: César Ramírez Martínez
+*
+* @param set the set where we will look for the id of the element
+* @param int index the position of the id that will be returned
+* @return the id of the element stored in the postion index
+*/
 Id set_get_id_at(Set* set, int index);
 
 
