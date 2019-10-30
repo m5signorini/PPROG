@@ -23,6 +23,7 @@ struct _Game {
   Object* objects[MAX_OBJECTS + 1];
   Player* player;
   Space* spaces[MAX_SPACES + 1];
+  Die* die;
   T_Command last_cmd;
 };
 
@@ -72,6 +73,7 @@ Game* game_create() {
 
   game->player = NULL;
   game->last_cmd = NO_CMD;
+  game->die = NULL;
 
   return game;
 }
@@ -89,6 +91,7 @@ STATUS game_destroy(Game* game) {
   }
 
   player_destroy(game->player);
+  die_destroy(game->die);
   free(game);
 
   return OK;
@@ -228,6 +231,21 @@ Id game_get_object_location(Game* game, Id obj) {
   }
 
   return NO_ID;
+}
+
+/**
+  Die management
+*/
+
+Die* game_get_die(Game* game) {
+  if(game == NULL) return NULL;
+  return game->die;
+}
+
+STATUS game_set_die(Game* game, Die* die) {
+  if(game == NULL || die == NULL) return ERROR;
+  game->die = die;
+  return OK;
 }
 
 /**

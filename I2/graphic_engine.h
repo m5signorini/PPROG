@@ -42,12 +42,12 @@ void graphic_engine_destroy(Graphic_engine *ge);
 /**
 * @brief Displays the game
 *
-* graphic_engine_paint_game paints the graphics of the game 
+* graphic_engine_paint_game paints the graphics of the game
 *
 * @date 19/09/2019
 * @author: Martin Sanchez Signorini
 *
-* @param ge the graphic engine 
+* @param ge the graphic engine
 * @param game the game that the graphic engine is going to use
 */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game);

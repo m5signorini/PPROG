@@ -205,7 +205,7 @@ Id space_get_west(Space* space);
 /**
 * @brief Sets the object in a space
 *
-* space_set_object sets the object inside the space, to the given one
+* space_add_object add the object to the space, to the given one
 *
 * @date 19/09/2019
 * @author: Profesores PPROG
@@ -214,7 +214,7 @@ Id space_get_west(Space* space);
 * @param value the object that will be set to the space
 * @return the status of the function, for error management
 */
-STATUS space_set_object(Space* space, Id value);
+STATUS space_add_object(Space* space, Id value);
 
 /**
 * @brief Gets the object in a space
@@ -227,7 +227,7 @@ STATUS space_set_object(Space* space, Id value);
 * @param space the space whose object will be returned
 * @return the object inside the space
 */
-Id space_get_object(Space* space);
+Id space_get_object(Space* space, int index);
 
 /**
 * @brief Prints the space
@@ -241,5 +241,36 @@ Id space_get_object(Space* space);
 * @return the status of the function, for error management
 */
 STATUS space_print(Space* space);
+
+/**
+* @brief Checks if the space has the id of a given object
+*
+* space_has_object Checks the existence of an id in the set of objects of the sapce
+*
+* @date 19/09/2019
+* @author: César Ramírez
+*
+* @param space the space that will be checked
+* @param id the id of the object that we want to check in the space
+* @return the true if the id is in the space, false otherwise
+*/
+BOOL space_has_object(Space* space, Id id);
+
+/*comentar funciones a partir de aqui*/
+
+
+
+STATUS space_delete_object(Space* space, Id value);
+
+
+Id* space_get_objects_array(Space* space);
+
+STATUS space_set_image_up(Space* space, char* image_up);
+STATUS space_set_image_mid(Space* space, char* image_mid);
+STATUS space_set_image_down(Space* space, char* image_down);
+
+const char* space_get_image_up(Space* space);
+const char* space_get_image_mid(Space*space);
+const char* space_get_image_down(Space*space);
 
 #endif
