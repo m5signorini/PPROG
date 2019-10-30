@@ -31,7 +31,7 @@ T_Command get_user_input() {
         cmd = i + NO_CMD;
       }
       else {
-	       i++;
+         i++;
       }
     }
   }
