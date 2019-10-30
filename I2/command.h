@@ -18,7 +18,7 @@ typedef enum enum_Command {
   NEXT,
   BACK,
   TAKE,
-  LEAVE} T_Command;
+  DROP} T_Command;
 
 T_Command get_user_input();
 
