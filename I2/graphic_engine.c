@@ -255,7 +255,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   }
 
   /* Print the last die */
-  sprintf(str, "  Last die value:%d", die_get_last(game_get_die(game)));
+  sprintf(str, "  Last die value: %d", die_get_last(game_get_die(game)));
   screen_area_puts(ge->descript, str);
 }
 
@@ -263,7 +263,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
 
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   if(game == NULL || space_id == NO_ID || obj_str == NULL) return ERROR;
-  /* k is the number of non-null chars that can be in obj_str, its size must be at least MAX_LINE + 1*/
+  /* k is the number of non-null chars that can be in obj_str which size must be at least MAX_LINE + 1*/
   int k = MAX_LINE;
   int i = 0;
   Id obj_id = NO_ID;
@@ -277,7 +277,7 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
 
   /* While there is objects in the space and enough space in the string */
   while ((obj_id = space_get_object(space, i++)) != NO_ID && k > 0) {
-    /* Add a comma if there is at least 2 objects*/
+    /* Add a comma if there are at least 2 objects*/
     if(i > 1) {
       strcat(obj_str, ",");
       k--;
