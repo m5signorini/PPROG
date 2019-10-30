@@ -3,7 +3,7 @@
  *
  * @file screen.c
  * @author Profesores PPROG
- * @version 1.0
+ * @version 2.0
  * @date 27-09-2019
  * @copyright GNU Public License
  */
@@ -75,12 +75,12 @@ void screen_paint(){
       memcpy(dest, src, COLUMNS);
       /* printf("%s\n", dest); */
       for (i=0; i<COLUMNS; i++){
-	       if (dest[i] == BG_CHAR){
-	          printf("\033[0;34;44m%c\033[0m", dest[i]); /* fg:blue(34);bg:blue(44) */
-	       }
+         if (dest[i] == BG_CHAR){
+            printf("\033[0;34;44m%c\033[0m", dest[i]); /* fg:blue(34);bg:blue(44) */
+         }
          else{
-	          printf("\033[0;30;47m%c\033[0m", dest[i]); /* fg:black(30);bg:white(47)*/
-	       }
+            printf("\033[0;30;47m%c\033[0m", dest[i]); /* fg:black(30);bg:white(47)*/
+         }
       }
       printf("\n");
     }
@@ -147,8 +147,8 @@ void screen_area_puts(Area* area, char *str){
 
 int screen_area_cursor_is_out_of_bounds(Area* area){
   return area->cursor > ACCESS(__data,
-			       area->x + area->width,
-			       area->y + area->height - 1);
+             area->x + area->width,
+             area->y + area->height - 1);
 }
 
 void screen_area_scroll_up(Area* area){
