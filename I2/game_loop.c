@@ -170,13 +170,37 @@ STATUS game_loop_command(T_Command command, STATUS stat, FILE * filename) {
     }
     return OK;
   }
-  if (command == UNKNOWM) {
+  if (command == UNKNOWN) {
     if (stat == OK) {
       if (fprintf(filename, "unknown: OK\n") < 0) {
         return ERROR;
       }
     } else {
       if (fprintf(filename, "unknown: ERROR\n") < 0) {
+        return ERROR;
+      }
+    }
+    return OK;
+  }
+  if (command == NO_CMD) {
+    if (stat == OK) {
+      if (fprintf(filename, "NO_CMD: OK\n") < 0) {
+        return ERROR;
+      }
+    } else {
+      if (fprintf(filename, "NO_CMD: ERROR\n") < 0) {
+        return ERROR;
+      }
+    }
+    return OK;
+  }
+  if (command == EXIT) {
+    if (stat == OK) {
+      if (fprintf(filename, "EXIT: OK\n") < 0) {
+        return ERROR;
+      }
+    } else {
+      if (fprintf(filename, "EXIT: ERROR\n") < 0) {
         return ERROR;
       }
     }

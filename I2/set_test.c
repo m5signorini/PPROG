@@ -16,7 +16,7 @@
 int main(int argc, char *argv[]) {
   Set* set = NULL;
   Id id = 3, id2 = 4, aux;
-  int pos, n_ele;
+  int pos;
 
   set = set_create();
   if (set == NULL) {

@@ -1,7 +1,7 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -pedantic -ansi -std=c99
-EJS = game_exe
+EJS = game_exe set_test die_test
 ########################################################
 OBJECTS = game_loop.o game_reader.o game.o graphic_engine.o screen.o space.o command.o player.o object.o set.o die.o
 ########################################################
@@ -56,6 +56,7 @@ die_test: die_test.o die.o
 die_test.o: die_test.c die.h
 	$(CC) $(CFLAGS) -c die_test.c
 
+#######################
 # SET
 #############
 set_test: set_test.o set.o

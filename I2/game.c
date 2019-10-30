@@ -269,7 +269,7 @@ STATUS game_update(Game* game, T_Command cmd) {
 }
 
 T_Command game_get_last_command(Game* game) {
-  if(game == NULL) return ERROR;
+  if(game == NULL) return NO_CMD;
   return game->last_cmd;
 }
 
