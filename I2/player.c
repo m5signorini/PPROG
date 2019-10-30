@@ -23,22 +23,22 @@ struct _Player {
 
 Player* player_create(Id id) {
 
-  Player *newplayer = NULL;
+  Player *new_player = NULL;
 
   if (id == NO_ID)
     return NULL;
 
-  newplayer = (Player *) malloc(sizeof (Player));
+  new_player = (Player *) malloc(sizeof (Player));
 
-  if (newplayer == NULL) {
+  if (new_player == NULL) {
     return NULL;
   }
-  newplayer->id = id;
-  newplayer->object = NO_ID;
-  newplayer->location = NO_ID;
-  memset(newplayer->name, 0, WORD_SIZE + 1);
+  new_player->id = id;
+  new_player->object = NO_ID;
+  new_player->location = NO_ID;
+  memset(new_player->name, 0, WORD_SIZE + 1);
 
-  return newplayer;
+  return new_player;
 }
 
 STATUS player_destroy(Player* player) {

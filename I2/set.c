@@ -22,22 +22,22 @@ struct _Set {
 };
 
 Set* set_create() {
-  Set *newset = NULL;
+  Set *new_set = NULL;
   int i;
 
-  newset = (Set *) malloc(sizeof (Set));
+  new_set = (Set *) malloc(sizeof (Set));
 
-  if (newset == NULL) {
+  if (new_set == NULL) {
     return NULL;
   }
 
   for (i = 0; i < MAX_N_ELEMENTS; i++){
-    newset->id_array[i] = NO_ID;
+    new_set->id_array[i] = NO_ID;
   }
 
-  newset->n_elements = 0;
+  new_set->n_elements = 0;
 
-  return newset;
+  return new_set;
 }
 
 
@@ -55,16 +55,15 @@ STATUS set_destroy(Set* set) {
 
 STATUS set_add_id(Set* set, Id id) {
   int i;
-  if (set == NULL || id < 0) {
+  if (set == NULL || id == NO_ID) {
     return ERROR;
   }
 
   i = set_has_id(set, id);
   if(i == -2){
     return ERROR;
-
   }
-  
+
   if(i > -1){
     return OK;
   }
@@ -87,7 +86,7 @@ int set_has_id (Set* set, Id id){
       return i;
     }
   }
-    return -1;
+  return -1;
 }
 
 

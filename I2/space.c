@@ -30,40 +30,40 @@ struct _Space {
 
 Space* space_create(Id id) {
 
-  Space *newSpace = NULL;
-  Set* object = NULL;
+  Space *new_space = NULL;
+  Set* objects = NULL;
 
   if (id == NO_ID)
     return NULL;
 
-  newSpace = (Space *) malloc(sizeof (Space));
+  new_space = (Space *) malloc(sizeof (Space));
 
-  if (newSpace == NULL) {
+  if (new_space == NULL) {
     return NULL;
   }
 
-  object =set_create();
+  objects = set_create();
 
-  if (object == NULL) {
-    free(newSpace);
+  if (objects == NULL) {
+    free(new_space);
     return NULL;
   }
 
-  newSpace->id = id;
+  new_space->id = id;
 
-  newSpace->north = NO_ID;
-  newSpace->south = NO_ID;
-  newSpace->east = NO_ID;
-  newSpace->west = NO_ID;
+  new_space->north = NO_ID;
+  new_space->south = NO_ID;
+  new_space->east = NO_ID;
+  new_space->west = NO_ID;
 
-  newSpace->object = object;
+  new_space->object = objects;
 
-  memset(newSpace->name, 0, WORD_SIZE + 1);
-  memset(newSpace->image_up, 0, IMG_SIZE);
-  memset(newSpace->image_mid, 0, IMG_SIZE);
-  memset(newSpace->image_down, 0, IMG_SIZE);
+  memset(new_space->name, 0, WORD_SIZE + 1);
+  memset(new_space->image_up, 0, IMG_SIZE);
+  memset(new_space->image_mid, 0, IMG_SIZE);
+  memset(new_space->image_down, 0, IMG_SIZE);
 
-  return newSpace;
+  return new_space;
 }
 
 STATUS space_destroy(Space* space) {
