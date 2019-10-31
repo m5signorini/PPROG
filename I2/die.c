@@ -14,7 +14,7 @@
 #include "die.h"
 
 struct _Die {
-  Id id;
+  Id id; 
   int max;
   int min;
   int last;
