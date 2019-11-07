@@ -27,7 +27,7 @@ typedef struct _Player Player;
 * @param id the id of the new player
 * @return the player created
 */
-Player* player_create(Id id);
+Player* player_create(Id id, int max);
 
 /**
 * @brief Destroys a player
@@ -41,6 +41,10 @@ Player* player_create(Id id);
 * @return the status of the function, for error management
 */
 STATUS player_destroy(Player* player);
+
+STATUS player_inventory_set_max(Player* player, int max);
+
+int player_inventory_get_max(Player* player);
 
 /**
 * @brief Sets the location of the player
@@ -68,8 +72,8 @@ STATUS player_set_location(Player* player, Id idLocation);
 * @param idObject the id of the object that will be setted to the player
 * @return the status of the function, for error management
 */
-STATUS player_set_object(Player* player, Id idObject);
-
+STATUS player_add_object(Player* player, Id idObject);
+//mal
 /**
 * @brief Sets the name of the player
 *
@@ -121,8 +125,8 @@ Id player_get_location(Player* player);
 * @param player the player whose id object it will returnef
 * @return the idObject of the given player
 */
-Id player_get_object(Player* player);
-
+STATUS player_delete_object(Player* player, id idObject);
+//mal
 /**
 * @brief Gets the name of the player
 *

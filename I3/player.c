@@ -13,15 +13,16 @@
 #include <stdio.h>
 #include "types.h"
 #include "player.h"
+#include "inventory.h"
 
 struct _Player {
   Id id;
   char name[WORD_SIZE + 1];
   Id location;
-  Id object;
+  Inventory* objects;
 };
 
-Player* player_create(Id id) {
+Player* player_create(Id id, int max) {
 
   Player *new_player = NULL;
 
@@ -33,9 +34,24 @@ Player* player_create(Id id) {
   if (new_player == NULL) {
     return NULL;
   }
+
   new_player->id = id;
-  new_player->object = NO_ID;
+
+  new_player->objects = inventory_create();
+
+  if (new_player->objects == NULL) {
+    free(new_player);
+    return NULL;
+  }
+
+  if (player_inventory_set_max(new_player, max)==ERROR) {
+    inventory_destroy(new_player->objects);
+    free(new_player)
+    return NULL;
+  }
+
   new_player->location = NO_ID;
+
   memset(new_player->name, 0, WORD_SIZE + 1);
 
   return new_player;
@@ -46,10 +62,30 @@ STATUS player_destroy(Player* player) {
     return ERROR;
   }
 
+  inventory_destroy(player->objects);
   free(player);
   player = NULL;
 
   return OK;
+}
+
+STATUS player_inventory_set_max(Player* player, int max) {
+  if (player == NULL || max<1) {
+    return ERROR;
+  }
+
+  if (inventory_set_max(player->objects, max)==ERROR) {
+    return ERROR;
+  }
+  return OK;
+}
+
+int player_inventory_get_max(Player* player) {
+  if (player == NULL) {
+    return ERROR;
+  }
+
+  return inventory_get_max(player->objects);
 }
 
 STATUS player_set_name(Player* player, char* name) {
@@ -74,12 +110,18 @@ STATUS player_set_location(Player* player, Id idLocation) {
   return OK;
 }
 
-STATUS player_set_object(Player* player, Id idObject) {
-  if (!player) {
+STATUS player_add_object(Player* player, Id idObject) {
+  if (!player !! idObject == NO_ID) {
+    return ERROR;
+  }
+  if (inventory_has_object(player->objects, idObject)==TRUE) {
+    return OK;
+  }
+
+  if (inventory_add_id(player->objects, idObject)==ERROR) {
     return ERROR;
   }
 
-  player->object = idObject;
   return OK;
 }
 
@@ -104,11 +146,16 @@ Id player_get_location(Player* player) {
   return player->location;
 }
 
-Id player_get_object(Player* player) {
-  if (!player) {
-    return NO_ID;
+STATUS player_delete_object(Player* player, id idObject) {
+  if (!player || idObject == NO_ID) {
+    return ERROR;
   }
-  return player->object;
+
+  if ((inventory_delete_id(player->objects, idObject))==ERROR) {
+    return ERROR;
+  }
+
+  return OK;
 }
 
 STATUS player_print(Player* player) {
@@ -117,7 +164,11 @@ STATUS player_print(Player* player) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> player (Id: %ld; Name: %s; Id of the location: %ld, Id of the object: %ld )\n", player->id, player->name, player->location, player->object)){
+  if(!fprintf(stdout, "--> player (Id: %ld; Name: %s; Id of the location: %ld )\n", player->id, player->name, player->location)){
+    return ERROR;
+  }
+
+  if (inventory_print(player->objects)==ERROR) {
     return ERROR;
   }
 
