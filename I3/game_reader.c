@@ -65,6 +65,21 @@ STATUS game_reader_load_objects(Game* game, char* filename);
 STATUS game_reader_load_players(Game* game, char* filename);
 
 /**
+* @brief Loads the links between spaces from a file to the game
+*
+* game_reader_load_links Given a file, it loads its data as links and adds them
+* to the game
+*
+* @date 19/09/2019
+* @author: Félix Estaún & Gonzalo Martín
+*
+* @param game the game that will have its links loaded
+* @param filename the name of the file from which we will load the links
+* @return the status of the function for error management
+*/
+STATUS game_reader_load_links(Game* game, char* filename);
+
+/**
 Public functions
 */
 
@@ -89,6 +104,11 @@ Game* game_reader_create_from_file(char* filename) {
   }
 
   if (game_reader_load_players(game, filename) == ERROR) {
+    game_destroy(game);
+    return NULL;
+  }
+
+  if (game_reader_load_links(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
@@ -271,7 +291,7 @@ STATUS game_reader_load_players(Game* game, char* filename) {
           return ERROR;
         }
         if(player_set_inventory_max(player, inv_max) == ERROR) {
-          player_destroy(player));
+          player_destroy(player);
           return ERROR;
         }
         if(player_set_location(player, pos_ini) == ERROR) {
@@ -279,6 +299,70 @@ STATUS game_reader_load_players(Game* game, char* filename) {
           return ERROR;
         }
         game_set_player(game, player);
+      }
+    }
+  }
+
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
+}
+
+STATUS game_reader_load_links(Game* game, char* filename) {
+  FILE* file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char* toks = NULL;
+  Id id = NO_ID, space1 = NO_ID, space2 = NO_ID;
+  BOOL open = FALSE;
+  Link* link = NULL;
+  STATUS status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#l:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      space1 = atol(toks);
+      toks = strtok(NULL, "|");
+      space2 = atol(toks);
+      toks = strtok(NULL, "|");
+      if (atoi(toks)==1) {
+        open = FALSE;
+      }
+      else if (atoi(toks)==0) {
+        open = TRUE;
+      }
+      else {
+        fclose(file);
+        return ERROR;
+      }
+
+      #ifdef DEBUG
+      printf("Leido: %ld|%s|%ld|%ld|%s\n", id, name, space1, space2, toks);
+      #endif
+      link = link_create(id);
+      if (link != NULL) {
+        link_set_name(link, name);
+        link_set_space1(link, space1);
+        link_set_space2(link, space2);
+        link_set_open(link, open);
+        game_add_link(game, link);
       }
     }
   }
