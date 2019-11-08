@@ -27,7 +27,7 @@ typedef struct _Player Player;
 * @param id the id of the new player
 * @return the player created
 */
-Player* player_create(Id id, int max);
+Player* player_create(Id id);
 
 /**
 * @brief Destroys a player
@@ -59,20 +59,6 @@ int player_inventory_get_max(Player* player);
 * @return the status of the function, for error management
 */
 STATUS player_set_location(Player* player, Id idLocation);
-
-/**
-* @brief Gets an object id of the player
-*
-* player_get_object gets the object that the player has in the passed index
-*
-* @date 20/09/2019
-* @author: Martín Sánchez Signorini
-*
-* @param player the player from which we will get the object id
-* @param index the index to look for
-* @return the id of the object at index
-*/
-Id player_get_object(Player* player, int index);
 
 /**
 * @brief Sets the object that the player has picked

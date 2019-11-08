@@ -22,7 +22,7 @@ struct _Player {
   Inventory* objects;
 };
 
-Player* player_create(Id id, int max) {
+Player* player_create(Id id) {
 
   Player *new_player = NULL;
 
@@ -44,11 +44,7 @@ Player* player_create(Id id, int max) {
     return NULL;
   }
 
-  if (player_inventory_set_max(new_player, max)==ERROR) {
-    inventory_destroy(new_player->objects);
-    free(new_player)
-    return NULL;
-  }
+  new_player->objects = NULL;
 
   new_player->location = NO_ID;
 
@@ -108,11 +104,6 @@ STATUS player_set_location(Player* player, Id idLocation) {
   player->location = idLocation;
 
   return OK;
-}
-
-Id player_get_object(Player* player, int index) {
-  if(player == NULL || index < 0 || index > inventory_get_max(player->objects)) return NO_ID;
-  return inventory_get_id(player->objects, index);
 }
 
 STATUS player_add_object(Player* player, Id idObject) {
