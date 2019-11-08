@@ -21,7 +21,8 @@ typedef enum enum_Command {
   LEFT,
   TAKE,
   DROP,
-  ROLL} T_Command;
+  ROLL,
+  INSPECT} T_Command;
 
 /**
 * @brief Gets the user input for the command
