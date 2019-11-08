@@ -260,6 +260,54 @@ STATUS game_set_die(Game* game, Die* die) {
 }
 
 /**
+Link Management
+*/
+
+STATUS game_add_link(Game* game, Link* link) {
+  if (game == NULL || link == NULL) {
+    return ERROR;
+  }
+
+  int i = 0;
+
+  while ( (i < MAX_LINKS) && (game->links[i] != NULL)){
+    i++;
+  }
+
+  if (i >= MAX_LINKS) {
+    return ERROR;
+  }
+
+  game->links[i] = link;
+
+  return OK;
+}
+
+Id game_get_link_id_at(Game* game, int position) {
+  if (game == NULL || position < 0 || position >= MAX_LINKS) {
+    return NO_ID;
+  }
+
+  return link_get_id(game->links[position]);
+}
+
+Link* game_get_link(Game* game, Id id) {
+  if(game == NULL) return NULL;
+  int i = 0;
+
+  if (id == NO_ID) {
+    return NULL;
+  }
+
+  for (i = 0; i < MAX_LINKS && game->links[i] != NULL; i++) {
+    if (id == link_get_id(game->links[i])){
+      return game->links[i];
+    }
+  }
+  return NULL;
+}
+
+/**
 Command Management
 */
 
