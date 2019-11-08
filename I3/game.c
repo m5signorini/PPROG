@@ -16,7 +16,7 @@
 #include <string.h>
 #include "game.h"
 
-#define N_CALLBACK 9
+#define N_CALLBACK 10
 #define MAX_OBJECTS 50
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
@@ -28,6 +28,7 @@ struct _Game {
   Die* die;
   T_Command last_cmd;
   STATUS last_cmd_stat;
+  char description[MAX_DESC + 1];
 };
 
 /**
@@ -47,6 +48,7 @@ STATUS game_callback_left(Game* game);
 STATUS game_callback_take(Game* game);
 STATUS game_callback_drop(Game* game);
 STATUS game_callback_roll(Game* game);
+STATUS game_callback_inspect(Game* game);
 
 static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_unknown,
@@ -57,7 +59,8 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_left,
   game_callback_take,
   game_callback_drop,
-  game_callback_roll
+  game_callback_roll,
+  game_callback_inspect
 };
 
 
@@ -85,6 +88,8 @@ Game* game_create() {
   game->last_cmd = NO_CMD;
   game->die = NULL;
   game->last_cmd_stat = OK;
+
+  memset(game->description, 0, MAX_DESC + 1);
 
   return game;
 }
@@ -526,4 +531,37 @@ STATUS game_callback_roll(Game* game) {
   if(game == NULL) return ERROR;
   die_roll(game_get_die(game));
   return OK;
+}
+
+STATUS game_callback_inspect(Game* game){
+  if(game == NULL) return ERROR;
+
+  Id obj_id = NO_ID;
+  Space* space_act = NULL;
+  Object* obj = NULL;
+  char name[WORD_SIZE + 1];
+  int i = 0, max_inv;
+
+  /* Scan the next string to get the name of the object, if none return ERROR*/
+  if(scanf("%s", name) < 1) {
+    return ERROR;
+  }
+
+  if(strcmp(name, "space") == 0 || strcmp(name, "s") == 0){
+    space_act = game_get_space(game, player_get_location(game_get_player(game)));
+    if(strcpy( game->description, space_get_description(space_act)) == 0){
+      return OK;
+    }
+  }
+  else {
+    while((obj_id = player_get_object(game_get_player(game), i++)) != NO_ID) {
+       obj = game_get_object(game, obj_id);
+       if (strcmp(object_get_name(obj), name) == 0){
+         if(strcpy(game->description, object_get_description(obj)) == 0){
+           return OK;
+         }
+       }
+     }
+   }
+     return ERROR;
 }

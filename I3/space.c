@@ -18,6 +18,7 @@
 struct _Space {
   Id id;
   char name[WORD_SIZE + 1];
+  char description[MAX_DESC + 1];
   Id north;
   Id south;
   Id east;
@@ -59,6 +60,7 @@ Space* space_create(Id id) {
   new_space->objects = objects;
 
   memset(new_space->name, 0, WORD_SIZE + 1);
+  memset(new_space->description, 0, MAX_DESC + 1);
   memset(new_space->image_up, 0, IMG_SIZE);
   memset(new_space->image_mid, 0, IMG_SIZE);
   memset(new_space->image_down, 0, IMG_SIZE);
@@ -144,6 +146,18 @@ STATUS space_set_name(Space* space, char* name) {
   return OK;
 }
 
+STATUS space_set_description(Space* space, char* description) {
+  if (!space || !description) {
+    return ERROR;
+  }
+
+  if (!strncpy(space->description, description, MAX_DESC)) {
+    return ERROR;
+  }
+
+  return OK;
+}
+
 STATUS space_set_north(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -220,6 +234,13 @@ const char * space_get_name(Space* space) {
   return space->name;
 }
 
+const char * space_get_description(Space* space) {
+  if (!space) {
+    return NULL;
+  }
+  return space->description;
+}
+
 Id space_get_id(Space* space) {
   if (!space) {
     return NO_ID;
@@ -269,7 +290,7 @@ STATUS space_print(Space* space) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", space->id, space->name)){
+  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Description: %s)\n", space->id, space->name, space->description)){
     return ERROR;
   }
 

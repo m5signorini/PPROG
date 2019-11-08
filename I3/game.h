@@ -218,12 +218,6 @@ Id game_get_object_id_at(Game* game, int position);
 */
 Id game_get_object_location(Game* game, Id id);
 
-STATUS game_add_link(Game* game, Link* link);
-
-Id game_get_link_id_at(Game* game, int position);
-
-Link* game_get_link(Game* game, Id id);
-
 /**
 * @brief Gets the last command
 *
@@ -276,8 +270,4 @@ Die* game_get_die(Game* game);
 * @return the status of the operation for error management
 */
 STATUS game_set_die(Game* game, Die* die);
-
-Link* game_get_link(Game* game, Id idLink);
-STATUS game_add_link(Game* game, Link* link);
-
 #endif

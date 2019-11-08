@@ -58,6 +58,20 @@ STATUS object_destroy(Object* object);
 STATUS object_set_name(Object* object, char* name);
 
 /**
+* @brief Sets the name of the object
+*
+* object_set_name sets the name of an object
+*
+* @date 20/09/2019
+* @author: César Ramírez Martínez
+*
+* @param object the object that will have its name set
+* @param name the name that will set to the object
+* @return the status of the functionl, for error management
+*/
+STATUS object_set_description(Object* object, char* description);
+
+/**
 * @brief Gets the object id
 *
 * object_get_id returns the id of the given object
@@ -82,6 +96,19 @@ Id object_get_id(Object* object);
 * @return the name of the given object
 */
 const char* object_get_name(Object* object);
+
+/**
+* @brief Gets the name of the object
+*
+* object_get_name returns the name of a given object
+*
+* @date 20/09/2019
+* @author: César Ramírez Martínez
+*
+* @param object the object whose name will be returned
+* @return the name of the given object
+*/
+const char * object_get_description(Object* object);
 
 /**
 * @brief Prints the elements of the object

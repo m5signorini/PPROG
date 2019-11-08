@@ -87,6 +87,33 @@ STATUS space_set_name(Space* space, char* name);
 const char* space_get_name(Space* space);
 
 /**
+* @brief Sets a name
+*
+* space_set_name sets the name of a space to the given one
+*
+* @date 19/09/2019
+* @author: Profesores PPROG
+*
+* @param space the space that will have itss name changed
+* @param name the name that it will set to the space
+* @return the status of the functionl, for error management
+*/
+STATUS space_set_description(Space* space, char* description);
+
+/**
+* @brief Gets the name of a space
+*
+* space_get_name returns the name of a given space
+*
+* @date 19/09/2019
+* @author: Profesores PPROG
+*
+* @param space the space from which it will return its name
+* @return the name of the given space
+*/
+const char* space_get_description(Space* space);
+
+/**
 * @brief Sets the id of the north space
 *
 * space_set_north sets the id of the north space of the give
