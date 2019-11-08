@@ -21,6 +21,7 @@ typedef struct _Game Game;
 #include "player.h"
 #include "object.h"
 #include "die.h"
+#include "link.h"
 
 /**
 * @brief Creates a new game
@@ -269,4 +270,8 @@ Die* game_get_die(Game* game);
 * @return the status of the operation for error management
 */
 STATUS game_set_die(Game* game, Die* die);
+
+Link* game_get_link(Game* game, Id idLink);
+STATUS game_add_link(Game* game, Link* link);
+
 #endif
