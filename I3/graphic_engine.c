@@ -53,7 +53,9 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 */
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str);
 
+STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space);
 
+STATUS graphic_engine_get_dest(char* str, Space* space_next, Id id_act);
 /**
   Public Functions
 */
@@ -95,6 +97,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Id id_act = NO_ID;
   Id id_back = NO_ID;
   Id id_next = NO_ID;
+  Id link_id = NO_ID;
 
   Space* space_act = NULL;
   Space* space_back = NULL;
@@ -110,8 +113,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   /* Set id_act to the id of the space of the player */
   if ((id_act = player_get_location(game_get_player(game))) != NO_ID){
     space_act = game_get_space(game, id_act);
-    id_back = space_get_north(space_act);
-    id_next = space_get_south(space_act);
+    id_back = link_get_to(game_get_link(game, space_get_north(space_act)), id_act);
+    id_next = link_get_to(game_get_link(game, space_get_south(space_act)), id_act);
     space_back = game_get_space(game, id_back);
     space_next = game_get_space(game, id_next);
 
@@ -120,19 +123,18 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_back, obj) == ERROR) {
         return;
       }
-      sprintf(str, "  |         %2d|",(int) id_back);
-      screen_area_puts(ge->map, str);
+      graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "  |  %s  |", space_get_image_up(space_back));
+      sprintf(str, "        |  %s  |", space_get_image_up(space_back));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_mid(space_back));
+      sprintf(str, "        |  %s  |", space_get_image_mid(space_back));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_down(space_back));
+      sprintf(str, "        |  %s  |", space_get_image_down(space_back));
       screen_area_puts(ge->map, str);
       /* Objects */
-      sprintf(str, "  |%s|", obj);
+      sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
+      sprintf(str, "        +-----------+");
       screen_area_puts(ge->map, str);
       sprintf(str, "        ^");
       screen_area_puts(ge->map, str);
@@ -142,21 +144,18 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_act, obj) == ERROR) {
         return;
       }
-      sprintf(str, "  +-----------+");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  | 8D      %2d|",(int) id_act);
-      screen_area_puts(ge->map, str);
+      graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "  |  %s  |", space_get_image_up(space_act));
+      sprintf(str, "        |  %s  |", space_get_image_up(space_act));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_mid(space_act));
+      sprintf(str, "        |  %s  |", space_get_image_mid(space_act));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_down(space_act));
+      sprintf(str, "        |  %s  |", space_get_image_down(space_act));
       screen_area_puts(ge->map, str);
       /* Objects */
-      sprintf(str, "  |%s|", obj);
+      sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
+      sprintf(str, "        +-----------+");
       screen_area_puts(ge->map, str);
     }
 
@@ -166,19 +165,16 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       }
       sprintf(str, "        v");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  +-----------+");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  |         %2d|",(int) id_next);
-      screen_area_puts(ge->map, str);
+      graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "  |  %s  |", space_get_image_up(space_next));
+      sprintf(str, "        |  %s  |", space_get_image_up(space_next));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_mid(space_next));
+      sprintf(str, "        |  %s  |", space_get_image_mid(space_next));
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  |", space_get_image_down(space_next));
+      sprintf(str, "        |  %s  |", space_get_image_down(space_next));
       screen_area_puts(ge->map, str);
       /* Objects */
-      sprintf(str, "  |%s|",obj);
+      sprintf(str, "        |%s|",obj);
       screen_area_puts(ge->map, str);
     }
   }
@@ -246,19 +242,61 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, " ");
 
   /* Player object*/
-  obj_id = player_get_object(game_get_player(game));
-  if(obj_id != NO_ID) {
-    sprintf(str, "  Player Object: %s", object_get_name(game_get_object(game, obj_id)));
+  sprintf(str, "  %s Objects:", player_get_name(game_get_player(game)));
+  screen_area_puts(ge->descript, str);
+
+  i = 0;
+  while((obj_id = player_get_object(game_get_player(game), i++)) != NO_ID) {
+    sprintf(str, "    %s", object_get_name(game_get_object(game, obj_id)));
     screen_area_puts(ge->descript, str);
-    /* Line jump */
-    screen_area_puts(ge->descript, " ");
   }
+
+  /* Line jump */
+  screen_area_puts(ge->descript, " ");
 
   /* Print the last die */
   sprintf(str, "  Last die value: %d", die_get_last(game_get_die(game)));
   screen_area_puts(ge->descript, str);
 }
 
+STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space, Id id_act)  {
+  if(space == NULL) return ERROR;
+  Id link_id = NO_ID;
+  Id space_id = NO_ID;
+  char str[255];
+  memset(str, 0, 255);
+
+  /* PRINT - LINK */
+  if((link_id = space_get_west(space)) != NO_ID) {
+    strcat(str, "%2d", (int)link_id);
+  }
+  strcat(str, "  +-----------+  ");
+  if((link_id = space_get_east(space)) != NO_ID) {
+    strcat(str, "%2d", (int)link_id);
+  }
+  screen_area_puts(ge->map, str);
+
+  /* PRINT ARROWS - SPACE */
+  memset(str, 0 ,255);
+  if((space_id = link_get_to(space_get_west(space), space_get_id(space))) != NO_ID) {
+    strcat(str, "%2d <-- ", (int)link_id);
+  }
+
+  /* Print space depending if the player is in there */
+  if(space_get_id(space) == id_act) {
+    strcat(str, " |8D       %2d|",(int) space_get_id(space));
+  }
+  else {
+    strcat(str, " |         %2d|",(int) space_get_id(space));
+  }
+
+  if((space_id = link_get_to(space_get_east(space), space_get_id(space))) != NO_ID) {
+    strcat(str, " --> %2d", (int)link_id);
+  }
+
+  screen_area_puts(ge->map, str);
+  return OK;
+}
 
 
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
