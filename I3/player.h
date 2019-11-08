@@ -61,6 +61,20 @@ int player_inventory_get_max(Player* player);
 STATUS player_set_location(Player* player, Id idLocation);
 
 /**
+* @brief Gets an object id of the player
+*
+* player_get_object gets the object that the player has in the passed index
+*
+* @date 20/09/2019
+* @author: Martín Sánchez Signorini
+*
+* @param player the player from which we will get the object id
+* @param index the index to look for
+* @return the id of the object at index
+*/
+Id player_get_object(Player* player, int index);
+
+/**
 * @brief Sets the object that the player has picked
 *
 * player_set_object sets the object that the player has picked
@@ -125,7 +139,7 @@ Id player_get_location(Player* player);
 * @param player the player whose id object it will returnef
 * @return the idObject of the given player
 */
-STATUS player_delete_object(Player* player, id idObject);
+STATUS player_delete_object(Player* player, Id idObject);
 //mal
 /**
 * @brief Gets the name of the player
