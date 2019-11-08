@@ -9,13 +9,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "link.h"
 
 struct _Link {
   Id id;
   char name[WORD_SIZE + 1];
-  Id from;
-  Id to;
-  BOOL abierto;
+  Id spaces[2];
+  BOOL open;
 };
 
 Link* link_create(Id id) {
@@ -31,9 +32,9 @@ Link* link_create(Id id) {
   }
 
   new_link->id = id;
-  new_link->from = NO_ID;
-  new_link->to = NO_ID;
-  new_link->abierto = TRUE;
+  new_link->spaces[0] = NO_ID;
+  new_link->spaces[1] = NO_ID;
+  new_link->open = TRUE;
 
   memset(new_link->name, 0, WORD_SIZE + 1);
 
@@ -77,51 +78,66 @@ const char * link_get_name(Link* link) {
   return link->name;
 }
 
-STATUS link_set_from(Link* link, Id from) {
+STATUS link_set_space1(Link* link, Id id) {
   if (!link || id == NO_ID) {
     return ERROR;
   }
-  link->from = from;
+  link->spaces[0] = id;
   return OK;
 }
 
-Id link_get_from(Link* link) {
+Id link_get_space1(Link* link) {
   if (!link) {
     return NO_ID;
   }
-  return link->from;
+  return link->spaces[0];
 }
 
-STATUS link_set_to(Link* link, Id to) {
+STATUS link_set_space2(Link* link, Id id) {
   if (!link || id == NO_ID) {
     return ERROR;
   }
-  link->to = to;
+  link->spaces[1] = id;
   return OK;
 }
 
-Id link_get_to(Link* link) {
+Id link_get_space2(Link* link) {
   if (!link) {
     return NO_ID;
   }
-  return link->to;
+  return link->spaces[1];
 }
 
-STATUS link_set_abierto(Link* link, BOOL abierto) {
+STATUS link_set_open(Link* link, BOOL open) {
   if (!link) {
     return ERROR;
   }
 
-  link->abierto = abierto;
+  link->open = open;
   return OK;
 }
 
-BOOL link_get_abierto(Link* link) {
+BOOL link_get_open(Link* link) {
   if (!link) {
     return FALSE;
   }
 
-  return link->abierto;
+  return link->open;
+}
+
+Id link_get_to(Link* link, Id current_id) {
+  if (!link || current_id == NO_ID) {
+    return NO_ID;
+  }
+
+  if (link->spaces[0] == current_id) {
+    return link->spaces[1];
+  }
+  else if (link->spaces[1] == current_id) {
+    return link->spaces[0];
+  }
+
+  else return NO_ID;
 }
 
 STATUS link_print(Link *link) {
@@ -135,24 +151,24 @@ STATUS link_print(Link *link) {
     return ERROR;
   }
 
-  idaux = link_get_from(link);
+  idaux = link_get_space1(link);
   if (NO_ID != idaux) {
-    fprintf(stdout, "---> From link: %ld.\n", idaux);
+    fprintf(stdout, "---> Space 1: %ld.\n", idaux);
   } else {
-    fprintf(stdout, "---> No from link.\n");
+    fprintf(stdout, "---> No space1 in link.\n");
   }
 
-  idaux = link_get_to(link);
+  idaux = link_get_space2(link);
   if (NO_ID != idaux) {
-    fprintf(stdout, "---> To link: %ld.\n", idaux);
+    fprintf(stdout, "---> Space 2: %ld.\n", idaux);
   } else {
-    fprintf(stdout, "---> No to link.\n");
+    fprintf(stdout, "---> No space2 in link.\n");
   }
 
-  if (link->abierto == TRUE) {
-    fprintf(stdout, "---> Abierto: TRUE.\n");
+  if (link->open == TRUE) {
+    fprintf(stdout, "---> Open: TRUE.\n");
   } else {
-    fprintf(stdout, "---> Abierto: FALSE.\n");
+    fprintf(stdout, "---> Open: FALSE.\n");
   }
 
   return OK;
