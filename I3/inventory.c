@@ -102,9 +102,10 @@ STATUS inventory_delete_id(Inventory* inventory, Id id) {
 }
 
 Id inventory_get_id(Inventory* inventory, int index) {
-  if (!inventory) {
+  if (!inventory || index < 0 || index > inventory->max_inventory) {
     return NO_ID;
   }
+
   return set_get_id_at(inventory->ids, index);
 }
 
