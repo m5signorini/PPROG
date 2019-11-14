@@ -15,6 +15,7 @@
 #include "set.h"
 #include "inventory.h"
 
+
 struct _Inventory {
   Set* ids;
   int max_inventory;
@@ -77,6 +78,14 @@ STATUS inventory_add_id(Inventory* inventory, Id id) {
   return OK;
 }
 
+int inventory_get_max(Inventory* inventory) {
+  if (!inventory) {
+    return PARAM_ERROR;
+  }
+
+  return inventory->max_inventory;
+}
+
 STATUS inventory_set_max(Inventory* inventory, int max) {
   if (!inventory || max < 0) {
     return ERROR;
@@ -85,6 +94,14 @@ STATUS inventory_set_max(Inventory* inventory, int max) {
   inventory->max_inventory = max;
 
   return OK;
+}
+
+int inventory_get_number_objects(Inventory* inventory) {
+  if (!inventory) {
+    return PARAM_ERROR;
+  }
+
+  return set_get_n_elements(inventory->ids);
 }
 
 STATUS inventory_delete_id(Inventory* inventory, Id id) {
@@ -101,7 +118,7 @@ STATUS inventory_delete_id(Inventory* inventory, Id id) {
   return OK;
 }
 
-Id inventory_get_id(Inventory* inventory, int index) {
+Id inventory_get_id_at(Inventory* inventory, int index) {
   if (!inventory || index < 0 || index > inventory->max_inventory) {
     return NO_ID;
   }

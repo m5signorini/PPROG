@@ -24,9 +24,7 @@ struct _Space {
   Id east;
   Id west;
   Set* objects;
-  char image_up[IMG_SIZE];
-  char image_mid[IMG_SIZE];
-  char image_down[IMG_SIZE];
+  char image[IMG_NUM][IMG_SIZE];
 };
 
 Space* space_create(Id id) {
@@ -61,9 +59,8 @@ Space* space_create(Id id) {
 
   memset(new_space->name, 0, WORD_SIZE + 1);
   memset(new_space->description, 0, MAX_DESC + 1);
-  memset(new_space->image_up, 0, IMG_SIZE);
-  memset(new_space->image_mid, 0, IMG_SIZE);
-  memset(new_space->image_down, 0, IMG_SIZE);
+  memset(new_space->image, 0, IMG_SIZE*IMG_NUM);
+
 
   return new_space;
 }
@@ -83,55 +80,21 @@ STATUS space_destroy(Space* space) {
   return OK;
 }
 
-STATUS space_set_image_up(Space* space, char* image_up){
-  if (image_up == NULL || space == NULL){
+STATUS space_set_image(Space* space, char* image, int pos){
+  if (image == NULL || space == NULL || pos > IMG_NUM-1){
     return ERROR;
   }
-  if (!strncpy(space->image_up, image_up, IMG_SIZE-1)){
-    return ERROR;
-  }
-  return OK;
-}
-
-STATUS space_set_image_mid(Space* space, char* image_mid){
-  if (image_mid == NULL || space == NULL){
-    return ERROR;
-  }
-  if (!strncpy(space->image_mid, image_mid, IMG_SIZE-1)){
+  if (!strncpy(space->image[pos], image, IMG_SIZE-1)){
     return ERROR;
   }
   return OK;
 }
 
-STATUS space_set_image_down(Space* space, char* image_down){
-  if (image_down == NULL || space == NULL){
-    return ERROR;
-  }
-  if (!strncpy(space->image_down, image_down, IMG_SIZE-1)){
-    return ERROR;
-  }
-  return OK;
-}
-
-const char* space_get_image_up(Space* space){
-  if (space == NULL){
+const char* space_get_image(Space* space, int pos){
+  if (space == NULL || pos > IMG_NUM-1){
     return NULL;
   }
-  return space->image_up;
-}
-
-const char* space_get_image_mid(Space* space){
-  if (space == NULL){
-    return NULL;
-  }
-  return space->image_mid;
-}
-
-const char* space_get_image_down(Space* space){
-  if (space == NULL){
-    return NULL;
-  }
-  return space->image_down;
+  return space->image[pos];
 }
 
 STATUS space_set_name(Space* space, char* name) {

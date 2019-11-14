@@ -483,7 +483,7 @@ STATUS game_callback_take(Game* game){
     return ERROR;
   }
 
-  if(player_get_object(game_get_player(game)) != NO_ID) {
+  if(player_inventory_get_max(game_get_player(game)) == player_get_number_objects(game_get_player(game))) {
     return ERROR;
   }
 
@@ -497,7 +497,7 @@ STATUS game_callback_take(Game* game){
     }
 
     if(strcmp(object_get_name(obj), name) == 0) {
-      player_set_object(game_get_player(game), obj_id);
+      player_add_object(game_get_player(game), obj_id);
       space_delete_object(space_act, obj_id);
       return OK;
     }
@@ -510,6 +510,11 @@ STATUS game_callback_drop(Game* game){
 
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
+  char name[WORD_SIZE + 1];
+
+  if(scanf("%s", name) < 1) {
+    return ERROR;
+  }
 
   /*We obtain the id of the space where the player is*/
   space_id = player_get_location(game_get_player(game));
@@ -518,13 +523,19 @@ STATUS game_callback_drop(Game* game){
   obj_id = player_get_object(game_get_player(game));
   if(obj_id == NO_ID) return ERROR;
 
-  /*We set the object in the space*/
-  space_add_object(game_get_space(game, space_id), obj_id);
+  while((obj_id = player_get_object(space_act, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
+      return ERROR;
+    }
 
-  /*We remove the object from the player*/
-  player_set_object(game_get_player(game), NO_ID);
-
-  return OK;
+    if(strcmp(object_get_name(obj), name) == 0) {
+      player_delete_object(game_get_player(game), obj_id);
+      space_add_object(space_act, obj_id);
+      return OK;
+    }
+  }
+  return ERROR;
 }
 
 STATUS game_callback_roll(Game* game) {

@@ -59,7 +59,7 @@ int main(int argc, char *argv[]){
      status = game_update(game, command);
 
      if (log_flag==1) {
-       for (i=-1; i<9; i++) {
+       for (i = -1; i < N_CMD; i++) {
          if (i == command) {
            if (status == OK){
              fprintf(logfile, "%s: OK\n", cmd_to_str[i-NO_CMD]);
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
          }
        }
      }
-		}
+	}
 
   game_destroy(game);
 	graphic_engine_destroy(gengine);

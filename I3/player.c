@@ -84,6 +84,24 @@ int player_inventory_get_max(Player* player) {
   return inventory_get_max(player->objects);
 }
 
+int player_get_number_objects(Player* player) {
+  if (player == NULL) {
+    return PARAM_ERROR;
+  }
+
+  return inventory_get_number_objects(player->objects);
+}
+
+Id player_get_object(Player* player, int index){
+  if  (player == NULL || index == NO_PARAM){
+    return NO_ID;
+  }
+  if (inventory_has_object(Inventory* inventory, Id id) == FALSE){
+    return NO_ID;
+  }
+  return inventory_get_id_at(player->inventory, index);
+}
+
 STATUS player_set_name(Player* player, char* name) {
   if (!player || !name) {
     return ERROR;

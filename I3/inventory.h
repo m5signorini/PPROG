@@ -108,7 +108,7 @@ STATUS inventory_delete_id(Inventory* inventory, Id id);
 * @param inventory the inventory's whose id location will be returned
 * @return the id´s ocation of the given inventory
 */
-Id inventory_get_id(Inventory* inventory, int index);
+Id inventory_get_id_at(Inventory* inventory, int index);
 
 /**
 * @brief Gets the id of the object that is picked by the inventory

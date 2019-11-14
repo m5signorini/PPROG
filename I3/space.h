@@ -308,33 +308,7 @@ STATUS space_delete_object(Space* space, Id value);
 * @param image_up the string that will be setted in the upper part of the space
 * @return the status of the function, for error management
 */
-STATUS space_set_image_up(Space* space, char* image_up);
-
-/**
-* @brief Sets the middle string in a space to build an image in it
-*
-* space_set_image_mid Sets a part of the image that will be showed during the game in a certain space
-* @date 19/09/2019
-* @author: César Ramírez
-*
-* @param space that will have its middle string setted
-* @param image_mid the string that will be setted in the middle part of the space
-* @return the status of the function, for error management
-*/
-STATUS space_set_image_mid(Space* space, char* image_mid);
-
-/**
-* @brief Sets the bottom string in a space to build an image in it
-*
-* space_set_image_down Sets a part of the image that will be showed during the game in a certain space
-* @date 19/09/2019
-* @author: César Ramírez
-*
-* @param space that will have its bottom string setted
-* @param image_down the string that will be setted in the low part of the space
-* @return the status of the function, for error management
-*/
-STATUS space_set_image_down(Space* space, char* image_down);
+STATUS space_set_image(Space* space, char* image_up, int pos);
 
 /**
 * @brief Gets the upper string of the image from a space
@@ -346,30 +320,6 @@ STATUS space_set_image_down(Space* space, char* image_down);
 * @param space that will have its upper string getted
 * @return the string that defines the upper part of the image of the space
 */
-const char* space_get_image_up(Space* space);
-
-/**
-* @brief Gets the middle string of the image from a space
-*
-* space_get_image_mid Gets a part of the image from a certain space
-* @date 19/09/2019
-* @author: César Ramírez
-*
-* @param space that will have its middle string getted
-* @return the string that defines the middle part of the image of the space
-*/
-const char* space_get_image_mid(Space*space);
-
-/**
-* @brief Gets the bottom string of the image from a space
-*
-* space_get_image_down Gets a part of the image from a certain space
-* @date 19/09/2019
-* @author: César Ramírez
-*
-* @param space that will have its bottom string getted
-* @return the string that defines the bottom of the image of the space
-*/
-const char* space_get_image_down(Space*space);
+const char* space_get_image(Space* space, int pos);
 
 #endif

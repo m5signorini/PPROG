@@ -152,5 +152,6 @@ const char* player_get_name(Player* player);
 * @return the status of the function, for error management
 */
 STATUS player_print(Player* player);
+Id player_get_object(Player* player, ID idObject);
 
 #endif
