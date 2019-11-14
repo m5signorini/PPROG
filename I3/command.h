@@ -11,8 +11,6 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#define N_CMD 11
-
 typedef enum enum_Command {
   NO_CMD = -1,
   UNKNOWN,
