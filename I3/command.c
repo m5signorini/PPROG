@@ -19,7 +19,7 @@ char* cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Next", "Back", "Rig
 char* short_cmd_to_str[N_CMD] = {"","","e","n","b", "r", "l", "t","d", "rl", "i"};
 
 
-T_Command get_user_input() {
+T_Command command_get_user_input() {
   T_Command cmd = NO_CMD;
   char input[CMD_LENGHT] = "";
   int i = UNKNOWN - NO_CMD + 1;
