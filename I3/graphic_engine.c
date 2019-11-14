@@ -15,6 +15,8 @@
 #include "graphic_engine.h"
 
 #define MAX_LINE 11
+/* Max length of the str temporal variable*/
+#define STR_LEN 255
 
 struct _Graphic_engine{
   Area *map, *descript, *banner, *help, *feedback;
@@ -103,9 +105,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Space* space_back = NULL;
   Space* space_next = NULL;
   char obj[MAX_LINE+1];
-  char str[255];
+  char str[STR_LEN];
   T_Command last_cmd = UNKNOWN;
   extern char *cmd_to_str[];
+  int i;
 
 
   /* Paint the in the map area */
@@ -125,12 +128,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       }
       graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "        |  %s  |", space_get_image_up(space_back));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_mid(space_back));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_down(space_back));
-      screen_area_puts(ge->map, str);
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_back, i));
+        screen_area_puts(ge->map, str);
+      }
       /* Objects */
       sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
@@ -146,12 +147,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       }
       graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "        |  %s  |", space_get_image_up(space_act));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_mid(space_act));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_down(space_act));
-      screen_area_puts(ge->map, str);
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_act, i));
+        screen_area_puts(ge->map, str);
+      }
       /* Objects */
       sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
@@ -167,12 +166,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
       graphic_engine_paint_top_links(ge, space_next, id_act);
       /* Space Image */
-      sprintf(str, "        |  %s  |", space_get_image_up(space_next));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_mid(space_next));
-      screen_area_puts(ge->map, str);
-      sprintf(str, "        |  %s  |", space_get_image_down(space_next));
-      screen_area_puts(ge->map, str);
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_next, i));
+        screen_area_puts(ge->map, str);
+      }
       /* Objects */
       sprintf(str, "        |%s|",obj);
       screen_area_puts(ge->map, str);
@@ -216,7 +213,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   Id obj_id = NO_ID;
   Id obj_loc = NO_ID;
-  char str[255];
+  char str[STR_LEN];
   int i = 0;
 
   /* Clear description area and start list of items*/
@@ -263,8 +260,8 @@ STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space, Id id_ac
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Id space_id = NO_ID;
-  char str[255];
-  memset(str, 0, 255);
+  char str[STR_LEN];
+  memset(str, 0, STR_LEN);
 
   /* PRINT - LINK */
   if((link_id = space_get_west(space)) != NO_ID) {
@@ -277,7 +274,7 @@ STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space, Id id_ac
   screen_area_puts(ge->map, str);
 
   /* PRINT ARROWS - SPACE */
-  memset(str, 0 ,255);
+  memset(str, 0 , STR_LEN);
   if((space_id = link_get_to(space_get_west(space), space_get_id(space))) != NO_ID) {
     strcat(str, "%2d <-- ", (int)link_id);
   }
