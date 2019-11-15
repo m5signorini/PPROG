@@ -11,7 +11,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#define N_CMD
+#define N_CMD 12
 
 typedef enum enum_Command {
   NO_CMD = -1,
@@ -21,6 +21,7 @@ typedef enum enum_Command {
   BACK,
   RIGHT,
   LEFT,
+  MOVE,
   TAKE,
   DROP,
   ROLL,

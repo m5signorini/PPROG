@@ -16,7 +16,7 @@
 #include <string.h>
 #include "game.h"
 
-#define N_CALLBACK 10
+#define N_CALLBACK 11
 #define MAX_OBJECTS 50
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
@@ -45,6 +45,7 @@ STATUS game_callback_next(Game* game);
 STATUS game_callback_back(Game* game);
 STATUS game_callback_right(Game* game);
 STATUS game_callback_left(Game* game);
+STATUS game_callback_move(Game* game);
 STATUS game_callback_take(Game* game);
 STATUS game_callback_drop(Game* game);
 STATUS game_callback_roll(Game* game);
@@ -57,6 +58,7 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_back,
   game_callback_right,
   game_callback_left,
+  game_callback_move,
   game_callback_take,
   game_callback_drop,
   game_callback_roll,
@@ -372,102 +374,59 @@ STATUS game_callback_exit(Game* game) {
 }
 
 STATUS game_callback_next(Game* game) {
-  if(game == NULL) return ERROR;
-  int i = 0;
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = player_get_location(game_get_player(game));
-  if (space_id == NO_ID) {
+  if(game == NULL) {
     return ERROR;
   }
 
-  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
-    current_id = space_get_id(game->spaces[i]);
-    if (current_id == space_id) {
-      current_id = link_get_to(game_get_link(game, space_get_south(game->spaces[i])), current_id);
-      if (current_id != NO_ID) {
-        player_set_location(game->player, current_id);
-        return OK;
-      }
-      return ERROR;
-    }
-  }
-  return ERROR;
+  return player_set_location(game->player, link_get_to(space_get_south(game_get_space(game, player_get_location(game->player)))));
 }
 
 STATUS game_callback_back(Game* game) {
-  if(game == NULL) return ERROR;
-  int i = 0;
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = player_get_location(game_get_player(game));
-
-  if (NO_ID == space_id) {
+  if(game == NULL) {
     return ERROR;
   }
 
-  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
-    current_id = space_get_id(game->spaces[i]);
-    if (current_id == space_id) {
-      current_id = link_get_to(game_get_link(game, space_get_north(game->spaces[i])), current_id);
-      if (current_id != NO_ID) {
-        player_set_location(game->player, current_id);
-        return OK;
-      }
-      return ERROR;
-    }
-  }
-  return ERROR;
+  return player_set_location(game->player, link_get_to(space_get_north(game_get_space(game, player_get_location(game->player)))));
 }
 
 STATUS game_callback_right(Game* game){
-  if(game == NULL) return ERROR;
-  int i = 0;
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = player_get_location(game_get_player(game));
-  if (space_id == NO_ID) {
+  if(game == NULL) {
     return ERROR;
   }
 
-  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
-    current_id = space_get_id(game->spaces[i]);
-    if (current_id == space_id) {
-      current_id = link_get_to(game_get_link(game, space_get_east(game->spaces[i])), current_id);
-      if (current_id != NO_ID) {
-        player_set_location(game->player, current_id);
-        return OK;
-      }
-      return ERROR;
-    }
-  }
-  return ERROR;
+  return player_set_location(game->player, link_get_to(space_get_east(game_get_space(game, player_get_location(game->player)))));
 }
 
 STATUS game_callback_left(Game* game){
-  if(game == NULL) return ERROR;
-  int i = 0;
-  Id current_id = NO_ID;
-  Id space_id = NO_ID;
-
-  space_id = player_get_location(game_get_player(game));
-  if (space_id == NO_ID) {
+  if(game == NULL) {
     return ERROR;
   }
 
-  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
-    current_id = space_get_id(game->spaces[i]);
-    if (current_id == space_id) {
-      current_id = link_get_to(game_get_link(game, space_get_west(game->spaces[i])), current_id);
-      if (current_id != NO_ID) {
-        player_set_location(game->player, current_id);
-        return OK;
-      }
-      return ERROR;
-    }
+  return player_set_location(game->player, link_get_to(space_get_west(game_get_space(game, player_get_location(game->player)))));
+}
+
+STATUS game_callback_move(Game* game) {
+  char direction[WORD_SIZE + 1];
+
+  if (!game) {
+    return ERROR;
+  }
+
+  if(scanf("%s", direction) < 1) {
+    return ERROR;
+  }
+
+  if (strcmp(direction, "north") == 0 || strcmp(direction, "n") == 0) {
+    return game_callback_back(game);
+  }
+  else if (strcmp(direction, "south") == 0 || strcmp(direction, "s") == 0) {
+    return game_callback_next;
+  }
+  else if (strcmp(direction, "east") == 0 || strcmp(direction, "e") == 0) {
+    return game_callback_right;
+  }
+  else if (strcmp(direction, "west") == 0 || strcmp(direction, "w") == 0) {
+    return game_callback_left;
   }
   return ERROR;
 }
