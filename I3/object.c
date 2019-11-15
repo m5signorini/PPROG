@@ -11,12 +11,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "types.h"
 #include "object.h"
 
 struct _Object {
   Id id;
   char name[WORD_SIZE + 1];
-  char description[MAX_DESC + 1]
+  char description[MAX_DESC + 1];
 };
 
 Object* object_create(Id id) {

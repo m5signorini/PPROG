@@ -1,44 +1,48 @@
+/**
+ * @brief Test for die module
+ *
+ * @file die_test.c
+ * @author Martin Sanchez Signorini
+ * @version 3.0
+ * @date 08-10-2019
+ * @copyright GNU Public License
+ */
+
 #include <stdio.h>
+#include <stdlib.h>
 #include "die.h"
 
-int main() {
-  Die *dado = NULL;
-
-  printf("Creando dado 1-6:\n");
-  dado = die_create(01, 1, 6);
-
-  if(!dado) {
-    printf("Error al crear el dado.");
-    return -1;
+int main(int argc, char *argv[]) {
+  if (argc < 3) {
+    fprintf(stderr, "Use: %s <min> <max>\n", argv[0]);
+    return 1;
   }
-  die_print(dado);
 
-  printf("Tirando dado 1-6: %d\n", die_roll(dado));
-  die_print(dado);
+  Die* die = NULL;
+  int min = atoi(argv[1]);
+  int max = atoi(argv[2]);
 
-  printf("Tirando dado 1-6: %d\n", die_roll(dado));
-  die_print(dado);
-
-  printf("Destruyendo dado 1-6:\n");
-  die_destroy(dado);
-
-  printf("Creando dado 18-20:\n");
-  dado = die_create(01, 18, 20);
-
-  if(!dado) {
-    printf("Error al crear el dado.");
-    return -1;
+  die = die_create(1, min, max);
+  if (die == NULL) {
+    fprintf(stderr, "Error creating die\n");
+    return 1;
   }
-  die_print(dado);
 
-  printf("Tirando dado 18-20: %d\n", die_roll(dado));
-  die_print(dado);
+  die_roll(die);
+  if(die_print(die) == ERROR) {
+    fprintf(stderr, "Error printing die\n");
+    die_destroy(die);
+    return 1;
+  }
+  
+  die_roll(die);
+  if(die_print(die) == ERROR) {
+    fprintf(stderr, "Error printing die\n");
+    die_destroy(die);
+    return 1;
+  }
+  
+  die_destroy(die);
 
-  printf("Tirando dado 18-20: %d\n", die_roll(dado));
-  die_print(dado);
-
-  printf("Destruyendo dado 18-20:\n");
-  die_destroy(dado);
-
-  return 1;
+  return 0;
 }

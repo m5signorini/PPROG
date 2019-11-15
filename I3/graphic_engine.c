@@ -99,7 +99,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Id id_act = NO_ID;
   Id id_back = NO_ID;
   Id id_next = NO_ID;
-  Id link_id = NO_ID;
 
   Space* space_act = NULL;
   Space* space_back = NULL;
@@ -126,7 +125,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_back, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(game, ge, space_next, id_act);
+      graphic_engine_paint_top_links(game, ge, space_back, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_back, i));
@@ -145,7 +144,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_act, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(game, ge, space_next, id_act);
+      graphic_engine_paint_top_links(game, ge, space_act, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_act, i));
@@ -186,7 +185,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    next or n, back or b, roll or r, take or t, drop or d, right or r, left or l, exit or e");
+  sprintf(str, "    next or n, back or b, roll or rl, take or t, drop or d, right or r, left or l, exit or e, inspect or i");
   screen_area_puts(ge->help, str);
 
   /* Paint the in the feedback area */
@@ -243,7 +242,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
 
   i = 0;
-  while((obj_id = player_get_object(game_get_player(game), i++)) != NO_ID) {
+  while((obj_id = player_get_object_at(game_get_player(game), i++)) != NO_ID) {
     sprintf(str, "    %s", object_get_name(game_get_object(game, obj_id)));
     screen_area_puts(ge->descript, str);
   }
@@ -266,10 +265,16 @@ STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* spa
 
   /* PRINT - LINK */
   if((link_id = space_get_west(space)) != NO_ID) {
-    sprintf(temp, "%2d", (int)link_id);
+    sprintf(temp, "    %2d", (int)link_id);
     strcat(str, temp);
   }
+  else {
+    sprintf(temp, "      ");
+    strcat(str, temp);
+  }
+
   strcat(str, "  +-----------+  ");
+
   if((link_id = space_get_east(space)) != NO_ID) {
     sprintf(temp, "%2d", (int)link_id);
     strcat(str, temp);
@@ -279,7 +284,11 @@ STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* spa
   /* PRINT ARROWS - SPACE */
   memset(str, 0 , STR_LEN);
   if((space_id = link_get_to(game_get_link(game, space_get_west(space)), space_get_id(space))) != NO_ID) {
-    sprintf(temp, "%2d <--", (int)link_id);
+    sprintf(temp, " %2d <--", (int)space_id);
+    strcat(str, temp);
+  }
+  else {
+    sprintf(temp, "       ");
     strcat(str, temp);
   }
 
@@ -294,7 +303,7 @@ STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* spa
   }
 
   if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
-    sprintf(temp, " --> %2d", (int)link_id);
+    sprintf(temp, " --> %2d", (int)space_id);
     strcat(str, temp);
   }
 

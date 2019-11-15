@@ -15,7 +15,7 @@
 #define NO_ID -1
 #define IMG_SIZE 8
 #define IMG_NUM 3
-#define MAX_DESC 1024
+#define MAX_DESC 64
 
 typedef long Id;
 

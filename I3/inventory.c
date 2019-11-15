@@ -25,7 +25,7 @@ Inventory* inventory_create() {
   Inventory* new_inventory = NULL;
   Set* ids = NULL;
 
-  new_inventory = (Inventory *) malloc(sizeof (Inventory));
+  new_inventory = (Inventory*) malloc(sizeof(Inventory));
   if (new_inventory == NULL) {
     return NULL;
   }
@@ -33,6 +33,7 @@ Inventory* inventory_create() {
   ids = set_create();
 
   if (ids == NULL){
+    free(new_inventory);
     return NULL;
   }
 
@@ -46,9 +47,8 @@ STATUS inventory_destroy(Inventory* inventory) {
   if (!inventory) {
     return ERROR;
   }
-
+  set_destroy(inventory->ids);
   free(inventory);
-  inventory = NULL;
 
   return OK;
 }
@@ -57,11 +57,12 @@ BOOL inventory_has_object(Inventory* inventory, Id id){
   if (inventory == NULL || id <= NO_ID){
     return TRUE;
   }
-   if (set_has_id (inventory->ids, id) > -1){
-     return TRUE;
-   }
-
-  return FALSE;
+  int res = 0;
+  res = set_has_id (inventory->ids, id);
+  if ( res == UNABLE || res == ABLE_TO_ADD){
+   return FALSE;
+  }
+  return TRUE;
 }
 
 STATUS inventory_add_id(Inventory* inventory, Id id) {
@@ -80,7 +81,7 @@ STATUS inventory_add_id(Inventory* inventory, Id id) {
 
 int inventory_get_max(Inventory* inventory) {
   if (!inventory) {
-    return PARAM_ERROR;
+    return ERROR;
   }
 
   return inventory->max_inventory;
@@ -98,7 +99,7 @@ STATUS inventory_set_max(Inventory* inventory, int max) {
 
 int inventory_get_number_objects(Inventory* inventory) {
   if (!inventory) {
-    return PARAM_ERROR;
+    return ERROR;
   }
 
   return set_get_n_elements(inventory->ids);

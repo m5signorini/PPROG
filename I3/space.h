@@ -308,7 +308,7 @@ STATUS space_delete_object(Space* space, Id value);
 * @param image_up the string that will be setted in the upper part of the space
 * @return the status of the function, for error management
 */
-STATUS space_set_image(Space* space, char* image_up, int pos);
+STATUS space_set_image(Space* space, char* image, int pos);
 
 /**
 * @brief Gets the upper string of the image from a space
