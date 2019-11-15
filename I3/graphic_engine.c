@@ -53,9 +53,9 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 * @param obj_str string of min size MAX_LINE that will store the objects names
 * @return the status of the function for error management
 */
-STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str);
+STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
 
-STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space);
+STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* space, Id id_act);
 
 STATUS graphic_engine_get_dest(char* str, Space* space_next, Id id_act);
 /**
@@ -126,7 +126,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_back, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(ge, space_next, id_act);
+      graphic_engine_paint_top_links(game, ge, space_next, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_back, i));
@@ -145,7 +145,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_act, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(ge, space_next, id_act);
+      graphic_engine_paint_top_links(game, ge, space_next, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_act, i));
@@ -164,7 +164,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       }
       sprintf(str, "        v");
       screen_area_puts(ge->map, str);
-      graphic_engine_paint_top_links(ge, space_next, id_act);
+      graphic_engine_paint_top_links(game, ge, space_next, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_next, i));
@@ -256,39 +256,46 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
 }
 
-STATUS graphic_engine_paint_top_links(Graphic_engine* ge, Space* space, Id id_act)  {
+STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* space, Id id_act)  {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Id space_id = NO_ID;
   char str[STR_LEN];
+  char temp[STR_LEN];
   memset(str, 0, STR_LEN);
 
   /* PRINT - LINK */
   if((link_id = space_get_west(space)) != NO_ID) {
-    strcat(str, "%2d", (int)link_id);
+    sprintf(temp, "%2d", (int)link_id);
+    strcat(str, temp);
   }
   strcat(str, "  +-----------+  ");
   if((link_id = space_get_east(space)) != NO_ID) {
-    strcat(str, "%2d", (int)link_id);
+    sprintf(temp, "%2d", (int)link_id);
+    strcat(str, temp);
   }
   screen_area_puts(ge->map, str);
 
   /* PRINT ARROWS - SPACE */
   memset(str, 0 , STR_LEN);
-  if((space_id = link_get_to(space_get_west(space), space_get_id(space))) != NO_ID) {
-    strcat(str, "%2d <-- ", (int)link_id);
+  if((space_id = link_get_to(game_get_link(game, space_get_west(space)), space_get_id(space))) != NO_ID) {
+    sprintf(temp, "%2d <--", (int)link_id);
+    strcat(str, temp);
   }
 
   /* Print space depending if the player is in there */
   if(space_get_id(space) == id_act) {
-    strcat(str, " |8D       %2d|",(int) space_get_id(space));
+    sprintf(temp, " |8D       %2d|",(int) space_get_id(space));
+    strcat(str, temp);
   }
   else {
-    strcat(str, " |         %2d|",(int) space_get_id(space));
+    sprintf(temp, " |         %2d|",(int) space_get_id(space));
+    strcat(str, temp);
   }
 
-  if((space_id = link_get_to(space_get_east(space), space_get_id(space))) != NO_ID) {
-    strcat(str, " --> %2d", (int)link_id);
+  if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
+    sprintf(temp, " --> %2d", (int)link_id);
+    strcat(str, temp);
   }
 
   screen_area_puts(ge->map, str);
