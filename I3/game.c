@@ -106,6 +106,9 @@ STATUS game_destroy(Game* game) {
     object_destroy(game->objects[i]);
   }
 
+  for (i = 0; (i < MAX_LINKS) && (game->links[i] != NULL); i++) {
+    link_destroy(game->links[i]);
+  }
   player_destroy(game->player);
   die_destroy(game->die);
   free(game);
@@ -508,9 +511,12 @@ STATUS game_callback_take(Game* game){
 STATUS game_callback_drop(Game* game){
   if(game == NULL) return ERROR;
 
+  Object *obj = NULL;
+  Space* space_act = NULL;
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
   char name[WORD_SIZE + 1];
+  int i;
 
   if(scanf("%s", name) < 1) {
     return ERROR;
@@ -518,12 +524,9 @@ STATUS game_callback_drop(Game* game){
 
   /*We obtain the id of the space where the player is*/
   space_id = player_get_location(game_get_player(game));
+  space_act = game_get_space(game, space_id);
 
-  /*We obtain the id of the object*/
-  obj_id = player_get_object(game_get_player(game));
-  if(obj_id == NO_ID) return ERROR;
-
-  while((obj_id = player_get_object(space_act, i++)) != NO_ID) {
+  while((obj_id = player_get_object_at(game_get_player(game), i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if(obj == NULL) {
       return ERROR;
@@ -551,7 +554,7 @@ STATUS game_callback_inspect(Game* game){
   Space* space_act = NULL;
   Object* obj = NULL;
   char name[WORD_SIZE + 1];
-  int i = 0, max_inv;
+  int i = 0;
 
   /* Scan the next string to get the name of the object, if none return ERROR*/
   if(scanf("%s", name) < 1) {
@@ -565,7 +568,7 @@ STATUS game_callback_inspect(Game* game){
     }
   }
   else {
-    while((obj_id = player_get_object(game_get_player(game), i++)) != NO_ID) {
+    while((obj_id = player_get_object_at(game_get_player(game), i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
        if (strcmp(object_get_name(obj), name) == 0){
          if(strcpy(game->description, object_get_description(obj)) == 0){
