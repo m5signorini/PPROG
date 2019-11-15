@@ -1,0 +1,47 @@
+CC=gcc
+CFLAGS= -g -Wall -pedantic -ansi -std=c99
+
+CDIR = ../src
+IDIR =../include
+ODIR=obj
+
+# Definimos las dependencias
+######################################
+MODS = command die game game_reader graphic_engine screen space player object set
+
+# Definimos las dependencias
+######################################
+D_COMMAND 		= types.h command.h
+D_DIE 				= types.h die.h
+D_LINK 				= types.h link.h
+D_OBJECT 			= types.h object.h
+D_SCREEN 			= types.h screen.h
+D_SET 				= types.h set.h
+
+D_SPACE 			= $(D_SET) space.h
+D_INVENTORY		= $(D_SET) inventory.h
+D_PLAYER 			= $(D_INVENTORY) player.h
+
+D_GAME 				= types.h command.h die.h game.h space.h player.h object.h set.h
+D_GAME_LOOP 	= types.h $(patsubst %, %.h, MODS)
+D_GAME_READER = $(D_GAME) game_reader.h
+D_GRAPH 			= $(D_GAME) graphic_engine.h screen.h
+
+
+# Usamos [patsubst pattern, replacement, text]
+# para añadir la dirección de los archivos
+######################################
+SRCS = $(patsubst %, $(IDIR)/%.c, $(MODS) game_loop)
+OBJS = $(patsubst %, $(ODIR)/%.o, $(MODS) game_loop)
+
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+hellomake: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o *~ core $(IDIR)/*~
