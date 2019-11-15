@@ -136,9 +136,10 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space* space = NULL;
   STATUS status = OK;
-  char img_up[IMG_SIZE] = "";
-  char img_mid[IMG_SIZE] = "";
-  char img_down[IMG_SIZE] = "";
+  char img[IMG_NUM][IMG_SIZE];
+  int i = 0;
+
+  memset(img, 0, IMG_NUM*IMG_SIZE);
 
   if (!filename) {
     return ERROR;
@@ -163,14 +164,16 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
       south = atol(toks);
       toks = strtok(NULL, "|");
       west = atol(toks);
-      toks = strtok(NULL, "|");
-      strncpy(img_up, toks, IMG_SIZE-1);
-      toks = strtok(NULL, "|");
-      strncpy(img_mid, toks, IMG_SIZE-1);
-      toks = strtok(NULL, "|");
-      strncpy(img_down, toks, IMG_SIZE-1);
+      for(i = 0; i < IMG_NUM; i++) {
+        toks = strtok(NULL, "|");
+        strncpy(img[i], toks, IMG_SIZE-1);
+      }
       #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s|%s|%s\n", id, name, north, east, south, west, img_up, img_mid, img_down);
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|", id, name, north, east, south, west);
+      for(i = 0; i < IMG_NUM; i++) {
+        printf("%s|", img[i]);
+      }
+      printf("\n");
       #endif
       space = space_create(id);
       if (space != NULL) {
@@ -179,9 +182,9 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         space_set_east(space, east);
         space_set_south(space, south);
         space_set_west(space, west);
-        space_set_image_up(space, img_up);
-        space_set_image_mid(space, img_mid);
-        space_set_image_down(space, img_down);
+        for(i=0; i < IMG_NUM; i++) {
+          space_set_image(space, img[i], i);
+        }
         game_add_space(game, space);
       }
     }
@@ -290,7 +293,7 @@ STATUS game_reader_load_players(Game* game, char* filename) {
           player_destroy(player);
           return ERROR;
         }
-        if(player_set_inventory_max(player, inv_max) == ERROR) {
+        if(player_inventory_set_max(player, inv_max) == ERROR) {
           player_destroy(player);
           return ERROR;
         }

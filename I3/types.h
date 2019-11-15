@@ -14,6 +14,8 @@
 #define WORD_SIZE 1000
 #define NO_ID -1
 #define IMG_SIZE 8
+#define IMG_NUM 3
+#define MAX_DESC 1024
 
 typedef long Id;
 
