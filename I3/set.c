@@ -15,6 +15,8 @@
 #include "set.h"
 
 #define MAX_N_ELEMENTS 51
+#define ABLE_TO_ADD -1
+#define UNABLE -2
 
 struct _Set {
   Id id_array[MAX_N_ELEMENTS];
@@ -60,12 +62,8 @@ STATUS set_add_id(Set* set, Id id) {
   }
 
   i = set_has_id(set, id);
-  if(i == -2){
+  if(i != ABLE_TO_ADD){
     return ERROR;
-  }
-
-  if(i > -1){
-    return OK;
   }
 
   set->id_array[set->n_elements] = id;
@@ -78,7 +76,7 @@ STATUS set_add_id(Set* set, Id id) {
 int set_has_id (Set* set, Id id){
   int i;
   if (set == NULL || id == NO_ID){
-    return -2;
+    return UNABLE_TO_ADD;
   }
 
   for (i = 0; i < set->n_elements; i++){
@@ -86,20 +84,20 @@ int set_has_id (Set* set, Id id){
       return i;
     }
   }
-  return -1;
+  return ABLE_TO_ADD;
 }
 
 
 STATUS set_delete_id(Set* set, Id id) {
   int i;
 
-  if (set == NULL || id < 0) {
+  if (set == NULL || id == NO_ID) {
     return ERROR;
   }
 
   i = set_has_id(set, id);
-  if(i == -2){
-    return OK;
+  if(i == ABLE_TO_ADD) {
+    return ERROR;
   }
 
   set->id_array[i] = set->id_array[set->n_elements-1];
@@ -119,7 +117,7 @@ Id set_get_id_at(Set* set, int index){
 
 int set_get_n_elements(Set* set){
   if (set == NULL){
-    return -1;
+    return UNABLE;
   }
 
   return set->n_elements;
