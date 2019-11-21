@@ -255,6 +255,10 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   /* Print the last die */
   sprintf(str, "  Last die value: %d", die_get_last(game_get_die(game)));
   screen_area_puts(ge->descript, str);
+
+  /* Print description */
+  sprintf(str, "  Descriptions:\n %s", game_get_description(game));
+  screen_area_puts(ge->descript, str);
 }
 
 STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* space, Id id_act)  {
