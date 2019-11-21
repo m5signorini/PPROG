@@ -132,6 +132,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
+  char desc[MAX_DESC] = "";
   char* toks = NULL;
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space* space = NULL;
@@ -168,8 +169,11 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         toks = strtok(NULL, "|");
         strncpy(img[i], toks, IMG_SIZE-1);
       }
+      toks = strtok(NULL, "|");
+      strcpy(desc, toks);
+
       #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|", id, name, north, east, south, west);
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s|", id, name, north, east, south, west, desc);
       for(i = 0; i < IMG_NUM; i++) {
         printf("%s|", img[i]);
       }
@@ -185,6 +189,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         for(i=0; i < IMG_NUM; i++) {
           space_set_image(space, img[i], i);
         }
+        space_set_description(space, desc);
         game_add_space(game, space);
       }
     }
@@ -204,6 +209,7 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
+  char desc[WORD_SIZE] = "";
   char* toks = NULL;
   STATUS status = OK;
   Id id = NO_ID;
@@ -227,12 +233,18 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
       strcpy(name, toks);
       toks = strtok(NULL, "|");
       pos_ini = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(desc, toks);
       #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld\n", id, name, pos_ini);
+      printf("Leido: %ld|%s|%ld|%s\n", id, name, pos_ini, desc);
       #endif
       obj = object_create(id);
       if (obj != NULL) {
-        if(object_set_name(obj, name) == ERROR) {
+        if (object_set_name(obj, name) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_description(obj, desc) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }
