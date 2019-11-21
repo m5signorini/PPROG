@@ -187,6 +187,12 @@ Player* game_get_player(Game* game) {
   return game->player;
 }
 
+char* game_get_description(Game*game) {
+  if (game == NULL) return NULL;
+
+  return game->description;
+}
+
 /**
 Object Management
 */
@@ -248,7 +254,7 @@ Id game_get_object_location(Game* game, Id obj) {
 
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
     j = 0;
-    while((idaux = space_get_object(game->spaces[i], j++)) != NO_ID) {
+    while((idaux = space_get_object_at(game->spaces[i], j++)) != NO_ID) {
       if (idaux == obj){
         return space_get_id(game->spaces[i]);
       }
@@ -381,52 +387,32 @@ STATUS game_callback_next(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
-  Id space_player = NO_ID;
-  Id link_move = NO_ID;
 
-  space_player = player_get_location(game->player);
-  link_move =  space_get_south(game_get_space(game, space_player));
-
-  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_south(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_back(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
-  Id space_player = NO_ID;
-  Id link_move = NO_ID;
 
-  space_player = player_get_location(game->player);
-  link_move =  space_get_north(game_get_space(game, space_player));
-
-  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_north(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_right(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-  Id space_player = NO_ID;
-  Id link_move = NO_ID;
 
-  space_player = player_get_location(game->player);
-  link_move =  space_get_east(game_get_space(game, space_player));
-
-  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_east(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_left(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-  Id space_player = NO_ID;
-  Id link_move = NO_ID;
 
-  space_player = player_get_location(game->player);
-  link_move =  space_get_south(game_get_space(game, space_player));
-
-  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_move(Game* game) {
@@ -476,7 +462,7 @@ STATUS game_callback_take(Game* game){
   /*We obtain the space where the player is*/
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
-  while((obj_id = space_get_object(space_act, i++)) != NO_ID) {
+  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if(obj == NULL) {
       return ERROR;
@@ -499,7 +485,7 @@ STATUS game_callback_drop(Game* game){
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
   char name[WORD_SIZE + 1];
-  int i = 0;
+  int i;
 
   if(scanf("%s", name) < 1) {
     return ERROR;
@@ -531,7 +517,9 @@ STATUS game_callback_roll(Game* game) {
 }
 
 STATUS game_callback_inspect(Game* game){
-  if(game == NULL) return ERROR;
+  if (game == NULL) {
+    return ERROR;
+  }
 
   Id obj_id = NO_ID;
   Space* space_act = NULL;
@@ -546,19 +534,25 @@ STATUS game_callback_inspect(Game* game){
 
   if(strcmp(name, "space") == 0 || strcmp(name, "s") == 0){
     space_act = game_get_space(game, player_get_location(game_get_player(game)));
-    if(strcpy( game->description, space_get_description(space_act)) == 0){
-      return OK;
-    }
+    strcpy( game->description, space_get_description(space_act));
+    return OK;
   }
   else {
-    while((obj_id = player_get_object_at(game_get_player(game), i++)) != NO_ID) {
+    while((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
        if (strcmp(object_get_name(obj), name) == 0){
-         if(strcpy(game->description, object_get_description(obj)) == 0){
-           return OK;
-         }
+         strcpy(game->description, object_get_description(obj));
+         return OK;
+       }
+     }
+     i = 0;
+     while((obj_id = space_get_object_at(game_get_space(game, player_get_location(game->player)), i++)) != NO_ID) {
+       obj = game_get_object(game, obj_id);
+       if (strcmp(object_get_name(obj), name) == 0){
+         strcpy(game->description, object_get_description(obj));
+         return OK;
        }
      }
    }
-     return ERROR;
+   return ERROR;
 }
