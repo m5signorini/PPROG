@@ -381,32 +381,52 @@ STATUS game_callback_next(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
+  Id space_player = NO_ID;
+  Id link_move = NO_ID;
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_south(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  space_player = player_get_location(game->player);
+  link_move =  space_get_south(game_get_space(game, space_player));
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
 }
 
 STATUS game_callback_back(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
+  Id space_player = NO_ID;
+  Id link_move = NO_ID;
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_north(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  space_player = player_get_location(game->player);
+  link_move =  space_get_north(game_get_space(game, space_player));
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
 }
 
 STATUS game_callback_right(Game* game){
   if(game == NULL) {
     return ERROR;
   }
+  Id space_player = NO_ID;
+  Id link_move = NO_ID;
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_east(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  space_player = player_get_location(game->player);
+  link_move =  space_get_east(game_get_space(game, space_player));
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
 }
 
 STATUS game_callback_left(Game* game){
   if(game == NULL) {
     return ERROR;
   }
+  Id space_player = NO_ID;
+  Id link_move = NO_ID;
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  space_player = player_get_location(game->player);
+  link_move =  space_get_south(game_get_space(game, space_player));
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, link_move), space_player));
 }
 
 STATUS game_callback_move(Game* game) {
@@ -479,7 +499,7 @@ STATUS game_callback_drop(Game* game){
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
   char name[WORD_SIZE + 1];
-  int i;
+  int i = 0;
 
   if(scanf("%s", name) < 1) {
     return ERROR;
