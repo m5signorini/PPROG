@@ -86,6 +86,10 @@ Game* game_create() {
     game->objects[i] = NULL;
   }
 
+  for (i = 0; i < MAX_LINKS; i++) {
+    game->links[i] = NULL;
+  }
+
   game->player = NULL;
   game->last_cmd = NO_CMD;
   game->die = NULL;
@@ -378,7 +382,7 @@ STATUS game_callback_next(Game* game) {
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(space_get_south(game_get_space(game, player_get_location(game->player)))));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_south(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_back(Game* game) {
@@ -386,7 +390,7 @@ STATUS game_callback_back(Game* game) {
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(space_get_north(game_get_space(game, player_get_location(game->player)))));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_north(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_right(Game* game){
@@ -394,7 +398,7 @@ STATUS game_callback_right(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(space_get_east(game_get_space(game, player_get_location(game->player)))));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_east(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_left(Game* game){
@@ -402,7 +406,7 @@ STATUS game_callback_left(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(space_get_west(game_get_space(game, player_get_location(game->player)))));
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_move(Game* game) {
@@ -420,13 +424,13 @@ STATUS game_callback_move(Game* game) {
     return game_callback_back(game);
   }
   else if (strcmp(direction, "south") == 0 || strcmp(direction, "s") == 0) {
-    return game_callback_next;
+    return game_callback_next(game);
   }
   else if (strcmp(direction, "east") == 0 || strcmp(direction, "e") == 0) {
-    return game_callback_right;
+    return game_callback_right(game);
   }
   else if (strcmp(direction, "west") == 0 || strcmp(direction, "w") == 0) {
-    return game_callback_left;
+    return game_callback_left(game);
   }
   return ERROR;
 }

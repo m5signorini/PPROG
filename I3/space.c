@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
 #include "space.h"
 #include "set.h"
 
@@ -247,7 +248,8 @@ Id space_get_object(Space* space, int index) {
 
 STATUS space_print(Space* space) {
   Id idaux = NO_ID;
-
+  int i;
+  
   if (!space) {
     return ERROR;
   }
@@ -287,9 +289,9 @@ STATUS space_print(Space* space) {
   if (set_print(space->objects) == ERROR){
     return ERROR;
   }
-  fprintf(stdout, "%s\n", space->image_up);
-  fprintf(stdout, "%s\n", space->image_mid);
-  fprintf(stdout, "%s\n", space->image_down);
+  for(i=0; i < IMG_NUM; i++){
+    fprintf(stdout, "%s\n", space->image[i]);
+  }
 
 
 

@@ -82,6 +82,8 @@ STATUS inventory_add_id(Inventory* inventory, Id id);
 * @param name the name that will be set to the inventory
 * @return the status of the function, for error management
 */
+int inventory_get_max(Inventory* inventory);
+
 STATUS inventory_set_max(Inventory* inventory, int max);
 
 /**
@@ -122,5 +124,6 @@ Id inventory_get_id_at(Inventory* inventory, int index);
 * @return the idObject of the given inventory
 */
 STATUS inventory_print(Inventory* inventory);
+int inventory_get_number_objects(Inventory* inventory);
 
 #endif

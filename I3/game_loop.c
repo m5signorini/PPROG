@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "graphic_engine.h"
 #include "game_reader.h"
 #include "command.h"
@@ -45,17 +46,17 @@ int main(int argc, char *argv[]){
   game=game_reader_create_from_file(argv[1]);
   if (!game) {
     fprintf(stderr, "Error while initializing game.\n");
-    if (log_flag == 1) fclose(logfile);
-    return 1;
+    fclose(logfile);
+    return EXIT_FAILURE;
   }
   if ((gengine = graphic_engine_create()) == NULL){
     fprintf(stderr, "Error while initializing graphic engine.\n"); game_destroy(game);
-    if (log_flag == 1) fclose(logfile);
-    return 1;
+    fclose(logfile);
+    return EXIT_FAILURE;
   }
 	while ( (command != EXIT) && !game_is_over(game) ){
 		 graphic_engine_paint_game(gengine, game);
-     command = get_user_input();
+     command = command_get_user_input();
      status = game_update(game, command);
 
      if (log_flag==1) {

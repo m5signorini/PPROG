@@ -14,6 +14,8 @@
 #define SET_H
 
 #include "types.h"
+#define ABLE_TO_ADD -1
+#define UNABLE -2
 
 typedef struct _Set Set;
 /**

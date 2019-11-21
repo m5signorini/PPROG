@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "types.h"
 #include "player.h"
 #include "inventory.h"
 
@@ -42,8 +43,6 @@ Player* player_create(Id id) {
     free(new_player);
     return NULL;
   }
-
-  new_player->objects = NULL;
 
   new_player->location = NO_ID;
 
@@ -85,20 +84,17 @@ int player_inventory_get_max(Player* player) {
 
 int player_get_number_objects(Player* player) {
   if (player == NULL) {
-    return PARAM_ERROR;
+    return ERROR;
   }
 
   return inventory_get_number_objects(player->objects);
 }
 
-Id player_get_object(Player* player, int index){
-  if  (player == NULL || index == NO_PARAM){
+Id player_get_object_at(Player* player, int index){
+  if  (player == NULL || index < 0){
     return NO_ID;
   }
-  if (inventory_has_object(Inventory* inventory, Id id) == FALSE){
-    return NO_ID;
-  }
-  return inventory_get_id_at(player->inventory, index);
+  return inventory_get_id_at(player->objects, index);
 }
 
 STATUS player_set_name(Player* player, char* name) {
@@ -124,7 +120,7 @@ STATUS player_set_location(Player* player, Id idLocation) {
 }
 
 STATUS player_add_object(Player* player, Id idObject) {
-  if (!player !! idObject == NO_ID) {
+  if (!player || idObject == NO_ID) {
     return ERROR;
   }
   if (inventory_has_object(player->objects, idObject)==TRUE) {
@@ -159,7 +155,7 @@ Id player_get_location(Player* player) {
   return player->location;
 }
 
-STATUS player_delete_object(Player* player, id idObject) {
+STATUS player_delete_object(Player* player, Id idObject) {
   if (!player || idObject == NO_ID) {
     return ERROR;
   }
