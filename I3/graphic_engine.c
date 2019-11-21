@@ -55,7 +55,9 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 */
 STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
 
-STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* space, Id id_act);
+STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* space, Id id_act);
+STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space);
+STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space);
 
 STATUS graphic_engine_get_dest(char* str, Space* space_next, Id id_act);
 /**
@@ -125,7 +127,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if(graphic_engine_get_object_str(game, id_back, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(game, ge, space_back, id_act);
+      graphic_engine_paint_side_links(game, ge, space_back, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_back, i));
@@ -136,15 +138,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
       sprintf(str, "        +-----------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "        ^");
-      screen_area_puts(ge->map, str);
     }
 
     if (id_act != NO_ID) {
       if(graphic_engine_get_object_str(game, id_act, obj) == ERROR) {
         return;
       }
-      graphic_engine_paint_top_links(game, ge, space_act, id_act);
+      graphic_engine_paint_top_link(game, ge, space_act);
+
+      graphic_engine_paint_side_links(game, ge, space_act, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_act, i));
@@ -155,15 +157,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
       sprintf(str, "        +-----------+");
       screen_area_puts(ge->map, str);
+
+      graphic_engine_paint_bot_link(game, ge, space_act);
     }
 
     if (id_next != NO_ID) {
       if(graphic_engine_get_object_str(game, id_next, obj) == ERROR) {
         return;
       }
-      sprintf(str, "        v");
-      screen_area_puts(ge->map, str);
-      graphic_engine_paint_top_links(game, ge, space_next, id_act);
+      graphic_engine_paint_side_links(game, ge, space_next, id_act);
       /* Space Image */
       for(i=0; i < IMG_NUM; i++) {
         sprintf(str, "        |  %s  |", space_get_image(space_next, i));
@@ -255,7 +257,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
 }
 
-STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* space, Id id_act)  {
+STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* space, Id id_act)  {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Id space_id = NO_ID;
@@ -311,6 +313,31 @@ STATUS graphic_engine_paint_top_links(Game* game, Graphic_engine* ge, Space* spa
   return OK;
 }
 
+STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space) {
+  if(space == NULL) return ERROR;
+  Id link_id = NO_ID;
+  char str[STR_LEN] = "";
+
+  if((link_id = space_get_north(space)) != NO_ID) {
+    sprintf(str, "              ^ %d", (int)link_id);
+  }
+
+  screen_area_puts(ge->map, str);
+  return OK;
+}
+
+STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space) {
+  if(space == NULL) return ERROR;
+  Id link_id = NO_ID;
+  char str[STR_LEN] = "";
+
+  if((link_id = space_get_south(space)) != NO_ID) {
+    sprintf(str, "              v %d", (int)link_id);
+  }
+
+  screen_area_puts(ge->map, str);
+  return OK;
+}
 
 STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   if(game == NULL || space_id == NO_ID || obj_str == NULL) return ERROR;
@@ -327,7 +354,7 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   if(space == NULL) return ERROR;
 
   /* While there is objects in the space and enough space in the string */
-  while ((obj_id = space_get_object(space, i++)) != NO_ID && k > 0) {
+  while ((obj_id = space_get_object_at(space, i++)) != NO_ID && k > 0) {
     /* Add a comma if there are at least 2 objects*/
     if(i > 1) {
       strcat(obj_str, ",");
