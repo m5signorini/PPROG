@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "inventory.h"
 #include "types.h"
 
@@ -32,13 +33,13 @@ int main() {
     printf("El id 1 no se encuentra en el inventory.");
   }
   else {
-      printf("El id 1 se encuentra en el inventory.");
+      printf("El id 1 se encuentra en el inventory.\n");
   }
 
-  printf("Id de la posición 1: ");
-  idaux = inventory_get_id_at(inventory, 1);
+  printf("Id de la posición 0: ");
+  idaux = inventory_get_id_at(inventory, 0);
   if (idaux==NO_ID) {
-    printf("\nError al hallar el id de la posición 1.");
+    printf("\nError al hallar el id de la posición 0.");
     return -1;
   }
   printf("%ld \n", idaux);
@@ -57,10 +58,10 @@ int main() {
 
   printf("Comprobando el id 1\n");
   if (inventory_has_object(inventory, 1)==FALSE) {
-    printf("El id 1 no se encuentra en el inventory.");
+    printf("El id 1 no se encuentra en el inventory.\n");
   }
   else {
-      printf("El id 1 se encuentra en el inventory.");
+      printf("El id 1 se encuentra en el inventory.\n");
   }
 
   printf("Imprimiendo de nuevo: \n");
