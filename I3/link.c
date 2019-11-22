@@ -13,10 +13,10 @@
 #include "link.h"
 
 struct _Link {
-  Id id;
-  char name[WORD_SIZE + 1];
-  Id spaces[2];
-  BOOL open;
+  Id id;    /*!< Id of the link*/
+  char name[WORD_SIZE + 1];   /*!< Name of the link*/
+  Id spaces[2];   /*!< Id of the spaces connected by the link*/
+  BOOL open;    /*!< Status of the link (open or closed)*/
 };
 
 Link* link_create(Id id) {
