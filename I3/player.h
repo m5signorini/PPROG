@@ -42,8 +42,31 @@ Player* player_create(Id id);
 */
 STATUS player_destroy(Player* player);
 
+/**
+* @brief Sets the maximun inventory of the player
+*
+* player_inventory_set_max sets the maximun inventory of a player previously created
+*
+* @date 15/11/2019
+* @author: Gonzalo Martín Rollán
+*
+* @param player the player that will have its id maximun inventory set
+* @param max the maximun inventory that will be set to the player
+* @return the status of the function, for error management
+*/
 STATUS player_inventory_set_max(Player* player, int max);
 
+/**
+* @brief Gets the maximun inventory of the player
+*
+* player_inventory_get_max gets the maximun inventory of a player previously created
+*
+* @date 15/11/2019
+* @author: Gonzalo Martín Rollán
+*
+* @param player the player whose maximun inventory is going to be returned
+* @return the maximun inventory of a player
+*/
 int player_inventory_get_max(Player* player);
 
 /**
@@ -54,8 +77,8 @@ int player_inventory_get_max(Player* player);
 * @date 20/09/2019
 * @author: César Ramírez Martínez
 *
-* @param player the player that will have its id location setted
-* @param idLocation the id of the location that will be setted to the player
+* @param player the player that will have its id location set
+* @param idLocation the id of the location that will be set to the player
 * @return the status of the function, for error management
 */
 STATUS player_set_location(Player* player, Id idLocation);
@@ -68,8 +91,8 @@ STATUS player_set_location(Player* player, Id idLocation);
 * @date 20/09/2019
 * @author: César Ramírez Martínez
 *
-* @param player the player that will have its id object setted
-* @param idObject the id of the object that will be setted to the player
+* @param player the player that will have its id object set
+* @param idObject the id of the object that will be set to the player
 * @return the status of the function, for error management
 */
 STATUS player_add_object(Player* player, Id idObject);
@@ -152,7 +175,32 @@ const char* player_get_name(Player* player);
 * @return the status of the function, for error management
 */
 STATUS player_print(Player* player);
+
+/**
+* @brief Returns the id of the object in the position of the inventory of a player
+*
+* player_get_object_at returns the id of the object in the position received of the inventory of a player
+*
+* @date 15/11/2019
+* @author: Gonzalo Martín Rollán
+*
+* @param player the player whose object is going to be returned
+* @param max the maximun inventory that will be set to the player
+* @return the id of the object in the position received of the inventory of a player
+*/
 Id player_get_object_at(Player* player, int index);
+
+/**
+* @brief Returns the number of objects of a player
+*
+* player_get_number_objects returns the number of objects of a player
+*
+* @date 15/11/2019
+* @author: Gonzalo Martín Rollán
+*
+* @param player the player whose number of objects is going to be returned
+* @return the number of objects of a player
+*/
 int player_get_number_objects(Player* player);
 
 #endif
