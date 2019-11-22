@@ -100,7 +100,7 @@ STATUS set_print(Set* set);
 /**
 * @brief gets the number of elements of a set
 *
-* set_get_n_elements returns the total number of elements stored in the set
+* set_get_number_elements returns the total number of elements stored in the set
 *
 * @date 10/10/2019
 * @author: César Ramírez Martínez
@@ -108,7 +108,7 @@ STATUS set_print(Set* set);
 * @param set the set we want to count its elements
 * @return the total number of elements
 */
-int set_get_n_elements(Set* set);
+int set_get_number_elements(Set* set);
 
 /**
 * @brief gets the id of an element stored in a certain position of a set

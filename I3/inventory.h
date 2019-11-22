@@ -19,12 +19,11 @@ typedef struct _Inventory Inventory;
 /**
 * @brief Creates a inventory
 *
-* inventory_create creates a new inventory with the given id
+* inventory_create creates a new inventory
 *
 * @date 20/09/2019
 * @author: César Ramírez Martínez
 *
-* @param id the id of the new inventory
 * @return the inventory created
 */
 Inventory* inventory_create();
@@ -43,87 +42,112 @@ Inventory* inventory_create();
 STATUS inventory_destroy(Inventory* inventory);
 
 /**
-* @brief Sets the location of the inventory
+* @brief Checks if an object is in the inventory
 *
-* inventory_set_location sets the location of a inventory previously created
+* inventory_has_id checks wheter an object is in the inventory
 *
-* @date 20/09/2019
+* @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory that will have its id location setted
-* @param idLocation the id of the location that will be setted to the inventory
-* @return the status of the function, for error management
+* @param inventory the inventory we check if it has the object
+* @param id the id of the object we want to check
+* @return TRUE if it has the object FALSE otherwise
 */
 BOOL inventory_has_object(Inventory* inventory, Id id);
 
 /**
-* @brief Sets the object that the inventory has picked
+* @brief adds an id in the inventory
 *
-* inventory_set_object sets the object that the inventory has picked
+* inventory_add_id adds the id of an element that will be introduced in the inventory
 *
-* @date 20/09/2019
+* @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory that will have its id object setted
-* @param idObject the id of the object that will be setted to the inventory
+* @param inventory the inventory in which the id will be introduced
+* @param id the id that will be added to the inventory
 * @return the status of the function, for error management
 */
 STATUS inventory_add_id(Inventory* inventory, Id id);
 
 /**
-* @brief Sets the name of the inventory
+* @brief gets the max number of elements of a inventory
 *
-* inventory_set_name sets the name of a inventory
+* inventory_get_max returns the total number of elements that can be stored in the inventory
 *
-* @date 20/09/2019
+* @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory that will have its set changed
-* @param name the name that will be set to the inventory
-* @return the status of the function, for error management
+* @param inventory the inventory we will return its max number of elements
+* @return the total number of elements
 */
 int inventory_get_max(Inventory* inventory);
 
+/**
+* @brief inventorys the max number of elements of a inventory
+*
+* inventory_set_max inventorys the total number of elements that can be stored in the inventory
+*
+* @date 10/10/2019
+* @author: César Ramírez Martínez
+*
+* @param inventory the inventory we will return its max number of elements
+* @param max the max number of elements the inventory will be able to put up with
+* @return the status of the function, for error management
+*/
 STATUS inventory_set_max(Inventory* inventory, int max);
 
 /**
-* @brief Gets the inventory id
+* @brief Deletes the id
 *
-* inventory_get_id returns the id of the given inventory
+* inventory_delete_id deletes the id of an element that will be eliminated from the inventory
 *
-* @date 20/09/2019
+* @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory whose id will be returned
-* @return the id of the given inventory
+* @param inventory the inventory from which the id will be deleted
+* @return the status of the function, for error management
 */
 STATUS inventory_delete_id(Inventory* inventory, Id id);
 
 /**
 * @brief Gets the inventory's location id
 *
-* inventory_get_idLocation returns the id of the location where the inventory is placed
+* inventory_get_id_at returns the id of the object located in a given index of the inventory
 *
 * @date 20/09/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory's whose id location will be returned
-* @return the id´s ocation of the given inventory
+* @param inventory the inventory's whose id in a given index will be returned
+* @param index the position of the id that will be returned
+* @return Id of the object in the given position
 */
 Id inventory_get_id_at(Inventory* inventory, int index);
 
 /**
-* @brief Gets the id of the object that is picked by the inventory
+* @brief Prints an inventory
 *
-* inventory_get_idObject returns the id of the object picked
+*inventory_print prints an inventory, the ids of its elements and the total elements in the inventory
 *
-* @date 20/09/2019
+* @date 10/10/2019
 * @author: César Ramírez Martínez
 *
-* @param inventory the inventory whose id object it will returnef
-* @return the idObject of the given inventory
+* @param inventory the inventory that will be printed
+* @return the status of the function, for error management
 */
+
 STATUS inventory_print(Inventory* inventory);
+
+/**
+* @brief gets the number of elements of an inventory
+*
+*inventory_get_number_objects returns the total number of elements stored in the inventory
+*
+* @date 10/10/2019
+* @author: César Ramírez Martínez
+*
+* @param inventory the inventory we want to count its elements
+* @return the total number of elements
+*/
 int inventory_get_number_objects(Inventory* inventory);
 
 #endif
