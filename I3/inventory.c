@@ -17,8 +17,8 @@
 
 
 struct _Inventory {
-  Set* ids;
-  int max_inventory;
+  Set* ids;   /*!< memory direction of the set of the inventory */
+  int max_inventory;   /*!<max number of elements an inventory is able to put up with */
 };
 
 Inventory* inventory_create() {
@@ -102,7 +102,7 @@ int inventory_get_number_objects(Inventory* inventory) {
     return ERROR;
   }
 
-  return set_get_n_elements(inventory->ids);
+  return set_get_number_elements(inventory->ids);
 }
 
 STATUS inventory_delete_id(Inventory* inventory, Id id) {

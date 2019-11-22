@@ -17,8 +17,8 @@
 #define MAX_N_ELEMENTS 51
 
 struct _Set {
-  Id id_array[MAX_N_ELEMENTS];
-  int n_elements;
+  Id id_array[MAX_N_ELEMENTS];  /*!< Array where the ids will be stored */
+  int n_elements; /*!< Number of ids in the array */
 };
 
 Set* set_create() {
@@ -112,7 +112,7 @@ Id set_get_id_at(Set* set, int index){
   return set->id_array[index];
 }
 
-int set_get_n_elements(Set* set){
+int set_get_number_elements(Set* set){
   if (set == NULL){
     return UNABLE;
   }
