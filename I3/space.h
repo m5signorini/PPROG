@@ -254,7 +254,7 @@ STATUS space_add_object(Space* space, Id value);
 * @param space the space whose object will be returned
 * @return the object inside the space
 */
-Id space_get_object(Space* space, int index);
+Id space_get_object_at(Space* space, int index);
 
 /**
 * @brief Prints the space

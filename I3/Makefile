@@ -60,14 +60,7 @@ die_test: die_test.o die.o
 
 die_test.o: die_test.c die.h
 	$(CC) $(CFLAGS) -c die_test.c
-	
-# DIE
-#############
-inventory_test: inventory_test.o inventory.o set.o
-	$(CC) $(CFLAGS) -o inventory_test $^
 
-inventory_test.o: inventory_test.c types.h inventory.h
-	$(CC) $(CFLAGS) -c inventory_test.c
 #######################
 # SET
 #############
@@ -90,4 +83,4 @@ run:
 
 runv:
 	@echo ">>>>>>Running the GAME"
-	valgrind --leak-check=full ./game_exe data.dat -l game_log.log
+	valgrind --leak-check=full ./game_exe data.dat < partida_nueva_oca -l game_log.log 

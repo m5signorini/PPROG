@@ -274,5 +274,6 @@ STATUS game_set_die(Game* game, Die* die);
 Link* game_get_link(Game* game, Id id);
 Id game_get_link_id_at(Game* game, int position);
 STATUS game_add_link(Game* game, Link* link);
+char* game_get_description(Game*game);
 
 #endif

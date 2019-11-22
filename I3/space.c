@@ -239,7 +239,7 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-Id space_get_object(Space* space, int index) {
+Id space_get_object_at(Space* space, int index) {
   if (!space) {
     return NO_ID;
   }
@@ -249,7 +249,7 @@ Id space_get_object(Space* space, int index) {
 STATUS space_print(Space* space) {
   Id idaux = NO_ID;
   int i;
-  
+
   if (!space) {
     return ERROR;
   }

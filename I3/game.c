@@ -485,7 +485,7 @@ STATUS game_callback_drop(Game* game){
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
   char name[WORD_SIZE + 1];
-  int i;
+  int i = 0;
 
   if(scanf("%s", name) < 1) {
     return ERROR;

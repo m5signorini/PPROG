@@ -257,7 +257,9 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
 
   /* Print description */
-  sprintf(str, "  Descriptions:\n %s", game_get_description(game));
+  sprintf(str, "  Descriptions:");
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  %s", game_get_description(game));
   screen_area_puts(ge->descript, str);
 }
 
