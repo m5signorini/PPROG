@@ -21,15 +21,16 @@
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
 struct _Game {
-  Object* objects[MAX_OBJECTS + 1];
-  Player* player;
-  Space* spaces[MAX_SPACES + 1];
-  Link* links[MAX_LINKS + 1];
-  Die* die;
-  T_Command last_cmd;
-  STATUS last_cmd_stat;
-  char description[MAX_DESC + 1];
+  Object* objects[MAX_OBJECTS + 1];   /*!< Array with the memory directions of the objects*/
+  Player* player;   /*!< Memory direction of the player*/
+  Space* spaces[MAX_SPACES + 1];    /*!< Array with the memory directions of the spaces*/
+  Link* links[MAX_LINKS + 1];    /*!< Array with the memory directions of the links*/
+  Die* die;    /*!< Memory direction of the die of the game*/
+  T_Command last_cmd;     /*!< Last command of the game*/
+  STATUS last_cmd_stat;   /*!< Result of the last command of the game*/
+  char description[MAX_DESC + 1];   /*!< Description of the last thing inspected*/
 };
+
 
 /**
 Define the function type for the callbacks

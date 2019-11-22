@@ -28,9 +28,10 @@
 #define ACCESS(d, x, y) (d + ((y) * COLUMNS) + (x))
 
 struct _Area{
-  int x, y, width, height;
-  char *cursor;
+  int x, y, width, height;    /*!< Coordinates and measures of the screen*/
+  char *cursor;   /*!< Cursor pointing to a point of the screen*/
 };
+
 
 char *__data;
 

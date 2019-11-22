@@ -16,11 +16,12 @@
 #include "inventory.h"
 
 struct _Player {
-  Id id;
-  char name[WORD_SIZE + 1];
-  Id location;
-  Inventory* objects;
+  Id id;    /*!< Id of the player*/
+  char name[WORD_SIZE + 1];   /*!< Name of the player */
+  Id location;    /*!< Id of the location where the player is*/
+  Inventory* objects;   /*!< Memory direction of the player's inventory*/
 };
+
 
 Player* player_create(Id id) {
 

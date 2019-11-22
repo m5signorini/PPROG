@@ -14,10 +14,10 @@
 #include "die.h"
 
 struct _Die {
-  Id id; 
-  int max;
-  int min;
-  int last;
+  Id id;  /*!< Id of the die.*/
+  int min;  /*!< Minimun value of the die.*/
+  int max;  /*!< Maximum value of the die.*/
+  int last;  /*!< Last result of the die.*/
 };
 
 

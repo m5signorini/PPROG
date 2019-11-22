@@ -15,10 +15,11 @@
 #include "object.h"
 
 struct _Object {
-  Id id;
-  char name[WORD_SIZE + 1];
-  char description[MAX_DESC + 1];
+  Id id;    /*!< Id of the object*/
+  char name[WORD_SIZE + 1];   /*!< Name of the object */
+  char description[MAX_DESC + 1];   /*!< Description of the object */
 };
+
 
 Object* object_create(Id id) {
 

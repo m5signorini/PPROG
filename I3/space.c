@@ -16,16 +16,17 @@
 #include "set.h"
 
 struct _Space {
-  Id id;
-  char name[WORD_SIZE + 1];
-  char description[MAX_DESC + 1];
-  Id north;
-  Id south;
-  Id east;
-  Id west;
-  Set* objects;
-  char image[IMG_NUM][IMG_SIZE];
+  Id id;    /*!< Id of the space*/
+  char name[WORD_SIZE + 1];   /*!< Name of the space */
+  char description[MAX_DESC + 1];   /*!< Description of the space */
+  Id north;   /*!< Id of the north link of the space */
+  Id south;   /*!< Id of the south of the space*/
+  Id east;    /*!< Id of the east of the space*/
+  Id west;    /*!< Id of the west of the space*/
+  Set* objects;   /*!< Memory direction of the set that stores the objects of the space*/
+  char image[IMG_NUM][IMG_SIZE];    /*!< A matrix of characters that compose a background image*/
 };
+
 
 Space* space_create(Id id) {
 
