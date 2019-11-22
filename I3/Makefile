@@ -60,7 +60,14 @@ die_test: die_test.o die.o
 
 die_test.o: die_test.c die.h
 	$(CC) $(CFLAGS) -c die_test.c
+	
+# DIE
+#############
+inventory_test: inventory_test.o inventory.o set.o
+	$(CC) $(CFLAGS) -o inventory_test $^
 
+inventory_test.o: inventory_test.c types.h inventory.h
+	$(CC) $(CFLAGS) -c inventory_test.c
 #######################
 # SET
 #############
