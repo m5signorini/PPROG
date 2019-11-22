@@ -271,9 +271,59 @@ Die* game_get_die(Game* game);
 */
 STATUS game_set_die(Game* game, Die* die);
 
+/**
+* @brief Gets a specific link from a game
+*
+* game_get_link returns the link matching the passed id in a game
+*
+* @date 15/11/2019
+* @author: Féix Estaún Bescós
+*
+* @param game the game where it will try to find the link
+* @param id the id of the link to return
+* @return the link matching the passed id
+*/
 Link* game_get_link(Game* game, Id id);
+
+/**
+* @brief Gets the id of a link in a game
+*
+* game_get_space_id_at gets the id of the link in a given position
+*
+* @date 15/11/2019
+* @author: Féix Estaún Bescós
+*
+* @param game the game in which it will look for the link
+* @param position index of the link that will be looked for
+* @return the id of the link or NO_ID
+*/
 Id game_get_link_id_at(Game* game, int position);
+
+/**
+* @brief Adds a link to a game
+*
+* game_add_link adds a specific link to a game
+*
+* @date 15/11/2019
+* @author: Féix Estaún Bescós
+*
+* @param game the game in which it will add the new link
+* @param link the link that will be inserted in the game
+* @return the status of the function for error management
+*/
 STATUS game_add_link(Game* game, Link* link);
+
+/**
+* @brief Gets the current description of a game
+*
+* game_get_description returns the description of the last thing inspected
+*
+* @date 21/11/2019
+* @author: César Ramírez Martínez
+*
+* @param game the game from which it will return its description
+* @return the description of the game
+*/
 char* game_get_description(Game*game);
 
 #endif

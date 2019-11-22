@@ -298,27 +298,27 @@ BOOL space_has_object(Space* space, Id id);
 STATUS space_delete_object(Space* space, Id value);
 
 /**
-* @brief Sets the upper string in a space to build an image in it
+* @brief Sets the image strings of a space to build an image in it
 *
-* space_set_image_up Sets a part of the image that will be showed during the game in a certain space
+* space_set_image Sets the image that will be showed during the game in a certain space
 * @date 19/09/2019
 * @author: César Ramírez
 *
-* @param space that will have its upper string setted
-* @param image_up the string that will be setted in the upper part of the space
+* @param space that will have its strings set
+* @param image an array of the strings that will be set in the space
 * @return the status of the function, for error management
 */
 STATUS space_set_image(Space* space, char* image, int pos);
 
 /**
-* @brief Gets the upper string of the image from a space
+* @brief Gets the image from a space
 *
-* space_get_image_up Gets a part of the image from a certain space
+* space_get_image Gets the image from a certain space
 * @date 19/09/2019
 * @author: César Ramírez
 *
-* @param space that will have its upper string getted
-* @return the string that defines the upper part of the image of the space
+* @param space from which it will return its image
+* @return the array of strings that defines the image of the space
 */
 const char* space_get_image(Space* space, int pos);
 
