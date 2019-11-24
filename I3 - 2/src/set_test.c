@@ -1,7 +1,7 @@
 /**
  * @brief Test for set module
  *
- * @file die_test.c
+ * @file set_test.c
  * @author César Ramírez Mártinez
  * @version 1.1
  * @date 08-10-2019
@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "space.h"
 #include "set.h"
 
 int main(int argc, char *argv[]) {

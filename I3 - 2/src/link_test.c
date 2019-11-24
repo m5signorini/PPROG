@@ -1,3 +1,12 @@
+/**
+ * @brief Test for link module
+ *
+ * @file link_test.c
+ * @author Felix Estaun
+ * @version 1.1
+ * @date 08-11-2019
+ * @copyright GNU Public License
+ */
 #include <stdio.h>
 #include "link.h"
 

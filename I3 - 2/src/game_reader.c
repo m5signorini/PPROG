@@ -170,7 +170,9 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         strncpy(img[i], toks, IMG_SIZE-1);
       }
       toks = strtok(NULL, "|");
-      strcpy(desc, toks);
+      if(toks != NULL) {
+        strcpy(desc, toks);
+      }
 
       #ifdef DEBUG
       printf("Leido: %ld|%s|%ld|%ld|%ld|%ld|%s|", id, name, north, east, south, west, desc);

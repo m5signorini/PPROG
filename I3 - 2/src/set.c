@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "types.h"
 #include "set.h"
 
 #define MAX_N_ELEMENTS 51

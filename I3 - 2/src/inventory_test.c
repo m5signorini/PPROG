@@ -1,7 +1,15 @@
+/**
+ * @brief Test for inventory module
+ *
+ * @file inventory_test.c
+ * @author Cesar Ramirez
+ * @version 1.1
+ * @date 08-11-2019
+ * @copyright GNU Public License
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "inventory.h"
-#include "types.h"
 
 int main() {
   Inventory *inventory = NULL;
