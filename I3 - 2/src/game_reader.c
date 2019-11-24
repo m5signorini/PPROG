@@ -71,7 +71,7 @@ STATUS game_reader_load_players(Game* game, char* filename);
 * to the game
 *
 * @date 19/09/2019
-* @author: Félix Estaún & Gonzalo Martín
+* @author: Félix Estaún
 *
 * @param game the game that will have its links loaded
 * @param filename the name of the file from which we will load the links
@@ -141,6 +141,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   int i = 0;
 
   memset(img, 0, IMG_NUM*IMG_SIZE);
+  memset(desc, 0, MAX_DESC);
 
   if (!filename) {
     return ERROR;
@@ -167,11 +168,13 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
       west = atol(toks);
       for(i = 0; i < IMG_NUM; i++) {
         toks = strtok(NULL, "|");
-        strncpy(img[i], toks, IMG_SIZE-1);
+        if(toks != NULL) {
+          strncpy(img[i], toks, IMG_SIZE-1);
+        }
       }
       toks = strtok(NULL, "|");
       if(toks != NULL) {
-        strcpy(desc, toks);
+        strncpy(desc, toks, MAX_DESC-1);
       }
 
       #ifdef DEBUG
