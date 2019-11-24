@@ -23,7 +23,7 @@ TST_O = $(patsubst %,$(ODIR)/%.o,$(TESTS))
 SRC_O = $(patsubst $(CDIR)/%.c,$(ODIR)/%.o,$(SRC_FILES))
 OBJ_FILES = $(SRC_O) $(TST_O)
 
-all: game_exe $(TESTS)
+all: game_exe $(TESTS) dox
 
 # LINK GAME - Dont use *_test.o, multiple mains
 game_exe: $(filter-out $(TST_O),$(SRC_O))
@@ -36,6 +36,11 @@ link_test: $(ODIR)/link_test.o $(ODIR)/link.o
 	$(CC) $(CFLAGS) -o $@ $^
 inventory_test: $(ODIR)/inventory_test.o $(ODIR)/inventory.o $(ODIR)/set.o
 	$(CC) $(CFLAGS) -o $@ $^
+
+dox:
+	doxygen Doxyfile
+	rm -f doc/index.html
+	ln -s html/index.html doc/index.html
 
 #$(TESTS): %_test : $(ODIR)/%_test.o $(ODIR)/%.o
 #	$(CC) $(CFLAGS) -o $@ $^
@@ -62,6 +67,7 @@ clean:
 
 clear:
 	rm -rf game_exe $(TESTS)
+	rm -rf doc
 
 run:
 	@echo ">>>>>>Running the GAME"
