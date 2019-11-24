@@ -55,11 +55,51 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 */
 STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
 
+/**
+* @brief Displays the side links
+*
+* graphic_engine_paint_side_links prints on the screen the side links of the spaces of the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param ge the graphic engine
+* @param game the game that the graphic engine is going to use
+* @param space the space the the function will paint its side links
+* @param id_act to check if the space is where the player is located
+* @return the status of the function for error management
+*/
 STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* space, Id id_act);
-STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space);
-STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space);
 
-STATUS graphic_engine_get_dest(char* str, Space* space_next, Id id_act);
+/**
+* @brief Displays the top links
+*
+* graphic_engine_paint_top_link prints on the screen the upper link of the spaces of the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param ge the graphic engine
+* @param game the game that the graphic engine is going to use
+* @param space the space the the function will paint its upper link
+* @return the status of the function for error management
+*/
+STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space);
+
+/**
+* @brief Displays the bottom links
+*
+* graphic_engine_paint_bot_link prints on the screen the bottom link of the spaces of the game
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param ge the graphic engine
+* @param game the game that the graphic engine is going to use
+* @param space the space the the function will paint its bottom link
+* @return the status of the function for error management
+*/
+STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space);
 /**
   Public Functions
 */
