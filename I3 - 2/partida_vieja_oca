@@ -1,0 +1,38 @@
+commit suicide
+back
+next
+next
+take O1
+take O1
+next
+next
+right
+next
+left
+right
+inspect O1
+drop O1
+inspect O1
+next
+next
+take O2
+take O3
+next
+next
+next
+right
+next
+inspect space
+take O4
+take salchicha
+take O1
+inspect O1
+inspect O3
+inspect O4
+left
+drop O1
+drop O2
+drop O3
+drop O4
+inspect space
+exit
