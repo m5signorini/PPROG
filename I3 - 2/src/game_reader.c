@@ -138,10 +138,11 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   Space* space = NULL;
   STATUS status = OK;
   char img[IMG_NUM][IMG_SIZE];
-  int i = 0;
+  int i = 0, j;
 
   memset(img, 0, IMG_NUM*IMG_SIZE);
   memset(desc, 0, MAX_DESC);
+
 
   if (!filename) {
     return ERROR;
@@ -154,6 +155,11 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
+      memset(desc, ' ', MAX_DESC-1);
+      for (j=0; j<IMG_NUM; j++) {
+        memset(img[j], ' ', IMG_SIZE-1);
+      }
+
       toks = strtok(line + 3, "|");
       id = atol(toks);
       toks = strtok(NULL, "|");
@@ -168,12 +174,13 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
       west = atol(toks);
       for(i = 0; i < IMG_NUM; i++) {
         toks = strtok(NULL, "|");
-        if(toks != NULL) {
+        if(toks != NULL && strchr(toks, '\n') == NULL) {
+          printf("%d", toks[0]);
           strncpy(img[i], toks, IMG_SIZE-1);
         }
       }
       toks = strtok(NULL, "|");
-      if(toks != NULL) {
+      if(toks != NULL && strcmp(toks, "\r\n") != 0) {
         strncpy(desc, toks, MAX_DESC-1);
       }
 
@@ -221,6 +228,8 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   Id pos_ini = NO_ID;
   Object* obj = NULL;
 
+  memset(desc, 0, MAX_DESC);
+
   if (filename == NULL) {
     return ERROR;
   }
@@ -232,6 +241,7 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
+      memset(desc, ' ', MAX_DESC-1);
       toks = strtok(line + 3, "|");
       id = atol(toks);
       toks = strtok(NULL, "|");
