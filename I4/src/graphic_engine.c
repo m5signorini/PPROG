@@ -149,6 +149,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   char str[STR_LEN];
   T_Command last_cmd = UNKNOWN;
   extern char *cmd_to_str[];
+  extern char *short_cmd_to_str[];
   int i;
 
 
@@ -227,7 +228,13 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    next or n, back or b, roll or rl, take or t, drop or d, right or r, left or l,  move or m, inspect or i, exit or e");
+  sprintf(str, "    ");
+  for(i = 2; i < N_CMD; i++) {
+    if(i > 2) {
+      strcat(str, ", ")
+    }
+    strcat(str, "%s or %s", cmd_to_str[i], short_cmd_to_str[i]);
+  }
   screen_area_puts(ge->help, str);
 
   /* Paint the in the feedback area */
