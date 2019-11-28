@@ -226,6 +226,10 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   STATUS status = OK;
   Id id = NO_ID;
   Id pos_ini = NO_ID;
+  Id open = NO_ID;
+  BOOL movable = FALSE;
+  BOOL hidden = FALSE;
+  BOOL illuminate = FALSE;
   Object* obj = NULL;
 
   memset(desc, 0, MAX_DESC);
@@ -250,8 +254,24 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
       pos_ini = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(desc, toks);
+      toks = strtok(NULL, "|");
+      if(toks != NULL) {
+        open = atol(toks);
+      }
+      toks = strtok(NULL, "|");
+      if(toks != NULL) {
+        movable = (BOOL)atol(toks);
+      }
+      toks = strtok(NULL, "|");
+      if(toks != NULL) {
+        hidden = (BOOL)atol(toks);
+      }
+      toks = strtok(NULL, "|");
+      if(toks != NULL) {
+        illuminate = (BOOL)atol(toks);
+      }
       #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%s\n", id, name, pos_ini, desc);
+      printf("Leido: %ld|%s|%ld|%s|||\n", id, name, pos_ini, desc);
       #endif
       obj = object_create(id);
       if (obj != NULL) {
