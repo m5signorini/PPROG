@@ -71,6 +71,18 @@ STATUS object_set_name(Object* object, char* name);
 */
 STATUS object_set_description(Object* object, char* description);
 
+STATUS object_set_open(Object* object, Id open);
+
+STATUS object_set_movable(Object* object, BOOL movable);
+
+STATUS object_set_moved(Object* object, BOOL moved);
+
+STATUS object_set_hidden(Object* object, BOOL hidden);
+
+STATUS object_set_illuminate(Object* object, BOOL illuminate);
+
+STATUS object_set_turnedon(Object* object, BOOL turnedon);
+
 /**
 * @brief Gets the object id
 *
@@ -109,6 +121,18 @@ const char* object_get_name(Object* object);
 * @return the name of the given object
 */
 const char * object_get_description(Object* object);
+
+Id object_get_open(Object* object);
+
+BOOL object_get_movable(Object* object);
+
+BOOL object_get_moved(Object* object);
+
+BOOL object_get_hidden(Object* object);
+
+BOOL object_get_illuminate(Object* object);
+
+BOOL object_get_turnedon(Object* object);
 
 /**
 * @brief Prints the elements of the object
