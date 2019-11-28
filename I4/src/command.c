@@ -14,8 +14,8 @@
 
 #define CMD_LENGHT 30
 
-char* cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Next", "Back", "Right", "Left", "Up", "Down", "Move", "Take", "Drop", "Roll", "Inspect"};
-char* short_cmd_to_str[N_CMD] = {"","","e","n","b", "r", "l", "u", "dw", "m", "t","d", "rl", "i"};
+char* cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Next", "Back", "Right", "Left", "Up", "Down", "Move", "Take", "Drop", "Roll", "Inspect", "Turnon", "Turnoff"};
+char* short_cmd_to_str[N_CMD] = {"","","e","n","b", "r", "l", "u", "dw", "m", "t","d", "rl", "i", "ton", "toff"};
 
 
 T_Command command_get_user_input() {

@@ -16,7 +16,7 @@
 #include <string.h>
 #include "game.h"
 
-#define N_CALLBACK 13
+#define N_CALLBACK 15
 #define MAX_OBJECTS 50
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
@@ -53,6 +53,8 @@ STATUS game_callback_take(Game* game);
 STATUS game_callback_drop(Game* game);
 STATUS game_callback_roll(Game* game);
 STATUS game_callback_inspect(Game* game);
+STATUS game_callback_turnon(Game* game);
+STATUS game_callback_turnoff(Game* game);
 
 static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_unknown,
@@ -67,7 +69,9 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_take,
   game_callback_drop,
   game_callback_roll,
-  game_callback_inspect
+  game_callback_inspect,
+  game_callback_turnon,
+  game_callback_turnoff
 };
 
 
@@ -582,4 +586,46 @@ STATUS game_callback_inspect(Game* game){
      }
    }
    return ERROR;
+}
+
+STATUS game_callback_turnon(Game* game) {
+  char name[WORD_SIZE+1];
+  Id obj_id = NO_ID;
+  Object *obj = NULL;
+  int i=0;
+  Space *space_act = NULL;
+
+  if (game==NULL) {
+    return ERROR;
+  }
+
+  /* Scan the next string to get the name of the object, if none return ERROR*/
+  if(scanf("%s", name) < 1) {
+    return ERROR;
+  }
+
+  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if (strcmp(object_get_name(obj), name) == 0) {
+      object_set_turnedon(obj, TRUE);
+      return OK;
+    }
+  }
+
+  space_act = game_get_space(game, player_get_location(game_get_player(game)));
+  i = 0;
+  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
+      return ERROR;
+    }
+
+    if(strcmp(object_get_name(obj), name) == 0) {
+      object_set_turnedon(obj, TRUE);
+      return OK;
+    }
+  }
+
+
+  return ERROR;
 }
