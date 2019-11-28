@@ -373,7 +373,7 @@ STATUS space_set_long_description(Space* space, char* description) {
     return ERROR;
   }
 
-  if (!strncpy(space->description, description, MAX_DESC)) {
+  if (!strncpy(space->long_description, description, MAX_DESC)) {
     return ERROR;
   }
 
@@ -384,5 +384,5 @@ const char * space_get_long_description(Space* space) {
   if (!space) {
     return NULL;
   }
-  return space->description;
+  return space->long_description;
 }
