@@ -19,12 +19,16 @@ struct _Space {
   Id id;    /*!< Id of the space*/
   char name[WORD_SIZE + 1];   /*!< Name of the space */
   char description[MAX_DESC + 1];   /*!< Description of the space */
-  Id north;   /*!< Id of the north link of the space */
-  Id south;   /*!< Id of the south of the space*/
-  Id east;    /*!< Id of the east of the space*/
-  Id west;    /*!< Id of the west of the space*/
+  char long_description[MAX_DESC + 1];   /*!< Extended description of the space */
+  Id north;   /*!< Id of the north-link link of the space */
+  Id south;   /*!< Id of the south-link of the space*/
+  Id east;    /*!< Id of the east-link of the space*/
+  Id west;    /*!< Id of the west-link of the space*/
+  Id up;    /*!< Id of the up-link of the space*/
+  Id down;    /*!< Id of the down-link of the space*/
   Set* objects;   /*!< Memory direction of the set that stores the objects of the space*/
   char image[IMG_NUM][IMG_SIZE];    /*!< A matrix of characters that compose a background image*/
+  BOOL iluminated;    /*!< Bool value of the ilumination in the space*/
 };
 
 
@@ -55,11 +59,13 @@ Space* space_create(Id id) {
   new_space->south = NO_ID;
   new_space->east = NO_ID;
   new_space->west = NO_ID;
+  new_space->iluminated = TRUE;
 
   new_space->objects = objects;
 
   memset(new_space->name, 0, WORD_SIZE + 1);
   memset(new_space->description, 0, MAX_DESC + 1);
+  memset(new_space->long_description, 0, MAX_DESC + 1);
   memset(new_space->image, 0, IMG_SIZE*IMG_NUM);
 
 
@@ -255,8 +261,22 @@ STATUS space_print(Space* space) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Description: %s)\n", space->id, space->name, space->description)){
+  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Iluminated: %s, Description: %s, Long description: %s)\n", space->id, space->name, space->iluminated, space->description, space->long_description)){
     return ERROR;
+  }
+
+  idaux = space_get_up(space);
+  if (NO_ID != idaux) {
+    fprintf(stdout, "---> Up link: %ld.\n", idaux);
+  } else {
+    fprintf(stdout, "---> No up link.\n");
+  }
+
+  idaux = space_get_down(space);
+  if (NO_ID != idaux) {
+    fprintf(stdout, "---> Down link: %ld.\n", idaux);
+  } else {
+    fprintf(stdout, "---> No down link.\n");
   }
 
   idaux = space_get_north(space);
@@ -294,7 +314,75 @@ STATUS space_print(Space* space) {
     fprintf(stdout, "%s\n", space->image[i]);
   }
 
+  return OK;
+}
 
+STATUS space_set_iluminated(Space* space, BOOL value){
+  if (space == NULL){
+    return ERROR;
+  }
+  space->iluminated = value;
 
   return OK;
+}
+
+BOOL space_get_iluminated(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+
+  return space->iluminated;
+}
+
+STATUS space_set_up(Space* space, Id up){
+  if (space == NULL || up == NO_ID){
+    return ERROR;
+  }
+  space->up = up;
+
+  return OK;
+}
+
+Id space_get_up(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+
+  return space->up;
+}
+
+STATUS space_set_down(Space* space, Id down){
+  if (space == NULL || down == NO_ID){
+    return ERROR;
+  }
+  space->down = down;
+
+  return OK;
+}
+
+Id space_get_down(Space* space){
+  if (space == NULL){
+    return ERROR;
+  }
+
+  return space->down;
+}
+
+STATUS space_set_long_description(Space* space, char* description) {
+  if (!space || !description) {
+    return ERROR;
+  }
+
+  if (!strncpy(space->description, description, MAX_DESC)) {
+    return ERROR;
+  }
+
+  return OK;
+}
+
+const char * space_get_long_description(Space* space) {
+  if (!space) {
+    return NULL;
+  }
+  return space->description;
 }
