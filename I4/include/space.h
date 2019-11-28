@@ -87,29 +87,29 @@ STATUS space_set_name(Space* space, char* name);
 const char* space_get_name(Space* space);
 
 /**
-* @brief Sets a name
+* @brief Sets a description
 *
-* space_set_name sets the name of a space to the given one
+* space_set_description sets the description of a space to the given one
 *
 * @date 19/09/2019
-* @author: Profesores PPROG
+* @author: Gonzalo Martín
 *
-* @param space the space that will have itss name changed
-* @param name the name that it will set to the space
+* @param space the space that will have its description changed
+* @param description the description that it will set to the space
 * @return the status of the functionl, for error management
 */
 STATUS space_set_description(Space* space, char* description);
 
 /**
-* @brief Gets the name of a space
+* @brief Gets the description of a space
 *
-* space_get_name returns the name of a given space
+* space_get_description returns the description of a given space
 *
 * @date 19/09/2019
-* @author: Profesores PPROG
+* @author: Gonzalo Martín
 *
-* @param space the space from which it will return its name
-* @return the name of the given space
+* @param space the space from which it will return its description
+* @return the description of the given space
 */
 const char* space_get_description(Space* space);
 
@@ -321,5 +321,104 @@ STATUS space_set_image(Space* space, char* image, int pos);
 * @return the array of strings that defines the image of the space
 */
 const char* space_get_image(Space* space, int pos);
+
+/**
+* @brief Sets the ilumination value of a space
+*
+* space_set_iluminated Sets the ilumination value of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose iluminated value is set
+* @return the ilumination value of a space
+*/
+STATUS space_set_iluminated(Space* space, BOOL value);
+
+/**
+* @brief Gets the ilumination value of a space
+*
+* space_get_iluminated Gets the ilumination value of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose iluminated value is returned
+* @return the status of the function, for error management
+*/
+BOOL space_get_iluminated(Space* space);
+
+/**
+* @brief Sets the up-link id of a space
+*
+* space_set_up Sets the up-link id of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose up-link id is set
+* @return the status of the function, for error management
+*/
+STATUS space_set_up(Space* space, Id up);
+
+/**
+* @brief Gets the up-link id of a space
+*
+* space_get_up Gets the up-link id of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose up-link id is returned
+* @return the the up-link id of a space
+*/
+Id space_get_up(Space* space);
+
+/**
+* @brief Sets the down-link id of a space
+*
+* space_set_down Sets the down-link id of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose down-link id is set
+* @return the status of the function, for error management
+*/
+STATUS space_set_down(Space* space, Id down);
+
+/**
+* @brief Gets the down-link id of a space
+*
+* space_get_down Gets the down-link id of a space
+* @date 28/11/2019
+* @author: Gonzalo Martín
+*
+* @param space whose down-link id is returned
+* @return the the down-link id of a space
+*/
+Id space_get_down(Space* space);
+
+/**
+* @brief Sets a long description
+*
+* space_set_long_description sets the long description of a space to the given one
+*
+* @date 19/09/2019
+* @author: Gonzalo Martín
+*
+* @param space the space that will have its description changed
+* @param description the description that it will set to the space
+* @return the status of the functionl, for error management
+*/
+STATUS space_set_long_description(Space* space, char* description);
+
+/**
+* @brief Gets the long description of a space
+*
+* space_get_long_description returns the long description of a given space
+*
+* @date 19/09/2019
+* @author: Gonzalo Martín
+*
+* @param space the space from which it will return its description
+* @return the description of the given space
+*/
+const char * space_get_long_description(Space* space);
 
 #endif
