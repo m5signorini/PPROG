@@ -11,7 +11,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#define N_CMD 12
+#define N_CMD 16
 
 typedef enum enum_Command {
   NO_CMD = -1,
@@ -21,11 +21,15 @@ typedef enum enum_Command {
   BACK,
   RIGHT,
   LEFT,
+  UP,
+  DOWN,
   MOVE,
   TAKE,
   DROP,
   ROLL,
-  INSPECT} T_Command;
+  INSPECT,
+  TURNON,
+  TURNOFF} T_Command;
 
 /**
 * @brief Gets the user input for the command
