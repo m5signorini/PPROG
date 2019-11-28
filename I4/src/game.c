@@ -16,7 +16,7 @@
 #include <string.h>
 #include "game.h"
 
-#define N_CALLBACK 11
+#define N_CALLBACK 13
 #define MAX_OBJECTS 50
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
@@ -46,6 +46,8 @@ STATUS game_callback_next(Game* game);
 STATUS game_callback_back(Game* game);
 STATUS game_callback_right(Game* game);
 STATUS game_callback_left(Game* game);
+STATUS game_callback_up(Game* game);
+STATUS game_callback_down(Game* game);
 STATUS game_callback_move(Game* game);
 STATUS game_callback_take(Game* game);
 STATUS game_callback_drop(Game* game);
@@ -59,6 +61,8 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_back,
   game_callback_right,
   game_callback_left,
+  game_callback_up,
+  game_callback_down,
   game_callback_move,
   game_callback_take,
   game_callback_drop,
@@ -416,6 +420,22 @@ STATUS game_callback_left(Game* game){
   return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
+STATUS game_callback_up(Game* game){
+  if(game == NULL) {
+    return ERROR;
+  }
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_up(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+}
+
+STATUS game_callback_down(Game* game){
+  if(game == NULL) {
+    return ERROR;
+  }
+
+  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_down(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+}
+
 STATUS game_callback_move(Game* game) {
   char direction[WORD_SIZE + 1];
 
@@ -438,6 +458,12 @@ STATUS game_callback_move(Game* game) {
   }
   else if (strcmp(direction, "west") == 0 || strcmp(direction, "w") == 0) {
     return game_callback_left(game);
+  }
+  else if (strcmp(direction, "up") == 0 || strcmp(direction, "u") == 0) {
+    return game_callback_up(game);
+  }
+  else if (strcmp(direction, "down") == 0 || strcmp(direction, "d") == 0) {
+    return game_callback_down(game);
   }
   return ERROR;
 }
