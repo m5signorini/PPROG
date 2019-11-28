@@ -17,7 +17,13 @@
 struct _Object {
   Id id;    /*!< Id of the object*/
   char name[WORD_SIZE + 1];   /*!< Name of the object */
-  char description[MAX_DESC + 1];   /*!< Description of the object */
+  char description[MAX_DESC + 1];  /*!< Description of the object */
+  Id open;
+  BOOL movable;
+  BOOL moved;
+  BOOL hidden;
+  BOOL illuminate;
+  BOOL turnedon;
 };
 
 
@@ -36,6 +42,12 @@ Object* object_create(Id id) {
   new_object->id = id;
   memset(new_object->name, 0, WORD_SIZE + 1);
   memset(new_object->description, 0, MAX_DESC + 1);
+  new_object->open = NO_ID;
+  new_object->movable = FALSE;
+  new_object->moved = FALSE;
+  new_object->hidden = FALSE;
+  new_object->illuminate = FALSE;
+  new_object->turnedon = FALSE;
 
   return new_object;
 }
@@ -75,6 +87,60 @@ STATUS object_set_description(Object* object, char* description) {
   return OK;
 }
 
+STATUS object_set_open(Object* object, Id open) {
+  if (!object || open == NO_ID) {
+    return ERROR;
+  }
+  object->open = open;
+
+  return OK;
+}
+
+STATUS object_set_movable(Object* object, BOOL movable) {
+  if (!object) {
+    return ERROR;
+  }
+  object->movable = movable;
+
+  return OK;
+}
+
+STATUS object_set_moved(Object* object, BOOL moved) {
+  if (!object) {
+    return ERROR;
+  }
+  object->moved = moved;
+
+  return OK;
+}
+
+STATUS object_set_hidden(Object* object, BOOL hidden) {
+  if (!object) {
+    return ERROR;
+  }
+  object->hidden = hidden;
+
+  return OK;
+}
+
+STATUS object_set_illuminate(Object* object, BOOL illuminate) {
+  if (!object) {
+    return ERROR;
+  }
+  object->illuminate = illuminate;
+
+  return OK;
+}
+
+STATUS object_set_turnedon(Object* object, BOOL turnedon) {
+  if (!object) {
+    return ERROR;
+  }
+  object->turnedon = turnedon;
+
+  return OK;
+}
+
 Id object_get_id(Object* object) {
   if (!object) {
     return NO_ID;
@@ -94,6 +160,48 @@ const char * object_get_description(Object* object) {
     return NULL;
   }
   return object->description;
+}
+
+Id object_get_open(Object* object) {
+  if (!object) {
+    return NO_ID;
+  }
+  return object->open;
+}
+
+BOOL object_get_movable(Object* object) {
+  if (!object) {
+    return FALSE;
+  }
+  return object->movable;
+}
+
+BOOL object_get_moved(Object* object) {
+  if (!object) {
+    return FALSE;
+  }
+  return object->moved;
+}
+
+BOOL object_get_hidden(Object* object) {
+  if (!object) {
+    return FALSE;
+  }
+  return object->hidden;
+}
+
+BOOL object_get_illuminate(Object* object) {
+  if (!object) {
+    return FALSE;
+  }
+  return object->illuminate;
+}
+
+BOOL object_get_turnedon(Object* object) {
+  if (!object) {
+    return FALSE;
+  }
+  return object->turnedon;
 }
 
 STATUS object_print(Object* object) {
