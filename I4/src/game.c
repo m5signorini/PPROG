@@ -565,7 +565,11 @@ STATUS game_callback_inspect(Game* game){
 
   if(strcmp(name, "space") == 0 || strcmp(name, "s") == 0){
     space_act = game_get_space(game, player_get_location(game_get_player(game)));
-    strcpy( game->description, space_get_description(space_act));
+    if (space_get_iluminated(space_act)==FALSE) {
+      strcpy(game->description, "\0");
+      return OK;
+    }
+    strcpy(game->description, space_get_long_description(space_act));
     return OK;
   }
   else {
