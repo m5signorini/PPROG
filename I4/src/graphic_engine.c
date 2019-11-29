@@ -147,6 +147,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Space* space_next = NULL;
   char obj[MAX_LINE+1];
   char str[STR_LEN];
+  char tmp[STR_LEN];
   T_Command last_cmd = UNKNOWN;
   extern char *cmd_to_str[];
   extern char *short_cmd_to_str[];
@@ -231,9 +232,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   sprintf(str, "    ");
   for(i = 2; i < N_CMD; i++) {
     if(i > 2) {
-      strcat(str, ", ")
+      strcat(str, ", ");
     }
-    strcat(str, "%s or %s", cmd_to_str[i], short_cmd_to_str[i]);
+    /* Temporal use of obj (not used anymore)*/
+    sprintf(tmp, "%s or %s", cmd_to_str[i], short_cmd_to_str[i]);
+    strcat(str, tmp);
   }
   screen_area_puts(ge->help, str);
 
@@ -316,6 +319,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   Id space_id = NO_ID;
   char str[STR_LEN];
   char temp[STR_LEN];
+  int i;
   memset(str, 0, STR_LEN);
 
   /* PRINT - LINK */
@@ -328,7 +332,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
     strcat(str, temp);
   }
 
-  strcat(str, "  +-----------+  ");
+  strcat(str, "  +");
+  for(i=0; i < IMG_SIZE + 3; i++) {
+    strcat(str, "-");
+  }
+  strcat(str, "+  ");
 
   if((link_id = space_get_east(space)) != NO_ID) {
     sprintf(temp, "%2d", (int)link_id);
@@ -350,6 +358,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   /* Print space depending if the player is in there */
   if(space_get_id(space) == id_act) {
     sprintf(temp, " |8D       %2d|",(int) space_get_id(space));
+    strcat(temp, " ");
     strcat(str, temp);
   }
   else {

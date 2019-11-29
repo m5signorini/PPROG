@@ -261,7 +261,7 @@ STATUS space_print(Space* space) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Iluminated: %s, Description: %s, Long description: %s)\n", space->id, space->name, space->iluminated, space->description, space->long_description)){
+  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Iluminated: %d, Description: %s, Long description: %s)\n", space->id, space->name, space->iluminated, space->description, space->long_description)){
     return ERROR;
   }
 

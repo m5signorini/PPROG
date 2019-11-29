@@ -132,16 +132,19 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
-  char desc[MAX_DESC] = "";
+  char desc[MAX_DESC + 1] = "";
+  char ldesc[MAX_DESC + 1] = "";
   char* toks = NULL;
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space* space = NULL;
   STATUS status = OK;
   char img[IMG_NUM][IMG_SIZE];
   int i = 0, j;
+  BOOL illuminate = TRUE;
 
   memset(img, 0, IMG_NUM*IMG_SIZE);
-  memset(desc, 0, MAX_DESC);
+  memset(desc, 0, MAX_DESC + 1);
+  memset(ldesc, 0, MAX_DESC + 1);
 
 
   if (!filename) {
@@ -155,7 +158,8 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
-      memset(desc, ' ', MAX_DESC-1);
+      memset(desc, ' ', 1);
+      memset(ldesc, ' ', 1);
       for (j=0; j<IMG_NUM; j++) {
         memset(img[j], ' ', IMG_SIZE-1);
       }
@@ -172,16 +176,19 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
       south = atol(toks);
       toks = strtok(NULL, "|");
       west = atol(toks);
+      toks = strtok(NULL, "|");
+      if(toks != NULL) {
+        illuminate = (BOOL)atol(toks);
+      }
       for(i = 0; i < IMG_NUM; i++) {
         toks = strtok(NULL, "|");
         if(toks != NULL && strchr(toks, '\n') == NULL) {
-          printf("%d", toks[0]);
           strncpy(img[i], toks, IMG_SIZE-1);
         }
       }
       toks = strtok(NULL, "|");
       if(toks != NULL && strcmp(toks, "\r\n") != 0) {
-        strncpy(desc, toks, MAX_DESC-1);
+        strncpy(desc, toks, MAX_DESC);
       }
 
       #ifdef DEBUG
@@ -202,6 +209,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
           space_set_image(space, img[i], i);
         }
         space_set_description(space, desc);
+        space_set_iluminated(space, illuminate);
         game_add_space(game, space);
       }
     }
@@ -221,7 +229,7 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
-  char desc[WORD_SIZE] = "";
+  char desc[MAX_DESC+1] = "";
   char* toks = NULL;
   STATUS status = OK;
   Id id = NO_ID;
@@ -232,7 +240,7 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
   BOOL illuminate = FALSE;
   Object* obj = NULL;
 
-  memset(desc, 0, MAX_DESC);
+  memset(desc, 0, MAX_DESC+1);
 
   if (filename == NULL) {
     return ERROR;
@@ -245,7 +253,7 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
-      memset(desc, ' ', MAX_DESC-1);
+      memset(desc, ' ', 1);
       toks = strtok(line + 3, "|");
       id = atol(toks);
       toks = strtok(NULL, "|");
@@ -271,15 +279,31 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
         illuminate = (BOOL)atol(toks);
       }
       #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%s|||\n", id, name, pos_ini, desc);
+      printf("Leido: %ld|%s|%ld|%s|%ld|%d|%d|%d|\n", id, name, pos_ini, desc, open, movable, hidden, illuminate);
       #endif
       obj = object_create(id);
-      if (obj != NULL) {
-        if (object_set_name(obj, name) == ERROR) {
+      if(obj != NULL) {
+        if(object_set_name(obj, name) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }
-        if (object_set_description(obj, desc) == ERROR) {
+        if(object_set_description(obj, desc) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if(object_set_open(obj, open) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if(object_set_movable(obj, movable) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if(object_set_hidden(obj, hidden) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if(object_set_illuminate(obj, illuminate) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }

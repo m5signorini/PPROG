@@ -23,7 +23,7 @@ TST_O = $(patsubst %,$(ODIR)/%.o,$(TESTS))
 SRC_O = $(patsubst $(CDIR)/%.c,$(ODIR)/%.o,$(SRC_FILES))
 OBJ_FILES = $(SRC_O) $(TST_O)
 
-all: game_exe $(TESTS) dox
+all: game_exe $(TESTS) #dox
 
 # LINK GAME - Dont use *_test.o, multiple mains
 game_exe: $(filter-out $(TST_O),$(SRC_O))
