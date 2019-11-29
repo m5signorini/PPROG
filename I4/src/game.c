@@ -572,10 +572,10 @@ STATUS game_callback_inspect(Game* game){
     strcpy(game->description, space_get_long_description(space_act));
     return OK;
   }
-  else {
+    else {
     while((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
-       if (strcmp(object_get_name(obj), name) == 0){
+       if (strcmp(object_get_name(obj), name) == 0 ){
          strcpy(game->description, object_get_description(obj));
          return OK;
        }
@@ -583,15 +583,18 @@ STATUS game_callback_inspect(Game* game){
      i = 0;
      while((obj_id = space_get_object_at(game_get_space(game, player_get_location(game->player)), i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
-       if (strcmp(object_get_name(obj), name) == 0){
+       if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(game_get_space(game) == TRUE){
          strcpy(game->description, object_get_description(obj));
+         return OK;
+       }
+       else if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(game_get_space(game) == FALSE){
+         strcpy(game->description, "\0");
          return OK;
        }
      }
    }
    return ERROR;
 }
-
 STATUS game_callback_turnon(Game* game) {
   char name[WORD_SIZE+1];
   Id obj_id = NO_ID;
