@@ -626,6 +626,46 @@ STATUS game_callback_turnon(Game* game) {
     }
   }
 
+  return ERROR;
+}
+
+STATUS game_callback_turnoff(Game* game) {
+  char name[WORD_SIZE+1];
+  Id obj_id = NO_ID;
+  Object *obj = NULL;
+  int i=0;
+  Space *space_act = NULL;
+
+  if (game==NULL) {
+    return ERROR;
+  }
+
+  /* Scan the next string to get the name of the object, if none return ERROR*/
+  if(scanf("%s", name) < 1) {
+    return ERROR;
+  }
+
+  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if (strcmp(object_get_name(obj), name) == 0) {
+      object_set_turnedon(obj, FALSE);
+      return OK;
+    }
+  }
+
+  space_act = game_get_space(game, player_get_location(game_get_player(game)));
+  i = 0;
+  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
+      return ERROR;
+    }
+
+    if(strcmp(object_get_name(obj), name) == 0) {
+      object_set_turnedon(obj, FALSE);
+      return OK;
+    }
+  }
 
   return ERROR;
 }
