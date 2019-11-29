@@ -611,8 +611,10 @@ STATUS game_callback_turnon(Game* game) {
   while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if (strcmp(object_get_name(obj), name) == 0) {
-      object_set_turnedon(obj, TRUE);
-      return OK;
+      if (object_get_illuminate(obj)==TRUE) {
+        object_set_turnedon(obj, TRUE);
+        return OK;
+      }
     }
   }
 
@@ -652,8 +654,10 @@ STATUS game_callback_turnoff(Game* game) {
   while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if (strcmp(object_get_name(obj), name) == 0) {
-      object_set_turnedon(obj, FALSE);
-      return OK;
+      if (object_get_illuminate(obj)==TRUE) {
+        object_set_turnedon(obj, FALSE);
+        return OK;
+      }
     }
   }
 
@@ -669,6 +673,71 @@ STATUS game_callback_turnoff(Game* game) {
       object_set_turnedon(obj, FALSE);
       return OK;
     }
+  }
+
+  return ERROR;
+}
+
+STATUS game_callback_open(Game* game) {
+  char link_name[WORD_SIZE+1];
+  char obj_name[WORD_SIZE+1];
+  Id obj_id = NO_ID;
+  Id link_id = NO_ID;
+  int i=0;
+  Object *obj = NULL;
+  Space *space_act = NULL;
+
+  if (game==NULL) {
+    return ERROR;
+  }
+
+  if(scanf("%s with %s", link_name, obj_name) < 1) {
+    return ERROR;
+  }
+
+  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if (strcmp(object_get_name(obj), name) == 0) {
+      break;
+    }
+  }
+
+  space_act = game_get_space(game, player_get_location(game->player));
+
+  link_id = space_get_north(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
+  }
+
+  link_id = space_get_south(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
+  }
+
+  link_id = space_get_east(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
+  }
+
+  link_id = space_get_west(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
+  }
+
+  link_id = space_get_up(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
+  }
+
+  link_id = space_get_down(space_act);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+    link_set_open(game_get_link(game, link_id), TRUE);
+    return OK;
   }
 
   return ERROR;
