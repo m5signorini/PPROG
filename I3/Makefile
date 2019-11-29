@@ -1,76 +1,73 @@
-########################################################
+########################
+# MAKEFILE
+# author: Martin Sanchez Signorini
+# version: 2.0
+# TO-DO: Automatic tests generation
+########################
 CC=gcc
-CFLAGS= -g -Wall -pedantic -ansi -std=c99
-EJS = game_exe set_test die_test
-########################################################
-OBJECTS = game_loop.o game_reader.o game.o graphic_engine.o screen.o space.o command.o player.o object.o set.o die.o
-########################################################
-.PHONY: clean clear
+CFLAGS= -g -Wall -pedantic -ansi -std=c99 -I$(IDIR)
+# Flags for making the dependency files
+DFLAGS= -MT $@ -MMD -MP -MF $(patsubst $(ODIR)/%.o,$(DDIR)/%.d,$@)
 
-all: $(EJS)
+DDIR = deps
+CDIR = src
+IDIR = include
+ODIR = obj
 
-game_exe: $(OBJECTS)
-	$(CC) $(CFLAGS) -o game_exe $(OBJECTS)
+# Using [patsubst pattern, replacement, text] - Change text
+# Using [wildcard pattern] - Get text
+######################################
+TESTS = die_test set_test inventory_test link_test
+SRC_FILES = $(wildcard $(CDIR)/*.c)
+TST_O = $(patsubst %,$(ODIR)/%.o,$(TESTS))
+SRC_O = $(patsubst $(CDIR)/%.c,$(ODIR)/%.o,$(SRC_FILES))
+OBJ_FILES = $(SRC_O) $(TST_O)
 
-game_reader.o: game_reader.c game_reader.h game.h command.h object.h player.h space.h die.h set.h types.h
-	$(CC) $(CFLAGS) -c game_reader.c
+all: game_exe $(TESTS) dox
 
-game_loop.o: game_loop.c graphic_engine.h game.h game_reader.h command.h object.h player.h space.h die.h set.h types.h
-	$(CC) $(CFLAGS) -c game_loop.c
+# LINK GAME - Dont use *_test.o, multiple mains
+game_exe: $(filter-out $(TST_O),$(SRC_O))
+	$(CC) $(CFLAGS) -o $@ $^
+die_test: $(ODIR)/die_test.o $(ODIR)/die.o
+	$(CC) $(CFLAGS) -o $@ $^
+set_test: $(ODIR)/set_test.o $(ODIR)/set.o
+	$(CC) $(CFLAGS) -o $@ $^
+link_test: $(ODIR)/link_test.o $(ODIR)/link.o
+	$(CC) $(CFLAGS) -o $@ $^
+inventory_test: $(ODIR)/inventory_test.o $(ODIR)/inventory.o $(ODIR)/set.o
+	$(CC) $(CFLAGS) -o $@ $^
 
-game.o: game.c game.h game_reader.h command.h space.h die.h object.h player.h set.h types.h
-	$(CC) $(CFLAGS) -c game.c
+dox:
+	doxygen Doxyfile
+	rm -f doc/index.html
+	ln -s html/index.html doc/index.html
 
-graphic_engine.o: graphic_engine.c screen.h graphic_engine.h game.h command.h space.h object.h player.h die.h set.h types.h
-	$(CC) $(CFLAGS) -c graphic_engine.c
+#$(TESTS): %_test : $(ODIR)/%_test.o $(ODIR)/%.o
+#	$(CC) $(CFLAGS) -o $@ $^
 
-screen.o: screen.c screen.h
-	$(CC) $(CFLAGS) -c screen.c
+# CREATE OBJS
+$(ODIR)/%.o: $(CDIR)/%.c
+$(ODIR)/%.o: $(CDIR)/%.c $(DDIR)/%.d | $(DDIR)
+	$(CC) $(DFLAGS) $(CFLAGS) -c -o $@ $<
+# Prerequisites are the .c and .d files, exclude deps in case its missing
+# Create deps if its missing
+$(DDIR): ; @mkdir -p $@
 
-space.o: space.c space.h set.h types.h
-	$(CC) $(CFLAGS) -c space.c
+# Variable with the corresponding .d files for every .c file
+DEP_FILES := $(SRC_FILES:$(CDIR)/%.c=$(DDIR)/%.d)
 
-player.o: player.c player.h types.h
-	$(CC) $(CFLAGS) -c player.c
+# Include all the .d files in to the makefile
+$(DEP_FILES):
+include $(wildcard $(DEP_FILES))
 
-object.o: object.c object.h types.h
-	$(CC) $(CFLAGS) -c object.c
-
-command.o: command.c command.h
-	$(CC) $(CFLAGS) -c command.c
-
-die.o: die.c die.h types.h
-	$(CC) $(CFLAGS) -c die.c
-
-set.o: set.c set.h types.h
-	$(CC) $(CFLAGS) -c set.c
-
-#######################
-# TESTS
-#######################
-# DIE
-#############
-die_test: die_test.o die.o
-	$(CC) $(CFLAGS) -o die_test $^
-
-die_test.o: die_test.c die.h
-	$(CC) $(CFLAGS) -c die_test.c
-
-#######################
-# SET
-#############
-set_test: set_test.o set.o
-	$(CC) $(CFLAGS) -o set_test $^
-
-set_test.o: set_test.c set.h
-	$(CC) $(CFLAGS) -c set_test.c
-#######################
-
-clear:
-	rm -rf *.o
+.PHONY: clean
 
 clean:
-	rm -rf *.o $(EJS)
+	rm -f $(ODIR)/*.o
+
+clear:
+	rm -rf game_exe $(TESTS)
+	rm -rf doc
 
 run:
 	@echo ">>>>>>Running the GAME"
@@ -78,4 +75,12 @@ run:
 
 runv:
 	@echo ">>>>>>Running the GAME"
-	valgrind --leak-check=full ./game_exe data.dat -l game_log.log
+	valgrind --leak-check=full ./game_exe data.dat
+
+runv_new:
+	@echo ">>>>>>Running the GAME"
+	valgrind --leak-check=full ./game_exe data.dat < partida_nueva_oca -l game_log.log
+
+runv_old:
+	@echo ">>>>>>Running the GAME"
+	valgrind --leak-check=full ./game_exe data.dat < partida_vieja_oca -l game_log.log
