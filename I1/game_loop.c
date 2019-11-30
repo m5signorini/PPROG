@@ -3,7 +3,7 @@
  *
  * @file game_loop.c
  * @author Martin Sanchez Signorini
- * @version 1.1
+ * @version 1.2
  * @date 08-10-2019
  * @copyright GNU Public License
  */
