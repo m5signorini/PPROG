@@ -1,8 +1,8 @@
 /**
- * @brief It implements all the functions used to manage the spaces of the game
+ * @brief It implements all the functions used to manage the rules of the game
  *
- * @file space.c
- * @author Profesores PPROG
+ * @file game_rules.c
+ * @author Cesar Ramirez
  * @version 1.0
  * @date 27-09-2019
  * @copyright GNU Public License
