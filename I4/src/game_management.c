@@ -94,17 +94,18 @@ Game* game_reader_create_from_file(char* filename) {
   if (game == NULL)
   return NULL;
 
+
+  if (game_reader_load_players(game, filename) == ERROR) {
+    game_destroy(game);
+    return NULL;
+  }
+
   if (game_reader_load_spaces(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
 
   if (game_reader_load_objects(game, filename) == ERROR) {
-    game_destroy(game);
-    return NULL;
-  }
-
-  if (game_reader_load_players(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
   }
@@ -128,6 +129,10 @@ Game* game_reader_create_from_file(char* filename) {
 STATUS game_management_save(Game* game, char* filename) {
   FILE *pfile = NULL;
   char aux[MAX_DATA];
+  Object *obj = NULL;
+  Id obj_id = NO_ID;
+  Id obj_loc = NO_ID;
+  Object *player_obj = NO_ID;
 
   if (!game || !filename) {
     return ERROR;
@@ -138,11 +143,45 @@ STATUS game_management_save(Game* game, char* filename) {
     return ERROR;
   }
 
-  if(sprintf(aux, "#p:%d|%s|%d|%d|\n", player_get_id(game->player), player_get_name(game->player), player_get_location(game->player), player_inventory_get_max(game->player))<0) {
+  /* Store the player */
+  if(sprintf(aux, "#p:%ld|%s|%ld|%d|\n", player_get_id(game->player), player_get_name(game->player), player_get_location(game->player), player_inventory_get_max(game->player))<0) {
     return ERROR;
   }
 
-  fwrite(aux, 1, strlen(aux), pfile);
+  if (fwrite(aux, sizeof(aux), 1, pfile) != 1) {
+    return ERROR;
+  }
+
+  /* Store the objects */
+  while (obj_id = game_get_object_id_at(game, i++) != NO_ID) {
+    obj = game_get_object(obj_id);
+    if (obj_loc = game_get_object_location(obj_id) == NO_ID) {
+      /* Objetos del jugador */
+
+      while (player_obj = player_get_object_at(game_get_player(game), i++) != NO_ID) {
+        if (object_get_id(player_obj) == object_get_id(obj)) {
+          if (sprintf(aux, "#o:%ld|%s|p|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), object_get_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
+            return ERROR;
+          }
+        }
+      }
+    }
+    else if (sprintf(aux, "#o:%ld|%s|%ld|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), game_get_object_location(game, obj_id), object_get_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
+      return ERROR;
+    }
+
+    if (fwrite(aux, sizeof(aux), 1, pfile) != 1) {
+      return ERROR;
+    }
+  }
+
+  /*
+
+
+
+
+
+
 }
 
 /**
@@ -238,7 +277,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
 }
 
 
-STATUS game_reader_load_objects(Game* game, char*filename) {
+STATUS game_reader_load_objects(Game* game, char* filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
@@ -272,6 +311,9 @@ STATUS game_reader_load_objects(Game* game, char*filename) {
       toks = strtok(NULL, "|");
       strcpy(name, toks);
       toks = strtok(NULL, "|");
+      if(toks[0] == 'p') {
+        /*cargar objetos del jugador*/
+      }
       pos_ini = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(desc, toks);
