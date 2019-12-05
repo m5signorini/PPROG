@@ -14,7 +14,7 @@
 #include "screen.h"
 #include "graphic_engine.h"
 
-#define MAX_LINE 11
+#define MAX_LINE IMG_SIZE+3
 /* Max length of the str temporal variable*/
 #define STR_LEN 255
 
@@ -54,6 +54,8 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 * @return the status of the function for error management
 */
 STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
+
+STATUS graphic_engine_paint_bot_border(Graphic_engine* ge);
 
 /**
 * @brief Displays the side links
@@ -178,8 +180,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       /* Objects */
       sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
-      sprintf(str, "        +-----------+");
-      screen_area_puts(ge->map, str);
+      graphic_engine_paint_bot_border(ge);
     }
 
     if (id_act != NO_ID) {
@@ -197,9 +198,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       /* Objects */
       sprintf(str, "        |%s|", obj);
       screen_area_puts(ge->map, str);
-      sprintf(str, "        +-----------+");
-      screen_area_puts(ge->map, str);
-
+      graphic_engine_paint_bot_border(ge);
       graphic_engine_paint_bot_link(game, ge, space_act);
     }
 
@@ -313,12 +312,28 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
 }
 
+STATUS graphic_engine_paint_bot_border(Graphic_engine* ge) {
+  if(ge == NULL) return ERROR;
+  char str[STR_LEN] = "      ";
+  int i;
+
+  strcat(str, "  +");
+  for(i=0; i < IMG_SIZE + 3; i++) {
+    strcat(str, "-");
+  }
+  strcat(str, "+  ");
+  screen_area_puts(ge->map, str);
+
+  return OK;
+}
+
 STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* space, Id id_act)  {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Id space_id = NO_ID;
   char str[STR_LEN];
   char temp[STR_LEN];
+  char aux[STR_LEN];
   int i;
   memset(str, 0, STR_LEN);
 
@@ -357,13 +372,22 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
 
   /* Print space depending if the player is in there */
   if(space_get_id(space) == id_act) {
-    sprintf(temp, " |8D       %2d|",(int) space_get_id(space));
-    strcat(temp, " ");
+    sprintf(temp, " |8D");
+    for(i=0; i < IMG_SIZE-1; i++) {
+      strcat(temp, " ");
+    }
+    sprintf(aux, "%2d| ",(int) space_get_id(space));
     strcat(str, temp);
+    strcat(str, aux);
   }
   else {
-    sprintf(temp, " |         %2d|",(int) space_get_id(space));
+    sprintf(temp, " |  ");
+    for(i=0; i < IMG_SIZE-1; i++) {
+      strcat(temp, " ");
+    }
+    sprintf(aux, "%2d| ",(int) space_get_id(space));
     strcat(str, temp);
+    strcat(str, aux);
   }
 
   if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
@@ -378,10 +402,16 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
 STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space) {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
-  char str[STR_LEN] = "";
+  char str[STR_LEN] = "    ";
+  char temp[STR_LEN];
+  int i;
 
   if((link_id = space_get_north(space)) != NO_ID) {
-    sprintf(str, "              ^ %d", (int)link_id);
+    for(i = 0; i<IMG_SIZE; i++) {
+      strcat(str, " ");
+    }
+    sprintf(temp, "^ %d", (int)link_id);
+    strcat(str, temp);
   }
 
   screen_area_puts(ge->map, str);
@@ -391,10 +421,16 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
 STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space) {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
-  char str[STR_LEN] = "";
+  char str[STR_LEN] = "    ";
+  char temp[STR_LEN];
+  int i;
 
   if((link_id = space_get_south(space)) != NO_ID) {
-    sprintf(str, "              v %d", (int)link_id);
+    for(i = 0; i<IMG_SIZE; i++) {
+      strcat(str, " ");
+    }
+    sprintf(temp, "v %d", (int)link_id);
+    strcat(str, temp);
   }
 
   screen_area_puts(ge->map, str);
