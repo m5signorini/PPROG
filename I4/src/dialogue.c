@@ -1,10 +1,13 @@
 
 #define MAX_FEEDBACK 500
 
+
 struct _Dialogue {
   char feedback[MAX_FEEDBACK + 1];  /*!< Feeback of the actual command.*/
   char last_cmd;  /*!< Feeback of the last command.*/
   STATUS last_status;   /*!< Status value of the last command.*/
+  char description[MAX_DESC + 1];
+  DIRECTION dir;
 };
 
 
@@ -71,16 +74,32 @@ Dialogue* dialogue_create() {
   }
 
   memset(dialogue->feedback, 0, MAX_FEEDBACK + 1);
+  memset(dialogue->description, 0, MAX_DESC + 1);
+  dialogue->dir = N;
   dialogue->last_cmd = NO_CMD;
+  dialogue->last_status = ERROR;
 
   return dialogue;
 }
 
-STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
-
-  if (!feedback) {
+STATUS dialogue_destroy(Dialogue* dialogue) {
+  if (!dialogue) {
     return ERROR;
   }
+
+  free(dialogue);
+
+  return OK;
+}
+
+STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
+  char str[MAX_FEEDBACK + 1];
+
+  if (!feedback || !description) {
+    return ERROR;
+  }
+
+  memset(str, 0, MAX_FEEDBACK + 1);
 
   if (cmd==NO_CMD) {
     //Error
@@ -137,7 +156,7 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
   }
 
-  else if (cmd==NEXT) {
+  else if (cmd==NEXT  || (cmd==MOVE && feedback->dir == N)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == NEXT) {
@@ -153,14 +172,16 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved forward.");
+      sprintf(str, "You've moved forward. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, NEXT);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
   }
 
-  else if (cmd==BACK) {
+  else if (cmd==BACK  || (cmd==MOVE && feedback->dir == S)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == BACK) {
@@ -176,14 +197,16 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved backwards.");
+      sprintf(str, "You've moved backwards. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, BACK);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
   }
 
-  else if (cmd==RIGHT) {
+  else if (cmd==RIGHT  || (cmd==MOVE && feedback->dir == E)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == RIGHT) {
@@ -199,14 +222,16 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved to the right.");
+      sprintf(str, "You've moved to the right. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, RIGHT);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
   }
 
-  else if (cmd==LEFT) {
+  else if (cmd==LEFT || (cmd==MOVE && feedback->dir == W)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == LEFT) {
@@ -222,14 +247,16 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved to the left.");
+      sprintf(str, "You've moved to the left. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, LEFT);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
   }
 
-  else if (cmd==UP) {
+  else if (cmd==UP || (cmd==MOVE && feedback->dir == U)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == UP) {
@@ -245,14 +272,16 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved above.");
+      sprintf(str, "You've moved above. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, UP);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
   }
 
-  else if (cmd==DOWN) {
+  else if (cmd==DOWN || (cmd==MOVE && feedback->dir == D)) {
     //Error
     if (feedback->last_status == ERROR) {
       if (feedback->last_cmd == DOWN) {
@@ -268,15 +297,13 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've moved down.");
+      sprintf(str, "You've moved down. You are now in ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, DOWN);
       dialogue_set_last_status(feedback, OK);
       return OK;
     }
-  }
-
-  else if (cmd==MOVE) {
-
   }
 
   else if (cmd==TAKE) {
@@ -295,7 +322,9 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've taken the object.");
+      sprintf(str, "You've taken the object ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, TAKE);
       dialogue_set_last_status(feedback, OK);
       return OK;
@@ -318,7 +347,9 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've dropped the object.");
+      sprintf(str, "You've dropped the object ");
+      strcat(str, feedback->description);
+      dialogue_set_feedback(feedback, str);
       dialogue_set_last_cmd(feedback, DROP);
       dialogue_set_last_status(feedback, OK);
       return OK;
@@ -356,7 +387,7 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
         return OK;
       }
       else {
-        dialogue_set_feedback(feedback,"You can't inspect it.");
+        dialogue_set_feedback(feedback,"You can't inspect this.");
         dialogue_set_last_cmd(feedback, INSPECT);
         dialogue_set_last_status(feedback, ERROR);
         return OK;
@@ -419,6 +450,6 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
   }
 
   else {
-    return NULL;
+    return ERROR;
   }
 }
