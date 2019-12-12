@@ -154,7 +154,7 @@ STATUS game_management_save(Game* game, char* filename) {
 
   /* Store the objects */
   while (obj_id = game_get_object_id_at(game, i++) != NO_ID) {
-    obj = game_get_object(obj_id);
+    obj = game_get_object(game, obj_id);
     if (obj_loc = game_get_object_location(obj_id) == NO_ID) {
       /* Objetos del jugador */
 
@@ -175,7 +175,10 @@ STATUS game_management_save(Game* game, char* filename) {
     }
   }
 
-  /*
+  /* Store the spaces */
+  while (space_id = game_get_space_id_at(game, i++) != NO_UD) {
+    space = game_get_space(game, space_id);
+  }
 
 
 
@@ -288,9 +291,12 @@ STATUS game_reader_load_objects(Game* game, char* filename) {
   Id pos_ini = NO_ID;
   Id open = NO_ID;
   BOOL movable = FALSE;
+  BOOL moved = FALSE;
   BOOL hidden = FALSE;
   BOOL illuminate = FALSE;
+  BOOL turnedon = FALSE;
   Object* obj = NULL;
+  int obj_in_player = 0;
 
   memset(desc, 0, MAX_DESC);
 
@@ -313,7 +319,9 @@ STATUS game_reader_load_objects(Game* game, char* filename) {
       toks = strtok(NULL, "|");
       if(toks[0] == 'p') {
         /*cargar objetos del jugador*/
+        obj_in_player = 1;
       }
+      else obj_in_player = 0;
       pos_ini = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(desc, toks);
@@ -325,6 +333,9 @@ STATUS game_reader_load_objects(Game* game, char* filename) {
       if(toks != NULL) {
         movable = (BOOL)atol(toks);
       }
+      if(toks != NULL) {
+        moved = (BOOL)atol(toks);
+      }
       toks = strtok(NULL, "|");
       if(toks != NULL) {
         hidden = (BOOL)atol(toks);
@@ -332,6 +343,9 @@ STATUS game_reader_load_objects(Game* game, char* filename) {
       toks = strtok(NULL, "|");
       if(toks != NULL) {
         illuminate = (BOOL)atol(toks);
+      }
+      if(toks != NULL) {
+        turnedon = (BOOL)atol(toks);
       }
       #ifdef DEBUG
       printf("Leido: %ld|%s|%ld|%s|||\n", id, name, pos_ini, desc);
@@ -346,7 +360,34 @@ STATUS game_reader_load_objects(Game* game, char* filename) {
           object_destroy(obj);
           return ERROR;
         }
-        if(space_add_object(game_get_space(game, pos_ini), id) == ERROR) {
+        if (object_set_open(obj, open) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_movable(obj, movable) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_moved(obj, moved) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_hidden(obj, hidden) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_illuminate(obj, illuminate) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_turnedon(obj, turnedon) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (obj_in_player=1) {
+          player_add_object(game_get_player(game), object_get_id(obj));
+        }
+        else if(space_add_object(game_get_space(game, pos_ini), id) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }
