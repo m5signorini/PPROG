@@ -163,6 +163,12 @@ Id game_get_space_id_at(Game* game, int position) {
   return space_get_id(game->spaces[position]);
 }
 
+Space* game_get_space_at(Game* game, int index){
+  if(game == NULL || index < 0 || index > MAX_SPACES) return NULL;
+
+  return game->spaces[index];
+}
+
 Space* game_get_space(Game* game, Id id){
   if(game == NULL) return NULL;
   int i = 0;
@@ -255,6 +261,12 @@ Object* game_get_object(Game* game, Id id) {
   return NULL;
 }
 
+Object* game_get_object_at(Game* game, int index) {
+  if(game == NULL || index < 0 || index > MAX_OBJECTS) return NULL;
+
+  return game->objects[i];
+}
+
 Id game_get_object_location(Game* game, Id obj) {
   if(game == NULL || obj == NO_ID) return NO_ID;
   int i;
@@ -336,6 +348,11 @@ Link* game_get_link(Game* game, Id id) {
   return NULL;
 }
 
+Link* game_get_link_at(Game* game, int position) {
+  if(game == NULL || position < 0 || position >= MAX_LINKS) return NULL;
+
+  return  game->links[position];
+}
 /**
 Command Management
 */
