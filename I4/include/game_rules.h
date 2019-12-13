@@ -25,11 +25,8 @@ GameRules* game_rules_create();
 STATUS game_rules_destroy(GameRules* game_rules);
 
 STATUS game_rules_dark(GameRules* game_rules);
-STATUS game_rules_clopen_links(GameRules* game_rules);
+STATUS game_rules_open_even_links(GameRules* game_rules);
 STATUS game_rules_hide_objects(GameRules* game_rules);
-STATUS game_rules_drop_objects(GameRules* game_rules);
-STATUS game_rules_teleport(GameRules* game_rules):
 STATUS game_rules_main(GameRules* game_rules);
-
 
 #endif
