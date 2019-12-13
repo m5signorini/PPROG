@@ -132,7 +132,7 @@ STATUS game_add_space(Game* game, Space* space);
 * @param position index of the space that will be looked for
 * @return the id of the space or NO_ID
 */
-Id  game_get_space_id_at(Game* game, int position);
+Id     game_get_space_id_at(Game* game, int position);
 
 /**
 * @brief Gets the player
@@ -325,8 +325,5 @@ STATUS game_add_link(Game* game, Link* link);
 * @return the description of the game
 */
 char* game_get_description(Game*game);
-Link* game_get_link_at(Game* game, int position);
-Space* game_get_space_at(Game* game, int index);
-Object* game_get_object_at(Game* game, int index);
 
 #endif

@@ -56,7 +56,6 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
 
 STATUS graphic_engine_paint_bot_border(Graphic_engine* ge);
-STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj);
 
 /**
 * @brief Displays the side links
@@ -173,7 +172,14 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
         return;
       }
       graphic_engine_paint_side_links(game, ge, space_back, id_act);
-      graphic_engine_paint_visuals(ge, space_back, obj);
+      /* Space Image */
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_back, i));
+        screen_area_puts(ge->map, str);
+      }
+      /* Objects */
+      sprintf(str, "        |%s|", obj);
+      screen_area_puts(ge->map, str);
       graphic_engine_paint_bot_border(ge);
     }
 
@@ -182,8 +188,16 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
         return;
       }
       graphic_engine_paint_top_link(game, ge, space_act);
+
       graphic_engine_paint_side_links(game, ge, space_act, id_act);
-      graphic_engine_paint_visuals(ge, space_act, obj);
+      /* Space Image */
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_act, i));
+        screen_area_puts(ge->map, str);
+      }
+      /* Objects */
+      sprintf(str, "        |%s|", obj);
+      screen_area_puts(ge->map, str);
       graphic_engine_paint_bot_border(ge);
       graphic_engine_paint_bot_link(game, ge, space_act);
     }
@@ -193,7 +207,14 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
         return;
       }
       graphic_engine_paint_side_links(game, ge, space_next, id_act);
-      graphic_engine_paint_visuals(ge, space_next, obj);
+      /* Space Image */
+      for(i=0; i < IMG_NUM; i++) {
+        sprintf(str, "        |  %s  |", space_get_image(space_next, i));
+        screen_area_puts(ge->map, str);
+      }
+      /* Objects */
+      sprintf(str, "        |%s|",obj);
+      screen_area_puts(ge->map, str);
     }
   }
 
@@ -212,12 +233,13 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     if(i > 2) {
       strcat(str, ", ");
     }
+    /* Temporal use of obj (not used anymore)*/
     sprintf(tmp, "%s or %s", cmd_to_str[i], short_cmd_to_str[i]);
     strcat(str, tmp);
   }
   screen_area_puts(ge->help, str);
 
-  /* Paint in the feedback area */
+  /* Paint the in the feedback area */
   last_cmd = game_get_last_command(game);
   sprintf(str, " %s:", cmd_to_str[last_cmd-NO_CMD]);
   if(game_get_last_command_stat(game) == OK) {
@@ -237,32 +259,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 /**
   Private Functions
 */
-STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj) {
-  int i, j;
-  char str[STR_LEN];
-
-  if(space_get_illuminated(space) != FALSE) {
-    /* Space Image */
-    for(i=0; i < IMG_NUM; i++) {
-      sprintf(str, "        |  %s  |", space_get_image(space, i));
-      screen_area_puts(ge->map, str);
-    }
-    /* Objects */
-    sprintf(str, "        |%s|",obj);
-    screen_area_puts(ge->map, str);
-  }
-  else {
-    /* Dark Space */
-    for(i=0; i < IMG_NUM+1; i++) {
-      sprintf(str, "        |**");
-      for(j=0; j < IMG_SIZE; j++) {
-        strcat(str, "*");
-      }
-      strcat(str, "**|");
-      screen_area_puts(ge->map, str);
-    }
-  }
-}
 
 void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   Id obj_id = NO_ID;

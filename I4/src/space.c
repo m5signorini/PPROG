@@ -28,7 +28,7 @@ struct _Space {
   Id down;    /*!< Id of the down-link of the space*/
   Set* objects;   /*!< Memory direction of the set that stores the objects of the space*/
   char image[IMG_NUM][IMG_SIZE];    /*!< A matrix of characters that compose a background image*/
-  BOOL illuminated;    /*!< Bool value of the ilumination in the space*/
+  BOOL iluminated;    /*!< Bool value of the ilumination in the space*/
 };
 
 
@@ -59,7 +59,7 @@ Space* space_create(Id id) {
   new_space->south = NO_ID;
   new_space->east = NO_ID;
   new_space->west = NO_ID;
-  new_space->illuminated = TRUE;
+  new_space->iluminated = TRUE;
 
   new_space->objects = objects;
 
@@ -261,7 +261,7 @@ STATUS space_print(Space* space) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Illuminated: %d, Description: %s, Long description: %s)\n", space->id, space->name, space->illuminated, space->description, space->long_description)){
+  if(!fprintf(stdout, "--> Space (Id: %ld; Name: %s, Iluminated: %d, Description: %s, Long description: %s)\n", space->id, space->name, space->iluminated, space->description, space->long_description)){
     return ERROR;
   }
 
@@ -317,21 +317,21 @@ STATUS space_print(Space* space) {
   return OK;
 }
 
-STATUS space_set_illuminated(Space* space, BOOL value){
+STATUS space_set_iluminated(Space* space, BOOL value){
   if (space == NULL){
     return ERROR;
   }
-  space->illuminated = value;
+  space->iluminated = value;
 
   return OK;
 }
 
-BOOL space_get_illuminated(Space* space){
+BOOL space_get_iluminated(Space* space){
   if (space == NULL){
     return ERROR;
   }
 
-  return space->illuminated;
+  return space->iluminated;
 }
 
 STATUS space_set_up(Space* space, Id up){
