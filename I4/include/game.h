@@ -333,5 +333,6 @@ Object* game_get_object_at(Game* game, int index);
 STATUS game_check_light_space(Game* game, Space* space);
 STATUS game_check_light_player(Game* game, Space* space);
 
+STATUS game_clear(Game* game);
 
 #endif

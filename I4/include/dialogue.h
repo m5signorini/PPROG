@@ -29,9 +29,9 @@ STATUS dialogue_set_description(Dialogue* feedback, const char* string);
 
 T_Command dialogue_get_last_cmd(Dialogue* feedback);
 STATUS dialogue_get_last_status(Dialogue* feedback);
-STATUS dialogue_get_direction(Dialogue* feedback);
+DIRECTION dialogue_get_direction(Dialogue* feedback);
 const char* dialogue_get_feedback(Dialogue* feedback);
-const char* dialogue_get_description(Dialogue* feedback);
+char* dialogue_get_description(Dialogue* feedback);
 
 STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback);
 
