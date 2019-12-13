@@ -18,6 +18,7 @@ struct _Object {
   Id id;    /*!< Id of the object*/
   char name[WORD_SIZE + 1];   /*!< Name of the object */
   char description[MAX_DESC + 1];  /*!< Description of the object */
+  char moved_description[MAX_DESC + 1];
   Id open;
   BOOL movable;
   BOOL moved;
@@ -42,6 +43,7 @@ Object* object_create(Id id) {
   new_object->id = id;
   memset(new_object->name, 0, WORD_SIZE + 1);
   memset(new_object->description, 0, MAX_DESC + 1);
+  memset(new_object->moved_description, 0, MAX_DESC + 1);
   new_object->open = NO_ID;
   new_object->movable = FALSE;
   new_object->moved = FALSE;
@@ -81,6 +83,18 @@ STATUS object_set_description(Object* object, char* description) {
   }
 
   if (!strncpy(object->description, description, MAX_DESC)) {
+    return ERROR;
+  }
+
+  return OK;
+}
+
+STATUS object_set_moved_description(Object* object, char* description) {
+  if (!object || !description) {
+    return ERROR;
+  }
+
+  if (!strncpy(object->moved_description, description, MAX_DESC)) {
     return ERROR;
   }
 
@@ -159,7 +173,10 @@ const char * object_get_description(Object* object) {
   if (!object) {
     return NULL;
   }
-  return object->description;
+  if (object->moved == FALSE) {
+    return object->description;
+  }
+  return object->moved_description;
 }
 
 Id object_get_open(Object* object) {
@@ -210,7 +227,7 @@ STATUS object_print(Object* object) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s)\n", object->id, object->name, object->description)){
+  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s, Moved descrption: %s)\n", object->id, object->name, object->description, object->move_description)){
     return ERROR;
   }
 
