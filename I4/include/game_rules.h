@@ -28,5 +28,5 @@ STATUS game_rules_dark(GameRules* game_rules);
 STATUS game_rules_open_even_links(GameRules* game_rules);
 STATUS game_rules_hide_objects(GameRules* game_rules);
 STATUS game_rules_main(GameRules* game_rules);
-
+STATUS game_rules_rotation(GameRules* game_rules);
 #endif
