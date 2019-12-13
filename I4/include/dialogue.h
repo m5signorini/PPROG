@@ -23,10 +23,12 @@ STATUS dialogue_destroy(Dialogue* dialogue);
 
 STATUS dialogue_set_last_cmd(Dialogue* feedback, T_Command cmd);
 STATUS dialogue_set_last_status(Dialogue* feedback, STATUS status);
+STATUS dialogue_set_direction(Dialogue* feedback, DIRECTION dir);
 STATUS dialogue_set_feedback(Dialogue* feedback, const char* string);
 
 T_Command dialogue_get_last_cmd(Dialogue* feedback);
 STATUS dialogue_get_last_status(Dialogue* feedback);
+STATUS dialogue_get_direction(Dialogue* feedback);
 const char* dialogue_get_feedback(Dialogue* feedback);
 
 STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback);
