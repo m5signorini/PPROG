@@ -147,7 +147,7 @@ STATUS object_set_illuminate(Object* object, BOOL illuminate) {
 }
 
 STATUS object_set_turnedon(Object* object, BOOL turnedon) {
-  if (!object || object->illuminate == FALSE) {
+  if (!object) {
     return ERROR;
   }
   object->turnedon = turnedon;

@@ -59,6 +59,8 @@ Space* space_create(Id id) {
   new_space->south = NO_ID;
   new_space->east = NO_ID;
   new_space->west = NO_ID;
+  new_space->up = NO_ID;
+  new_space->down = NO_ID;
   new_space->illuminated = TRUE;
 
   new_space->objects = objects;

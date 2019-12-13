@@ -62,12 +62,13 @@ STATUS game_rules_dark(GameRules* game_rules){
   if(game_rules == NULL){
     return ERROR;
   }
-  Player* player = game_get_player(game_rules->game);
-  Id idSpace = player_get_location(player);
-  Space* space = game_get_space(game_rules->game, idSpace);
+  Space* space = NULL;
+  int i = 0;
 
-  if (space_set_illuminated(space, FALSE) == ERROR){
-    return ERROR;
+  while ((space = game_get_space_at(game_rules->game, i++)) != NULL){
+       if (space_set_illuminated(space, FALSE) == ERROR){
+         return ERROR;
+       }
   }
   return OK;
 }
@@ -184,7 +185,7 @@ STATUS game_rules_main(GameRules* game_rules){
   }
   STATUS control;
 
-  switch (game_rules->turn++){
+  switch (game_rules->turn){
     case 1:
        control = game_rules_dark(game_rules);
        break;
@@ -203,7 +204,7 @@ STATUS game_rules_main(GameRules* game_rules){
     case 6:
        control = game_rules_rotation(game_rules);
        break;
-  }
 
+  }
   return control;
 }

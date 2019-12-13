@@ -45,6 +45,15 @@ STATUS dialogue_set_direction(Dialogue* feedback, DIRECTION dir) {
   return OK;
 }
 
+STATUS dialogue_set_description(Dialogue* feedback, const char* desc) {
+  if (!feedback || !desc) {
+    return ERROR;
+  }
+
+  strncpy(feedback->description, desc, MAX_DESC);
+  return OK;
+}
+
 STATUS dialogue_set_last_status(Dialogue* feedback, STATUS status) {
   if (!feedback) {
     return ERROR;
@@ -65,30 +74,12 @@ STATUS dialogue_set_feedback(Dialogue* feedback, const char* string) {
   return OK;
 }
 
-STATUS dialogue_set_description(Dialogue* feedback, const char* string) {
-  if (!feedback || !string) {
-    return ERROR;
-  }
-
-  strcpy(feedback->description, string);
-
-  return OK;
-}
-
 const char* dialogue_get_feedback(Dialogue* feedback) {
   if (!feedback) {
     return ERROR;
   }
 
   return feedback->feedback;
-}
-
-const char* dialogue_get_description(Dialogue* feedback) {
-  if (!feedback) {
-    return ERROR;
-  }
-
-  return feedback->description;
 }
 
 T_Command dialogue_get_last_cmd(Dialogue* feedback) {
@@ -99,12 +90,20 @@ T_Command dialogue_get_last_cmd(Dialogue* feedback) {
   return feedback->last_cmd;
 }
 
-STATUS dialogue_get_direction(Dialogue* feedback) {
+DIRECTION dialogue_get_direction(Dialogue* feedback) {
   if (!feedback) {
     return ERROR;
   }
 
   return feedback->dir;
+}
+
+char* dialogue_get_description(Dialogue* feedback) {
+  if (!feedback) {
+    return ERROR;
+  }
+
+  return feedback->description;
 }
 
 STATUS dialogue_get_last_status(Dialogue* feedback) {
