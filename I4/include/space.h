@@ -323,28 +323,28 @@ STATUS space_set_image(Space* space, char* image, int pos);
 const char* space_get_image(Space* space, int pos);
 
 /**
-* @brief Sets the ilumination value of a space
+* @brief Sets the illumination value of a space
 *
-* space_set_iluminated Sets the ilumination value of a space
+* space_set_illuminated Sets the illumination value of a space
 * @date 28/11/2019
 * @author: Gonzalo Martín
 *
-* @param space whose iluminated value is set
-* @return the ilumination value of a space
+* @param space whose illuminated value is set
+* @return the illumination value of a space
 */
-STATUS space_set_iluminated(Space* space, BOOL value);
+STATUS space_set_illuminated(Space* space, BOOL value);
 
 /**
-* @brief Gets the ilumination value of a space
+* @brief Gets the illumination value of a space
 *
-* space_get_iluminated Gets the ilumination value of a space
+* space_get_illuminated Gets the illumination value of a space
 * @date 28/11/2019
 * @author: Gonzalo Martín
 *
-* @param space whose iluminated value is returned
+* @param space whose illuminated value is returned
 * @return the status of the function, for error management
 */
-BOOL space_get_iluminated(Space* space);
+BOOL space_get_illuminated(Space* space);
 
 /**
 * @brief Sets the up-link id of a space
