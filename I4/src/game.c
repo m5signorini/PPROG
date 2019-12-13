@@ -118,24 +118,40 @@ Game* game_create() {
   return game;
 }
 
-STATUS game_destroy(Game* game) {
+STATUS game_clear(Game* game) {
   if (game == NULL) return ERROR;
   int i = 0;
 
   for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
     space_destroy(game->spaces[i]);
+    game->spaces[i] = NULL;
   }
 
   for (i = 0; (i < MAX_OBJECTS) && (game->objects[i] != NULL); i++) {
     object_destroy(game->objects[i]);
+    game->objects[i] = NULL;
   }
 
   for (i = 0; (i < MAX_LINKS) && (game->links[i] != NULL); i++) {
     link_destroy(game->links[i]);
+    game->links[i] = NULL;
   }
   player_destroy(game->player);
+  game->player = NULL;
   die_destroy(game->die);
+  game->die = NULL;
   dialogue_destroy(game->dialogue);
+  game ->dialogue = NULL;
+  return OK;
+}
+
+
+STATUS game_destroy(Game* game) {
+  if (!game) {
+    return ERROR;
+  }
+
+  game_clear(game);
   free(game);
 
   return OK;
