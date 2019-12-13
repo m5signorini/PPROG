@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "game_rules.h"
 
 #define DIE_MAX
 #define DIE_MIN
@@ -64,7 +65,7 @@ STATUS game_rules_dark(GameRules* game_rules){
   Space* space = NULL;
   int i = 0;
 
-  while (space = game_get_space_at(game_rules->game, i++) != NULL){
+  while ((space = game_get_space_at(game_rules->game, i++)) != NULL){
        if (space_set_illuminated(space, FALSE) == ERROR){
          return ERROR;
        }
@@ -79,7 +80,7 @@ STATUS game_rules_clopen_links(GameRules* game_rules){
   Link* link = NULL;
   int i = 0;
 
-  while (link = game_get_link_at(game_rules->game, i) != NULL){
+  while ((link = game_get_link_at(game_rules->game, i)) != NULL){
        if(link_get_open(link) == TRUE){
          if (link_set_open(link, FALSE) == ERROR){
            return ERROR;
@@ -102,8 +103,8 @@ STATUS game_rules_hide_objects(GameRules* game_rules){
   Object* object = NULL;
   int i = 0;
 
-  while (object = game_get_object_at(game_rules->game, i) != NULL){
-       if (object_set_hidden(link, TRUE) == ERROR){
+  while ((object = game_get_object_at(game_rules->game, i)) != NULL){
+       if (object_set_hidden(object, TRUE) == ERROR){
          return ERROR;
        }
       i++;
@@ -116,18 +117,14 @@ STATUS game_rules_drop_objects(GameRules* game_rules){
     return ERROR;
   }
 
-  Object* object = NULL;
   int i = 0;
   Id idObject;
   Player* player = game_get_player(game_rules->game);
   Id idSpace = player_get_location(player);
   Space* space = game_get_space(game_rules->game, idSpace);
 
-  while (object = player_get_object_at(player, i) != NULL){
-       if (idObject = object_get_id(object) == NO_ID){
-         return ERROR;
-       }
-       if (space_add_object(space, idObject) == ERROR){
+  while ((idObject = player_get_object_at(player, i)) != NO_ID){
+      if (space_add_object(space, idObject) == ERROR){
          return ERROR;
        }
       if (player_delete_object(player, idObject) == ERROR){
@@ -146,21 +143,41 @@ STATUS game_rules_teleport(GameRules* game_rules){
   int random;
   for (i = 0; i < MAX_SPACES; i++){
      if(game_get_space_id_at(game_rules->game, i) == NO_ID){
-       break
+       break;
      }
   }
-  random = rand()/(RAND_MAX + 1.) * ((i - 1) + 1) + 1);
+  random = (rand()/(RAND_MAX + 1.) * ((i - 1) + 1) + 1);
 
   Player* player = game_get_player(game_rules->game);
   Id idSpace = game_get_space_id_at(game_rules->game, random);
 
-  if(player_set_location(player, idSpace) == NULL){
+  if(player_set_location(player, idSpace) == ERROR){
     return ERROR;
   }
   return OK;
 }
 
-STATUS
+STATUS game_rules_rotation(GameRules* game_rules){
+  if(game_rules == NULL){
+    return ERROR;
+  }
+  Player* player = game_get_player(game_rules->game);
+  Id idSpace = player_get_location(player);
+  Space* space = game_get_space(game_rules->game, idSpace);
+  Id northId, eastId, westId, southId;
+
+  northId =  space_get_north(space);
+  southId =  space_get_south(space);
+  eastId =  space_get_east(space);
+  westId =  space_get_west(space);
+
+  space_set_north(space, westId);
+  space_set_south(space,eastId);
+  space_set_west(space, southId);
+  space_set_east(space, northId);
+
+  return OK;
+}
 
 STATUS game_rules_main(GameRules* game_rules){
   if(game_rules == NULL){
@@ -173,7 +190,7 @@ STATUS game_rules_main(GameRules* game_rules){
        control = game_rules_dark(game_rules);
        break;
     case 2:
-       control = game_rules_close_links(game_rules);
+       control = game_rules_clopen_links(game_rules);
        break;
     case 3:
        control = game_rules_hide_objects(game_rules);
@@ -182,10 +199,10 @@ STATUS game_rules_main(GameRules* game_rules){
        control = game_rules_drop_objects(game_rules);
        break;
     case 5:
-       control = game_rules_teleport(game_rules):
+       control = game_rules_teleport(game_rules);
        break;
     case 6:
-       control =
+       control = game_rules_rotation(game_rules);
        break;
 
   }
