@@ -292,6 +292,50 @@ Id game_get_object_location(Game* game, Id obj) {
   return NO_ID;
 }
 
+Object* game_get_object_by_name_in_player(Game* game, char* name, Space* space) {
+  if(game == NULL || name == NULL) return NULL;
+
+  /*Object* obj = NULL;
+  int i = 0;
+
+  while(i <= MAX_SPACES && game->objects[i] != NULL) {
+    obj = game->objects[i];
+    if(strcmp(object_get_name(obj), name) == 0) {
+      return obj;
+    }
+    i++;
+  }*/
+  /* Get all objects with the player until finding one with the matching name*/
+  /* Note this is faster than first finding the object in the game and then checking the player has it*/
+  /*while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if (strcmp(object_get_name(obj), name) == 0) {
+      if (object_get_illuminate(obj)==TRUE) {
+        object_set_turnedon(obj, TRUE);
+        return OK;
+      }
+    }
+  }*/
+
+  return NULL;
+}
+
+Object* game_get_object_by_name_in_space(Game* game, char* name, Player* player) {
+  if(game == NULL || name == NULL) return NULL;
+/*
+  Object* obj = NULL;
+  int i = 0;
+
+  while(i <= MAX_SPACES && game->objects[i] != NULL) {
+    obj = game->objects[i];
+    if(strcmp(object_get_name(obj), name) == 0) {
+      return obj;
+    }
+    i++;
+  }
+*/
+  return NULL;
+}
 /**
 Die management
 */
@@ -657,7 +701,7 @@ STATUS game_callback_inspect(Game* game){
     dialogue_set_description(game->dialogue, space_get_long_description(space_act));
     return OK;
   }
-    else {
+  else {
     while((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
        if (strcmp(object_get_name(obj), name) == 0 ){
