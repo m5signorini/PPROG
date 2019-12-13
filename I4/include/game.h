@@ -22,6 +22,7 @@ typedef struct _Game Game;
 #include "object.h"
 #include "die.h"
 #include "link.h"
+#include "dialogue.h"
 
 /**
 * @brief Creates a new game
