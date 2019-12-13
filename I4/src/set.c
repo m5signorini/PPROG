@@ -53,7 +53,7 @@ STATUS set_destroy(Set* set) {
 
 STATUS set_add_id(Set* set, Id id) {
   int i;
-  if (set == NULL || id == NO_ID) {
+  if (set == NULL || id == NO_ID || set->n_elements > MAX_N_ELEMENTS) {
     return ERROR;
   }
 
