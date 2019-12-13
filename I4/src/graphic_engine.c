@@ -250,6 +250,7 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
     /* Objects */
     sprintf(str, "        |%s|",obj);
     screen_area_puts(ge->map, str);
+    return OK;
   }
   else {
     /* Dark Space */
@@ -261,7 +262,9 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
       strcat(str, "**|");
       screen_area_puts(ge->map, str);
     }
+    return OK;
   }
+  return ERROR;
 }
 
 void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
