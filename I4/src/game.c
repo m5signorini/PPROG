@@ -75,10 +75,7 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_roll,
   game_callback_inspect,
   game_callback_turnon,
-  game_callback_turnoff,
-  game_callback_open,
-  game_callback_save,
-  game_callback_load
+  game_callback_turnoff
 };
 
 
@@ -121,40 +118,24 @@ Game* game_create() {
   return game;
 }
 
-STATUS game_clear(Game* game) {
+STATUS game_destroy(Game* game) {
   if (game == NULL) return ERROR;
   int i = 0;
 
   for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
     space_destroy(game->spaces[i]);
-    game->spaces[i] = NULL;
   }
 
   for (i = 0; (i < MAX_OBJECTS) && (game->objects[i] != NULL); i++) {
     object_destroy(game->objects[i]);
-    game->objects[i] = NULL;
   }
 
   for (i = 0; (i < MAX_LINKS) && (game->links[i] != NULL); i++) {
     link_destroy(game->links[i]);
-    game->links[i] = NULL;
   }
   player_destroy(game->player);
-  game->player = NULL;
   die_destroy(game->die);
-  game->die = NULL;
   dialogue_destroy(game->dialogue);
-  game ->dialogue = NULL;
-  return OK;
-}
-
-
-STATUS game_destroy(Game* game) {
-  if (!game) {
-    return ERROR;
-  }
-
-  game_clear(game);
   free(game);
 
   return OK;
@@ -314,6 +295,64 @@ Id game_get_object_location(Game* game, Id obj) {
   return NO_ID;
 }
 
+Object* game_get_object_by_name(Game* game, char* name, Space* space) {
+  if(game == NULL || name == NULL) return NULL;
+
+  Object* obj = NULL;
+  int i = 0;
+
+  while(i <= MAX_SPACES && game->objects[i] != NULL) {
+    obj = game->objects[i];
+    if(strcmp(object_get_name(obj), name) == 0) {
+      return obj;
+    }
+    i++;
+  }
+
+  return NULL;
+}
+
+Object* game_get_object_by_name_in_player(Game* game, char* name, Player* player) {
+  if(game == NULL || name == NULL) return NULL;
+
+  Object* obj = NULL;
+  Id obj_id = NO_ID;
+  int i = 0;
+
+  /* Get all objects with the player until finding one with the matching name*/
+  /* Note this is faster than first finding the object in the game and then checking the player has it*/
+  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
+      return ERROR;
+    }
+    if (strcmp(object_get_name(obj), name) == 0) {
+      return obj;
+    }
+  }
+
+  return NULL;
+}
+
+Object* game_get_object_by_name_in_space(Game* game, char* name, Space* space) {
+  if(game == NULL || name == NULL) return NULL;
+
+  Object* obj = NULL;
+  Id obj_id = NO_ID;
+  int i = 0;
+
+  /* Get all objects within the space until finding one with the matching name*/
+  while((obj_id = space_get_object_at(space, i++)) != NO_ID) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL) {
+      return ERROR;
+    }
+    if(strcmp(object_get_name(obj), name) == 0) {
+      return obj;
+    }
+  }
+  return NULL;
+}
 /**
 Die management
 */
@@ -453,15 +492,21 @@ STATUS game_callback_next(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_south(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_south(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, S);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
 }
 
@@ -469,15 +514,21 @@ STATUS game_callback_back(Game* game) {
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_north(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_north(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, N);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
 }
 
@@ -485,15 +536,21 @@ STATUS game_callback_right(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_east(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_east(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, E);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
 }
 
@@ -501,15 +558,21 @@ STATUS game_callback_left(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_west(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_west(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, W);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
   //return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
@@ -518,15 +581,21 @@ STATUS game_callback_up(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_up(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_up(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, U);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
 }
 
@@ -534,15 +603,21 @@ STATUS game_callback_down(Game* game){
   if(game == NULL) {
     return ERROR;
   }
-
+  Space* space_next = NULL;
   Id player_location = player_get_location(game->player);
-  Id link_id = space_get_down(game_get_space(game, player_location));
+  Space* space_act = game_get_space(game, player_location);
+  Id link_id = space_get_down(space_act);
   Link* link = game_get_link(game, link_id);
   Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
+  space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, D);
+  /*Check if there is still a light source*/
+  game_check_light_space(game, space_act);
+  game_check_light_space(game, space_next);
+  game_check_light_player(game, space_next);
   return player_set_location(game->player, dest);
 }
 
@@ -585,7 +660,6 @@ STATUS game_callback_take(Game* game){
   Space* space_act = NULL;
   Object* obj = NULL;
   char name[WORD_SIZE + 1];
-  int i = 0;
 
   /* Scan the next string to get the name of the object, if none return ERROR*/
   if(scanf("%s", name) < 1) {
@@ -599,19 +673,15 @@ STATUS game_callback_take(Game* game){
   /*We obtain the space where the player is*/
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
-  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if(obj == NULL) {
-      return ERROR;
-    }
-
-    if(strcmp(object_get_name(obj), name) == 0) {
-      player_add_object(game_get_player(game), obj_id);
-      space_delete_object(space_act, obj_id);
-      return OK;
-    }
+  /*Look for a matching object in the space*/
+  obj = game_get_object_by_name_in_space(game, name, space_act);
+  if(obj == NULL) {
+    return ERROR;
   }
-  return ERROR;
+  obj_id = object_get_id(obj);
+  player_add_object(game_get_player(game), obj_id);
+  space_delete_object(space_act, obj_id);
+  return OK;
 }
 
 STATUS game_callback_drop(Game* game){
@@ -622,7 +692,6 @@ STATUS game_callback_drop(Game* game){
   Id obj_id = NO_ID;
   Id space_id = NO_ID;
   char name[WORD_SIZE + 1];
-  int i = 0;
 
   if(scanf("%s", name) < 1) {
     return ERROR;
@@ -632,19 +701,15 @@ STATUS game_callback_drop(Game* game){
   space_id = player_get_location(game_get_player(game));
   space_act = game_get_space(game, space_id);
 
-  while((obj_id = player_get_object_at(game_get_player(game), i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if(obj == NULL) {
-      return ERROR;
-    }
-
-    if(strcmp(object_get_name(obj), name) == 0) {
-      player_delete_object(game_get_player(game), obj_id);
-      space_add_object(space_act, obj_id);
-      return OK;
-    }
+  /*Look for a matching item in the inventory of player*/
+  obj = game_get_object_by_name_in_player(game, name, game->player);
+  if(obj == NULL) {
+    return ERROR;
   }
-  return ERROR;
+  obj_id = object_get_id(obj);
+  player_delete_object(game_get_player(game), obj_id);
+  space_add_object(space_act, obj_id);
+  return OK;
 }
 
 STATUS game_callback_roll(Game* game) {
@@ -658,19 +723,18 @@ STATUS game_callback_inspect(Game* game){
     return ERROR;
   }
 
-  Id obj_id = NO_ID;
   Space* space_act = NULL;
   Object* obj = NULL;
   char name[WORD_SIZE + 1];
-  int i = 0;
 
   /* Scan the next string to get the name of the object, if none return ERROR*/
   if(scanf("%s", name) < 1) {
     return ERROR;
   }
+  space_act = game_get_space(game, player_get_location(game_get_player(game)));
 
   if(strcmp(name, "space") == 0 || strcmp(name, "s") == 0){
-    space_act = game_get_space(game, player_get_location(game_get_player(game)));
+    /* Inspect space */
     if (space_get_illuminated(space_act)==FALSE) {
       strcpy(game->description, "\0");
       return OK;
@@ -679,24 +743,27 @@ STATUS game_callback_inspect(Game* game){
     dialogue_set_description(game->dialogue, space_get_long_description(space_act));
     return OK;
   }
-    else {
-    while((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
-       obj = game_get_object(game, obj_id);
-       if (strcmp(object_get_name(obj), name) == 0 ){
-         strcpy(game->description, object_get_description(obj));
-         return OK;
-       }
-     }
-     i = 0;
-     while((obj_id = space_get_object_at(game_get_space(game, player_get_location(game->player)), i++)) != NO_ID) {
-       obj = game_get_object(game, obj_id);
-       if (strcmp(object_get_name(obj), name) == 0 && space_get_illuminated(space_act) == TRUE){
+  else {
+    /* Inspect object */
+    /* Look for matching object in the player */
+    obj = game_get_object_by_name_in_player(game, name, game->player);
+    if(obj != NULL) {
+      /* Object with the player */
+      strcpy(game->description, object_get_description(obj));
+      return OK;
+    }
+
+     /* Look for matching object in the space */
+     obj = game_get_object_by_name_in_space(game, name, space_act);
+     if(obj != NULL) {
+       /* Object in the space */
+       if(space_get_illuminated(space_act) == TRUE){
          strcpy(game->description, object_get_description(obj));
          dialogue_set_description(game->dialogue, object_get_description(obj));
          return OK;
        }
-       else if (strcmp(object_get_name(obj), name) == 0 && space_get_illuminated(space_act) == FALSE){
-         strcpy(game->description, "\0");
+       else {
+         strcpy(game->description, "It's too dark");
          dialogue_set_description(game->dialogue, "\0");
          return OK;
        }
@@ -707,9 +774,7 @@ STATUS game_callback_inspect(Game* game){
 
 STATUS game_callback_turnon(Game* game) {
   char name[WORD_SIZE+1];
-  Id obj_id = NO_ID;
   Object *obj = NULL;
-  int i=0;
   Space *space_act = NULL;
 
   if (game==NULL) {
@@ -721,38 +786,35 @@ STATUS game_callback_turnon(Game* game) {
     return ERROR;
   }
 
-  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if (strcmp(object_get_name(obj), name) == 0) {
-      if (object_get_illuminate(obj)==TRUE) {
-        object_set_turnedon(obj, TRUE);
-        return OK;
-      }
-    }
-  }
-
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
-  i = 0;
-  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if(obj == NULL) {
+
+  /* Look for object in the player*/
+  obj = game_get_object_by_name_in_player(game, name, game->player);
+  if(obj != NULL) {
+    if (object_get_illuminate(obj)==FALSE) {
       return ERROR;
     }
-
-    if(strcmp(object_get_name(obj), name) == 0) {
-      object_set_turnedon(obj, TRUE);
-      return OK;
-    }
+    object_set_turnedon(obj, TRUE);
+    space_set_illuminated(space_act, TRUE);
+    return OK;
   }
 
+  /* Look for object in the space */
+  obj = game_get_object_by_name_in_space(game, name, space_act);
+  if(obj != NULL) {
+    if (object_get_illuminate(obj)==FALSE) {
+      return ERROR;
+    }
+    object_set_turnedon(obj, TRUE);
+    space_set_illuminated(space_act, TRUE);
+    return OK;
+  }
   return ERROR;
 }
 
 STATUS game_callback_turnoff(Game* game) {
   char name[WORD_SIZE+1];
-  Id obj_id = NO_ID;
   Object *obj = NULL;
-  int i=0;
   Space *space_act = NULL;
 
   if (game==NULL) {
@@ -764,39 +826,40 @@ STATUS game_callback_turnoff(Game* game) {
     return ERROR;
   }
 
-  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if (strcmp(object_get_name(obj), name) == 0) {
-      if (object_get_illuminate(obj)==TRUE) {
-        object_set_turnedon(obj, FALSE);
-        return OK;
-      }
-    }
-  }
-
   space_act = game_get_space(game, player_get_location(game_get_player(game)));
-  i = 0;
-  while((obj_id = space_get_object_at(space_act, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if(obj == NULL) {
+
+  /* Look for object in the player*/
+  obj = game_get_object_by_name_in_player(game, name, game->player);
+  if(obj != NULL) {
+    if (object_get_illuminate(obj)==FALSE) {
       return ERROR;
     }
-
-    if(strcmp(object_get_name(obj), name) == 0) {
-      object_set_turnedon(obj, FALSE);
-      return OK;
-    }
+    object_set_turnedon(obj, FALSE);
+    /*Check if there is still a light source*/
+    game_check_light_space(game, space_act);
+    space_set_illuminated(space_act, FALSE);
+    return OK;
   }
 
+  /* Look for object in the space */
+  obj = game_get_object_by_name_in_space(game, name, space_act);
+  if(obj != NULL) {
+    if (object_get_illuminate(obj)==FALSE) {
+      return ERROR;
+    }
+    object_set_turnedon(obj, FALSE);
+    /*Check if there is still a light source*/
+    game_check_light_space(game, space_act);
+    space_set_illuminated(space_act, FALSE);
+    return OK;
+  }
   return ERROR;
 }
 
 STATUS game_callback_open(Game* game) {
   char link_name[WORD_SIZE+1];
   char obj_name[WORD_SIZE+1];
-  Id obj_id = NO_ID;
   Id link_id = NO_ID;
-  int i=0;
   Object *obj = NULL;
   Space *space_act = NULL;
 
@@ -808,14 +871,13 @@ STATUS game_callback_open(Game* game) {
     return ERROR;
   }
 
-  while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
-    obj = game_get_object(game, obj_id);
-    if (strcmp(object_get_name(obj), obj_name) == 0) {
-      break;
-    }
-  }
-
   space_act = game_get_space(game, player_get_location(game->player));
+
+  /* Look for object in the player*/
+  obj = game_get_object_by_name_in_player(game, obj_name, game->player);
+  if(obj == NULL) {
+    return ERROR;
+  }
 
   link_id = space_get_north(space_act);
   if (object_get_open(obj)==link_id && link_id!=NO_ID) {
@@ -888,6 +950,36 @@ STATUS game_callback_load(Game* game) {
   if (!game) {
     return ERROR;
   }
-  
+
   return OK;
+}
+
+/**/
+STATUS game_check_light_space(Game* game, Space* space) {
+  if(game == NULL || space == NULL) return ERROR;
+  int i = 0;
+  Object* obj = NULL;
+
+  while((obj = game_get_object(game, space_get_object_at(space, i++))) != NULL) {
+    if(object_get_illuminate(obj) == TRUE && object_get_turnedon(obj) == TRUE) {
+      space_set_illuminated(space, TRUE);
+      return OK;
+    }
+  }
+  space_set_illuminated(space, FALSE);
+  return ERROR;
+}
+
+STATUS game_check_light_player(Game* game, Space* space) {
+  if(game == NULL || space == NULL) return ERROR;
+  int i = 0;
+  Object* obj = NULL;
+
+  while((obj = game_get_object(game, player_get_object_at(game->player, i++))) != NULL) {
+    if(object_get_illuminate(obj) == TRUE && object_get_turnedon(obj) == TRUE) {
+      space_set_illuminated(space, TRUE);
+      return OK;
+    }
+  }
+  return ERROR;
 }

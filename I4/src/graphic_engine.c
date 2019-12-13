@@ -120,8 +120,8 @@ Graphic_engine *graphic_engine_create(){
   ge->map      = screen_area_init( 1, 1, 48, 21);
   ge->descript = screen_area_init(50, 1, 29, 21);
   ge->banner   = screen_area_init(28,23, 23,  1);
-  ge->help     = screen_area_init( 1,24, 78,  2);
-  ge->feedback = screen_area_init( 1,27, 78,  3);
+  ge->help     = screen_area_init( 1,24, 78,  3);
+  ge->feedback = screen_area_init( 1,28, 78,  3);
 
   return ge;
 }
@@ -255,7 +255,7 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
   else {
     /* Dark Space */
     for(i=0; i < IMG_NUM+1; i++) {
-      sprintf(str, "        |**");
+      sprintf(str, "        |*");
       for(j=0; j < IMG_SIZE; j++) {
         strcat(str, "*");
       }
