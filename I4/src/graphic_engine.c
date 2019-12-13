@@ -255,7 +255,7 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
   else {
     /* Dark Space */
     for(i=0; i < IMG_NUM+1; i++) {
-      sprintf(str, "        |**");
+      sprintf(str, "        |*");
       for(j=0; j < IMG_SIZE; j++) {
         strcat(str, "*");
       }
