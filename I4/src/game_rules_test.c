@@ -15,7 +15,7 @@
 #include "test.h"
 #include "game.h"
 
-#define MAX_TESTS 6
+#define MAX_TESTS 7
 
 /**
  * @brief Funcion principal de pruebas para el modulo Game Rules.
@@ -44,13 +44,14 @@ int main(int argc, char** argv) {
     }
 
 
-    if (all || test == 1) test_set_create();
-    if (all || test == 2) test_set_add_id();
-    if (all || test == 3) test_set_has_id();
-    if (all || test == 4) test_set_delete_id();
-    if (all || test == 5) test_set_get_number_elements();
-    if (all || test == 6) test_set_get_id_at();
-
+    if (all || test == 1) test_gamer_rules_create();
+    if (all || test == 2) test_game_rules_dark();
+    if (all || test == 3) test_game_rules_open_even_links();
+    if (all || test == 4) test_game_rules_hide_objects();
+    if (all || test == 5) test_game_rules_rotation();
+    if (all || test == 6) test_game_rules_teleport();
+    if (all || test == 7) test_game_rules_drop_objects()
+    
     PRINT_PASSED_PERCENTAGE;
 
     return 1;
