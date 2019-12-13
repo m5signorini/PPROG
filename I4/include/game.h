@@ -330,5 +330,8 @@ char* game_get_description(Game*game);
 Link* game_get_link_at(Game* game, int position);
 Space* game_get_space_at(Game* game, int index);
 Object* game_get_object_at(Game* game, int index);
+STATUS game_check_light_space(Game* game, Space* space);
+STATUS game_check_light_player(Game* game, Space* space);
+
 
 #endif
