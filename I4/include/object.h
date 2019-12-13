@@ -71,6 +71,8 @@ STATUS object_set_name(Object* object, char* name);
 */
 STATUS object_set_description(Object* object, char* description);
 
+STATUS object_set_moved_description(Object* object, char* description);
+
 STATUS object_set_open(Object* object, Id open);
 
 STATUS object_set_movable(Object* object, BOOL movable);
