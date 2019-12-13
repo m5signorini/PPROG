@@ -35,6 +35,16 @@ STATUS dialogue_set_last_cmd(Dialogue* feedback, T_Command cmd) {
   return OK;
 }
 
+STATUS dialogue_set_direction(Dialogue* feedback, DIRECTION dir) {
+  if (!feedback) {
+    return ERROR;
+  }
+
+  feedback->dir = dir;
+
+  return OK;
+}
+
 STATUS dialogue_set_last_status(Dialogue* feedback, STATUS status) {
   if (!feedback) {
     return ERROR;
@@ -69,6 +79,14 @@ T_Command dialogue_get_last_cmd(Dialogue* feedback) {
   }
 
   return feedback->last_cmd;
+}
+
+STATUS dialogue_get_direction(Dialogue* feedback) {
+  if (!feedback) {
+    return ERROR;
+  }
+
+  return feedback->dir;
 }
 
 STATUS dialogue_get_last_status(Dialogue* feedback) {
