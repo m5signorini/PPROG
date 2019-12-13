@@ -12,37 +12,72 @@
 #include <stdlib.h>
 #include "die.h"
 
-int main(int argc, char *argv[]) {
-  if (argc < 3) {
-    fprintf(stderr, "Use: %s <min> <max>\n", argv[0]);
-    return 1;
-  }
+#define MAX_TESTS 5
 
-  Die* die = NULL;
-  int min = atoi(argv[1]);
-  int max = atoi(argv[2]);
+/**
+ * @brief Funcion principal de pruebas para el modulo Space.
+ *
+ * Dos modos de ejecucion:
+ *   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
+ *   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
+ *      la prueba indicada
+ *
+ */
+int main(int argc, char** argv) {
 
-  die = die_create(1, min, max);
-  if (die == NULL) {
-    fprintf(stderr, "Error creating die\n");
-    return 1;
-  }
+    int test = 0;
+    int all = 1;
 
-  die_roll(die);
-  if(die_print(die) == ERROR) {
-    fprintf(stderr, "Error printing die\n");
-    die_destroy(die);
-    return 1;
-  }
-  
-  die_roll(die);
-  if(die_print(die) == ERROR) {
-    fprintf(stderr, "Error printing die\n");
-    die_destroy(die);
-    return 1;
-  }
-  
-  die_destroy(die);
+    if (argc < 2) {
+        printf("Running all test for module Die:\n");
+    } else {
+        test = atoi(argv[1]);
+        all = 0;
+        printf("Running test %d:\t", test);
+	if (test < 1 && test > MAX_TESTS) {
+	  printf("Error: unknown test %d\t", test);
+	  exit(EXIT_SUCCESS);
+        }
+    }
 
-  return 0;
+
+    if (all || test == 1) test_die_create();
+    if (all || test == 2) test_die_print();
+    if (all || test == 3) test_die_roll();
+    if (all || test == 4) test_die_destroy();
+    if (all || test == 5) test_die_get_last();
+
+
+    PRINT_PASSED_PERCENTAGE;
+
+    return 1;
+}
+
+void test_die_create() {
+  die = die_create(1, 1, 6);
+
+  PRINT_TEST_RESULT(die !=NULL);
+}
+
+void test_die_print() {
+  die = die_create(1, 1, 6);
+
+  PRINT_TEST_RESULT(die_print(die) == OK);
+}
+
+void test_die_roll(){
+  die = die_create(1, 1, 6);
+
+  PRINT_TEST_RESULT(die_roll(die) >0 && die_roll(die) <7);
+}
+
+void test_die_destroy() {
+    die = die_create(1, 1, 6);
+    PRINT_TEST_RESULT(die_destroy(die) == OK);
+}
+
+void test_die_get_last() {
+    die = die_create(1, 1, 6);
+    die_roll(die);
+    PRINT_TEST_RESULT(die_get_last(die) >0 && die_get_last(die) <7);
 }

@@ -11,76 +11,110 @@
 #include <stdlib.h>
 #include "inventory.h"
 
-int main() {
-  Inventory *inventory = NULL;
-  Id idaux = -1;
-  int tamano = 10;
+#define MAX_TESTS 10
 
-  printf("Creando inventory: \n");
+/**
+ * @brief Funcion principal de pruebas para el modulo Space.
+ *
+ * Dos modos de ejecucion:
+ *   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
+ *   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
+ *      la prueba indicada
+ *
+ */
+int main(int argc, char** argv) {
+
+    int test = 0;
+    int all = 1;
+
+    if (argc < 2) {
+        printf("Running all test for module Inventory:\n");
+    } else {
+        test = atoi(argv[1]);
+        all = 0;
+        printf("Running test %d:\t", test);
+	if (test < 1 && test > MAX_TESTS) {
+	  printf("Error: unknown test %d\t", test);
+	  exit(EXIT_SUCCESS);
+        }
+    }
+
+
+    if (all || test == 1) test_inventory_create();
+    if (all || test == 2) test_inventory_print();
+    if (all || test == 3) test_inventory_add_id();
+    if (all || test == 4) test_inventory_destroy();
+    if (all || test == 5) test_inventory_has_object();
+    if (all || test == 6) test_inventory_set_max();
+    if (all || test == 7) test_inventory_get_max();
+    if (all || test == 8) test_inventory_delete_id();
+    if (all || test == 9) test_inventory_get_id_at();
+    if (all || test == 10) test_inventory_get_number_of_objects();
+
+
+    PRINT_PASSED_PERCENTAGE;
+
+    return 1;
+}
+
+void test_inventory_create() {
   inventory = inventory_create();
 
-  if(!inventory) {
-    printf("Error al crear el inventory.");
-    return -1;
-  }
+  PRINT_TEST_RESULT(inventory !=NULL);
+}
 
-  printf("Añadiendo maximo: 10\n");
-  if (inventory_set_max(inventory, tamano)==ERROR) {
-    printf("Error al setear el máximo.");
-    return -1;
-  }
+void test_inventory_print() {
+  inventory = inventory_create();
 
-  printf("Añadiendo id: 1\n");
-  if (inventory_add_id(inventory, 1)==ERROR) {
-    printf("Error al añadir el id.");
-    return -1;
-  }
+  PRINT_TEST_RESULT(inventory_print(inventory) == OK);
+}
 
-  printf("Comprobando el id 1\n");
-  if (inventory_has_object(inventory, 1)==FALSE) {
-    printf("El id 1 no se encuentra en el inventory.");
-  }
-  else {
-      printf("El id 1 se encuentra en el inventory.\n");
-  }
+void test_inventory_add_id(){
+  inventory = inventory_create();
 
-  printf("Id de la posición 0: ");
-  idaux = inventory_get_id_at(inventory, 0);
-  if (idaux==NO_ID) {
-    printf("\nError al hallar el id de la posición 0.");
-    return -1;
-  }
-  printf("%ld \n", idaux);
+  PRINT_TEST_RESULT(inventory_add_id(inventory, 1) == OK);
+}
 
-  printf("Imprimiendo: \n");
-  if (inventory_print(inventory)==ERROR) {
-    printf("Error al imprimir el inventory.");
-    return -1;
-  }
+void test_inventory_destroy() {
+    inventory = inventory_create();
+    PRINT_TEST_RESULT(inventory_destroy(inventory) == OK);
+}
 
-  printf("Eliminando el id 1: \n");
-  if (inventory_delete_id(inventory, 1)==ERROR) {
-    printf("Error al eliminar el id.");
-    return -1;
-  }
+void test_inventory_has_object() {
+    inventory = inventory_create();
+    inventory_add_id(inventory, 1);
+    PRINT_TEST_RESULT(inventory_has_object(inventory, 1) == TRUE);
+}
 
-  printf("Comprobando el id 1\n");
-  if (inventory_has_object(inventory, 1)==FALSE) {
-    printf("El id 1 no se encuentra en el inventory.\n");
-  }
-  else {
-      printf("El id 1 se encuentra en el inventory.\n");
-  }
+void test_inventory_set_max() {
+    inventory = inventory_create();
+    PRINT_TEST_RESULT(inventory_set_max(inventory, 5) == OK);
+}
 
-  printf("Imprimiendo de nuevo: \n");
-  if (inventory_print(inventory)==ERROR) {
-    printf("Error al imprimir el inventory.");
-    return -1;
-  }
+void test_inventory_get_max() {
+    inventory = inventory_create();
+    inventory_set_max(inventory, 5);
+    PRINT_TEST_RESULT(inventory_get_max(inventory) == 5);
+}
 
-  printf("Destruyendo inventory:\n");
-  inventory_destroy(inventory);
+void test_inventory_delete_id() {
+    inventory = inventory_create();
+    inventory_set_max(inventory, 5);
+    inventory_add_id(inventory, 5);
+    PRINT_TEST_RESULT(inventory_delete_id(inventory, 5) == OK);
+}
 
-  return -1;
+void test_inventory_get_id_at() {
+    inventory = inventory_create();
+    inventory_set_max(inventory, 5);
+    inventory_add_id(inventory, 5);
+    PRINT_TEST_RESULT(inventory_get_id_at(inventory, 0) == 5);
+}
 
+void test_inventory_get_number_of_objects() {
+    inventory = inventory_create();
+    inventory_set_max(inventory, 5);
+    inventory_add_id(inventory, 5);
+    inventory_add_id(inventory, 3);
+    PRINT_TEST_RESULT(inventory_get_number_of_objects(inventory) == 2);
 }
