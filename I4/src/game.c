@@ -26,6 +26,7 @@ struct _Game {
   Space* spaces[MAX_SPACES + 1];    /*!< Array with the memory directions of the spaces*/
   Link* links[MAX_LINKS + 1];    /*!< Array with the memory directions of the links*/
   Die* die;    /*!< Memory direction of the die of the game*/
+  Dialogue* dialogue;     /*!< Dialogue module of the game*/
   T_Command last_cmd;     /*!< Last command of the game*/
   STATUS last_cmd_stat;   /*!< Result of the last command of the game*/
   char description[MAX_DESC + 1];   /*!< Description of the last thing inspected*/
@@ -103,6 +104,11 @@ Game* game_create() {
   game->last_cmd = NO_CMD;
   game->die = NULL;
   game->last_cmd_stat = OK;
+  game->dialogue = dialogue_create();
+  if(game->dialogue == NULL) {
+    game_destroy(game);
+    return NULL;
+  }
 
   memset(game->description, 0, MAX_DESC + 1);
 
@@ -126,6 +132,7 @@ STATUS game_destroy(Game* game) {
   }
   player_destroy(game->player);
   die_destroy(game->die);
+  dialogue_destroy(game->dialogue);
   free(game);
 
   return OK;
@@ -353,6 +360,16 @@ Link* game_get_link_at(Game* game, int position) {
 
   return  game->links[position];
 }
+
+/**
+Dialogue Management
+*/
+
+Dialogue* game_get_dialogue(Game* game) {
+  if(game == NULL) return NULL;
+  return game->dialogue;
+}
+
 /**
 Command Management
 */
@@ -361,6 +378,7 @@ STATUS game_update(Game* game, T_Command cmd) {
   if(game == NULL) return ERROR;
   game->last_cmd = cmd;
   game->last_cmd_stat = (*game_callback_fn_list[cmd])(game);
+  dialogue_get_feedback(game->last_cmd, game->last_cmd_stat, game->dialogue);
   return game->last_cmd_stat;
 }
 
@@ -414,7 +432,14 @@ STATUS game_callback_next(Game* game) {
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_south(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_south(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, S);
+  return player_set_location(game->player, link);
 }
 
 STATUS game_callback_back(Game* game) {
@@ -422,7 +447,14 @@ STATUS game_callback_back(Game* game) {
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_north(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_north(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, N);
+  return player_set_location(game->player, link);
 }
 
 STATUS game_callback_right(Game* game){
@@ -430,7 +462,14 @@ STATUS game_callback_right(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_east(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_east(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, E);
+  return player_set_location(game->player, link);
 }
 
 STATUS game_callback_left(Game* game){
@@ -438,7 +477,15 @@ STATUS game_callback_left(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_west(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, W);
+  return player_set_location(game->player, link);
+  //return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
 STATUS game_callback_up(Game* game){
@@ -446,7 +493,14 @@ STATUS game_callback_up(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_up(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_up(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, U);
+  return player_set_location(game->player, link);
 }
 
 STATUS game_callback_down(Game* game){
@@ -454,7 +508,14 @@ STATUS game_callback_down(Game* game){
     return ERROR;
   }
 
-  return player_set_location(game->player, link_get_to(game_get_link(game, space_get_down(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
+  Id player_location = player_get_location(game->player));
+  Id link_id = space_get_down(game_get_space(game, player_location));
+  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  if(link_get_open(link) == FALSE) {
+    return ERROR;
+  }
+  dialogue_set_direction(game->dialogue, D);
+  return player_set_location(game->player, link);
 }
 
 STATUS game_callback_move(Game* game) {
@@ -586,7 +647,8 @@ STATUS game_callback_inspect(Game* game){
       strcpy(game->description, "\0");
       return OK;
     }
-    strcpy(game->description, space_get_long_description(space_act));
+    strcpy(game->description, space_get_description(space_act));
+    dialogue_set_description(game->dialogue, space_get_long_description(space_act));
     return OK;
   }
     else {
@@ -602,16 +664,19 @@ STATUS game_callback_inspect(Game* game){
        obj = game_get_object(game, obj_id);
        if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(space_act) == TRUE){
          strcpy(game->description, object_get_description(obj));
+         dialogue_set_description(game->dialogue, object_get_description(obj));
          return OK;
        }
        else if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(space_act) == FALSE){
          strcpy(game->description, "\0");
+         dialogue_set_description(game->dialogue, "\0");
          return OK;
        }
      }
    }
    return ERROR;
 }
+
 STATUS game_callback_turnon(Game* game) {
   char name[WORD_SIZE+1];
   Id obj_id = NO_ID;
