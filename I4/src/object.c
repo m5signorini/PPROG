@@ -2,7 +2,7 @@
  * @brief It implements all the functions used to manage the objects
  *
  * @file object.c
- * @author César Ramírez Martínes
+ * @author César Ramírez Martínez
  * @version 1.0
  * @date 20-09-2019
  * @copyright GNU Public License

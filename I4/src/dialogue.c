@@ -1,6 +1,20 @@
+/**
+* @brief It implements the dialogue for friendlier messages to the user
+*
+*
+* @file dialogue.c
+* @author Gonzalo
+* @version 3.0
+* @date 5-12-2019
+* @copyright GNU Public License
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "dialogue.h"
 
 #define MAX_FEEDBACK 500
-
 
 struct _Dialogue {
   char feedback[MAX_FEEDBACK + 1];  /*!< Feeback of the actual command.*/
@@ -68,7 +82,7 @@ STATUS dialogue_get_last_status(Dialogue* feedback) {
 Dialogue* dialogue_create() {
   Dialogue* dialogue=NULL;
 
-  dialogue = (dialogue*)malloc(sizeof(Dialogue));
+  dialogue = (Dialogue*)malloc(sizeof(Dialogue));
   if (dialogue==NULL) {
     return NULL;
   }
@@ -92,10 +106,10 @@ STATUS dialogue_destroy(Dialogue* dialogue) {
   return OK;
 }
 
-STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
+STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
   char str[MAX_FEEDBACK + 1];
 
-  if (!feedback || !description) {
+  if (!feedback) {
     return ERROR;
   }
 
@@ -449,7 +463,5 @@ STATUS dialogue_get_feedback(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
   }
 
-  else {
-    return ERROR;
-  }
+  return ERROR;
 }

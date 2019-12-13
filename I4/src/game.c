@@ -271,7 +271,7 @@ Object* game_get_object(Game* game, Id id) {
 Object* game_get_object_at(Game* game, int index) {
   if(game == NULL || index < 0 || index > MAX_OBJECTS) return NULL;
 
-  return game->objects[i];
+  return game->objects[index];
 }
 
 Id game_get_object_location(Game* game, Id obj) {
@@ -378,7 +378,7 @@ STATUS game_update(Game* game, T_Command cmd) {
   if(game == NULL) return ERROR;
   game->last_cmd = cmd;
   game->last_cmd_stat = (*game_callback_fn_list[cmd])(game);
-  dialogue_get_feedback(game->last_cmd, game->last_cmd_stat, game->dialogue);
+  dialogue_produce(game->last_cmd, game->last_cmd_stat, game->dialogue);
   return game->last_cmd_stat;
 }
 
@@ -432,14 +432,15 @@ STATUS game_callback_next(Game* game) {
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_south(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, S);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
 }
 
 STATUS game_callback_back(Game* game) {
@@ -447,14 +448,15 @@ STATUS game_callback_back(Game* game) {
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_north(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, N);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
 }
 
 STATUS game_callback_right(Game* game){
@@ -462,14 +464,15 @@ STATUS game_callback_right(Game* game){
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_east(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, E);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
 }
 
 STATUS game_callback_left(Game* game){
@@ -477,14 +480,15 @@ STATUS game_callback_left(Game* game){
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_west(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, W);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
   //return player_set_location(game->player, link_get_to(game_get_link(game, space_get_west(game_get_space(game, player_get_location(game->player)))), player_get_location(game_get_player(game))));
 }
 
@@ -493,14 +497,15 @@ STATUS game_callback_up(Game* game){
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_up(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, U);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
 }
 
 STATUS game_callback_down(Game* game){
@@ -508,14 +513,15 @@ STATUS game_callback_down(Game* game){
     return ERROR;
   }
 
-  Id player_location = player_get_location(game->player));
+  Id player_location = player_get_location(game->player);
   Id link_id = space_get_down(game_get_space(game, player_location));
-  Link* link = link_get_to(game_get_link(game, link_id), player_location);
+  Link* link = game_get_link(game, link_id);
+  Id dest = link_get_to(link, player_location);
   if(link_get_open(link) == FALSE) {
     return ERROR;
   }
   dialogue_set_direction(game->dialogue, D);
-  return player_set_location(game->player, link);
+  return player_set_location(game->player, dest);
 }
 
 STATUS game_callback_move(Game* game) {
