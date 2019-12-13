@@ -643,7 +643,7 @@ STATUS game_callback_inspect(Game* game){
 
   if(strcmp(name, "space") == 0 || strcmp(name, "s") == 0){
     space_act = game_get_space(game, player_get_location(game_get_player(game)));
-    if (space_get_iluminated(space_act)==FALSE) {
+    if (space_get_illuminated(space_act)==FALSE) {
       strcpy(game->description, "\0");
       return OK;
     }
@@ -662,12 +662,12 @@ STATUS game_callback_inspect(Game* game){
      i = 0;
      while((obj_id = space_get_object_at(game_get_space(game, player_get_location(game->player)), i++)) != NO_ID) {
        obj = game_get_object(game, obj_id);
-       if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(space_act) == TRUE){
+       if (strcmp(object_get_name(obj), name) == 0 && space_get_illuminated(space_act) == TRUE){
          strcpy(game->description, object_get_description(obj));
          dialogue_set_description(game->dialogue, object_get_description(obj));
          return OK;
        }
-       else if (strcmp(object_get_name(obj), name) == 0 && space_get_iluminated(space_act) == FALSE){
+       else if (strcmp(object_get_name(obj), name) == 0 && space_get_illuminated(space_act) == FALSE){
          strcpy(game->description, "\0");
          dialogue_set_description(game->dialogue, "\0");
          return OK;

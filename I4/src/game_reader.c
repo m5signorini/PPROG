@@ -209,7 +209,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
           space_set_image(space, img[i], i);
         }
         space_set_description(space, desc);
-        space_set_iluminated(space, illuminate);
+        space_set_illuminated(space, illuminate);
         game_add_space(game, space);
       }
     }
