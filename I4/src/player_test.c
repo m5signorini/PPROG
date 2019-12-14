@@ -1,11 +1,10 @@
 /**
- * @brief It tests space module
+ * @brief It tests player module
  *
- * @file space_test.c
- * @author Profesores Pprog
+ * @file player_test.c
+ * @author Gonzalo Martín
  * @version 2.0
- * @date 16-01-2015
- * @updated 19-01-2016
+ * @date 12-12-2019
  * @copyright GNU Public License
  */
 

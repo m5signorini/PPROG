@@ -1,10 +1,10 @@
 /**
- * @brief Test for set module
+ * @brief It tests game_rules module
  *
- * @file set_test.c
- * @author César Ramírez Mártinez
- * @version 1.1
- * @date 08-10-2019
+ * @file game_rules_test.c
+ * @author Cesar Ramirez
+ * @version 2.0
+ * @date 12-12-2019
  * @copyright GNU Public License
  */
 
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     if (all || test == 5) test_game_rules_rotation();
     if (all || test == 6) test_game_rules_teleport();
     if (all || test == 7) test_game_rules_drop_objects()
-    
+
     PRINT_PASSED_PERCENTAGE;
 
     return 1;

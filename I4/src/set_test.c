@@ -1,10 +1,10 @@
 /**
- * @brief Test for set module
+ * @brief It tests set module
  *
  * @file set_test.c
- * @author César Ramírez Mártinez
- * @version 1.1
- * @date 08-10-2019
+ * @author Cesar Ramirez
+ * @version 2.0
+ * @date 12-12-2019
  * @copyright GNU Public License
  */
 
