@@ -75,7 +75,10 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_roll,
   game_callback_inspect,
   game_callback_turnon,
-  game_callback_turnoff
+  game_callback_turnoff,
+  game_callback_open,
+  game_callback_save,
+  game_callback_load
 };
 
 
@@ -853,7 +856,7 @@ STATUS game_callback_turnoff(Game* game) {
     object_set_turnedon(obj, FALSE);
     /*Check if there is still a light source*/
     game_check_light_space(game, space_act);
-    space_set_illuminated(space_act, FALSE);
+    game_check_light_player(game, space_act);
     return OK;
   }
 
@@ -866,7 +869,7 @@ STATUS game_callback_turnoff(Game* game) {
     object_set_turnedon(obj, FALSE);
     /*Check if there is still a light source*/
     game_check_light_space(game, space_act);
-    space_set_illuminated(space_act, FALSE);
+    game_check_light_player(game, space_act);
     return OK;
   }
   return ERROR;
@@ -960,13 +963,10 @@ STATUS game_callback_load(Game* game) {
   }
 
   game_clear(game);
-
   game = game_management_load_from_file(game, savefile);
-
   if (!game) {
     return ERROR;
   }
-
   return OK;
 }
 
