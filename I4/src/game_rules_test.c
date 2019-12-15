@@ -90,6 +90,12 @@ void test_game_rules_rotation() {
 
 void test_game_rules_teleport() {
   Game* game = game_create();
+  Space* s1 = space_create(1);
+  Space* s2 = space_create(2);
+  Player* p = player_create(1);
+  game_set_player(game,p);
+  game_add_space(game,s1);
+  game_add_space(game,s2);
   GameRules* game_rules = game_rules_create(game);
   PRINT_TEST_RESULT(game_rules_teleport(game_rules) == OK);
 }

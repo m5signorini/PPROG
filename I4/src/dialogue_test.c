@@ -7,6 +7,8 @@
  * @date 13-12-2019
  */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "dialogue.h"
 #include "dialogue_test.h"
 #include "test.h"
@@ -62,48 +64,56 @@ int main(int argc, char** argv) {
 }
 
 void test_dialogue_create() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
-  PRINT_TEST_RESULT(link !=NULL);
+  PRINT_TEST_RESULT(dialogue !=NULL);
 }
 
 void test_dialogue_destroy() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_destroy(dialogue) == OK);
 }
 
 void test_dialogue_set_last_cmd() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_set_last_cmd(dialogue, NEXT) == OK);
 }
 
 void test_dialogue_set_last_status() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_set_last_status(dialogue, OK) == OK);
 }
 
 void test_dialogue_set_direction() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_set_direction(dialogue, N) == OK);
 }
 
 void test_dialogue_set_feedback() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_set_feedback(dialogue, "Hello") == OK);
 }
 
 void test_dialogue_set_description() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
 
   PRINT_TEST_RESULT(dialogue_set_description(dialogue, "Description") == OK);
 }
 
 void test_dialogue_get_last_cmd() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_last_cmd(dialogue, NEXT);
 
@@ -111,6 +121,7 @@ void test_dialogue_get_last_cmd() {
 }
 
 void test_dialogue_get_last_status() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_last_status(dialogue, OK);
 
@@ -118,6 +129,7 @@ void test_dialogue_get_last_status() {
 }
 
 void test_dialogue_get_direction() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_direction(dialogue, N);
 
@@ -125,6 +137,7 @@ void test_dialogue_get_direction() {
 }
 
 void test_dialogue_get_feedback() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_feedback(dialogue, "Hello");
 
@@ -132,6 +145,7 @@ void test_dialogue_get_feedback() {
 }
 
 void test_dialogue_get_description() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_description(dialogue, "Description");
 
@@ -139,6 +153,7 @@ void test_dialogue_get_description() {
 }
 
 void test_dialogue_produce() {
+  Dialogue* dialogue;
   dialogue = dialogue_create();
   dialogue_set_last_status(dialogue, OK);
   dialogue_set_last_cmd(dialogue, NEXT);

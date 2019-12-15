@@ -21,7 +21,7 @@
 #include "test.h"
 
 
-#define MAX_TESTS 18
+#define MAX_TESTS 17
 
 /**
  * @brief Funcion principal de pruebas para el modulo Player.
@@ -51,23 +51,22 @@ int main(int argc, char** argv) {
 
 
     if (all || test == 1) test_game_create();
-    if (all || test == 2) test_game_update();
-    if (all || test == 3) test_game_add_space();
-    if (all || test == 4) test_game_get_space();
-    if (all || test == 5) test_game_get_space_id_at();
-    if (all || test == 6) test_game_get_space_at();
-    if (all || test == 7) test_game_set_player();
-    if (all || test == 8) test_game_get_player();
-    if (all || test == 9) test_game_add_object();
-    if (all || test == 10) test_game_get_object_id_at();
-    if (all || test == 11) test_game_get_object_at();
-    if (all || test == 12) test_game_get_object_location();
-    if (all || test == 13) test_game_set_die();
-    if (all || test == 14) test_game_get_die();
-    if (all || test == 15) test_game_add_link();
-    if (all || test == 16) test_game_get_link();
-    if (all || test == 17) test_game_get_link_id_at();
-    if (all || test == 18) test_game_get_link_at();
+    if (all || test == 2) test_game_add_space();
+    if (all || test == 3) test_game_get_space();
+    if (all || test == 4) test_game_get_space_id_at();
+    if (all || test == 5) test_game_get_space_at();
+    if (all || test == 6) test_game_set_player();
+    if (all || test == 7) test_game_get_player();
+    if (all || test == 8) test_game_add_object();
+    if (all || test == 9) test_game_get_object_id_at();
+    if (all || test == 10) test_game_get_object_at();
+    if (all || test == 11) test_game_get_object_location();
+    if (all || test == 12) test_game_set_die();
+    if (all || test == 13) test_game_get_die();
+    if (all || test == 14) test_game_add_link();
+    if (all || test == 15) test_game_get_link();
+    if (all || test == 16) test_game_get_link_id_at();
+    if (all || test == 17) test_game_get_link_at();
 
     PRINT_PASSED_PERCENTAGE;
 
@@ -77,13 +76,6 @@ int main(int argc, char** argv) {
 void test_game_create() {
   int result = game_create()!=NULL ;
   PRINT_TEST_RESULT(result);
-}
-
-void test_game_update() {
-    Game *g;
-    T_Command command = TURNON;
-    g = game_create();
-    PRINT_TEST_RESULT(game_update(g, command) == OK);
 }
 
 void test_game_add_space() {
@@ -100,7 +92,7 @@ void test_game_get_space() {
   g = game_create();
   s = space_create(5);
   game_add_space(g, s);
-  PRINT_TEST_RESULT(game_get_space(g, 0) == s);
+  PRINT_TEST_RESULT(game_get_space(g, 5) == s);
 }
 
 void test_game_get_space_id_at() {
@@ -167,10 +159,14 @@ void test_game_get_object_at() {
 void test_game_get_object_location() {
   Game *g;
   Object *o;
+  Space *s = space_create(1);
+
   g = game_create();
   o = object_create(1);
+  game_add_space(g, s);
   game_add_object(g, o);
-  PRINT_TEST_RESULT(game_get_object_location(g, 1) == 0);
+  space_add_object(s,1);
+  PRINT_TEST_RESULT(game_get_object_location(g, 1) == 1);
 }
 
 void test_game_set_die() {

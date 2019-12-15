@@ -44,7 +44,7 @@ game_rules_test: $(ODIR)/game_rules_test.o $(ODIR)/game_rules.o $(ODIR)/game.o $
 	$(CC) $(CFLAGS) -o $@ $^
 player_test: $(ODIR)/player_test.o $(ODIR)/player.o $(ODIR)/inventory.o $(ODIR)/set.o
 	$(CC) $(CFLAGS) -o $@ $^
-space_test: $(ODIR)/space_test.o $(ODIR)/space.o
+space_test: $(ODIR)/space_test.o $(ODIR)/space.o $(ODIR)/set.o
 	$(CC) $(CFLAGS) -o $@ $^
 dialogue_test: $(ODIR)/dialogue_test.o $(ODIR)/dialogue.o $(ODIR)/command.o
 	$(CC) $(CFLAGS) -o $@ $^

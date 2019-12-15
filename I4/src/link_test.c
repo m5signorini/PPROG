@@ -8,6 +8,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "link.h"
 #include "test.h"
 #include "link_test.h"
@@ -99,7 +100,7 @@ void test_link_get_name() {
   Link* link;
   link = link_create(1);
   link_set_name(link, "link");
-  PRINT_TEST_RESULT(link_get_name(link) == "link");
+  PRINT_TEST_RESULT(strcmp(link_get_name(link),"link") == 0);
 }
 
 void test_link_set_space1() {

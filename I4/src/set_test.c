@@ -71,7 +71,7 @@ void test_set_has_id() {
   Set *s;
   s = set_create();
   set_add_id(s, 3);
-  PRINT_TEST_RESULT(set_has_id(s, 3) == 1);
+  PRINT_TEST_RESULT(set_has_id(s, 3) == 0);
 }
 
 void test_set_delete_id() {
