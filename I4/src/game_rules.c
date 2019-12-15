@@ -19,8 +19,8 @@
 #define TURNS
 
 struct _GameRules {
-  Game* game;
-  int turn;
+  Game* game; /*!< Game in which the  gam_rules will be applied*/
+  int turn; /*!< Number that will decided with rule will be applied*/
 };
 
 
