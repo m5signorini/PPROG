@@ -200,7 +200,7 @@ STATUS game_management_save(Game* game, char* filename) {
 
       while ((player_obj = player_get_object_at(game_get_player(game), j++)) != NO_ID) {
         if (player_obj == object_get_id(obj)) {
-          if (sprintf(aux, "#o:%ld|%s|p|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), object_get_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
+          if (sprintf(aux, "#o:%ld|%s|p|%s|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), object_get_default_description(obj), object_get_moved_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
             return ERROR;
           }
           if (fprintf(pfile, "%s", aux) < 0) {
@@ -211,7 +211,7 @@ STATUS game_management_save(Game* game, char* filename) {
       j = 0;
     }
     else {
-      if (sprintf(aux, "#o:%ld|%s|%ld|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), game_get_object_location(game, obj_id), object_get_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
+      if (sprintf(aux, "#o:%ld|%s|%ld|%s|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), game_get_object_location(game, obj_id), object_get_default_description(obj), object_get_moved_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
       return ERROR;
       }
       if (fprintf(pfile, "%s", aux) < 0) {
@@ -358,6 +358,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
   char desc[WORD_SIZE] = "";
+  char moved_desc[WORD_SIZE] = "";
   char* toks = NULL;
   STATUS status = OK;
   Id id = NO_ID;
@@ -372,6 +373,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
   int obj_in_player = 0;
 
   memset(desc, 0, MAX_DESC);
+  memset(moved_desc, 0, MAX_DESC);
 
   if (filename == NULL) {
     return ERROR;
@@ -399,6 +401,8 @@ STATUS game_management_load_objects(Game* game, char* filename) {
       toks = strtok(NULL, "|");
       strcpy(desc, toks);
       toks = strtok(NULL, "|");
+      strcpy(moved_desc, toks);
+      toks = strtok(NULL, "|");
       if(toks != NULL) {
         open = atol(toks);
       }
@@ -406,6 +410,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
       if(toks != NULL) {
         movable = (BOOL)atol(toks);
       }
+      toks = strtok(NULL, "|");
       if(toks != NULL) {
         moved = (BOOL)atol(toks);
       }
@@ -417,6 +422,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
       if(toks != NULL) {
         illuminate = (BOOL)atol(toks);
       }
+      toks = strtok(NULL, "|");
       if(toks != NULL) {
         turnedon = (BOOL)atol(toks);
       }
@@ -430,6 +436,10 @@ STATUS game_management_load_objects(Game* game, char* filename) {
           return ERROR;
         }
         if (object_set_description(obj, desc) == ERROR) {
+          object_destroy(obj);
+          return ERROR;
+        }
+        if (object_set_moved_escription(obj, moved_desc) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }
