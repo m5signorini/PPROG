@@ -17,14 +17,14 @@
 struct _Object {
   Id id;    /*!< Id of the object*/
   char name[WORD_SIZE + 1];   /*!< Name of the object */
-  char description[MAX_DESC + 1];  /*!< Description of the object */
-  char moved_description[MAX_DESC + 1];
-  Id open;
-  BOOL movable;
-  BOOL moved;
-  BOOL hidden;
-  BOOL illuminate;
-  BOOL turnedon;
+  char description[MAX_DESC + 1];  /*!< Description of the object before it's been moved*/
+  char moved_description[MAX_DESC + 1];   /*!< Description of the object after it has been moved*/
+  Id open;  /*!< Id of the link that can be opened with the object */
+  BOOL movable;  /*!< Defines if the object can be moved (picked up and dropped) or not */
+  BOOL moved;  /*!< Describes if the object has been moved or not */
+  BOOL hidden;  /*!< Defines if hte object is hidden or shown in the game */
+  BOOL illuminate;  /*!< Defines if an object can be turned on and off */
+  BOOL turnedon;  /*!< Describes if an object is currently turned on */
 };
 
 
@@ -221,25 +221,15 @@ BOOL object_get_turnedon(Object* object) {
   return object->turnedon;
 }
 
-const char * object_get_default_description(Object* object) {
-    if(object == NULL) return NULL;
-    return object->moved_description;
-}
-
-const char * object_get_moved_description(Object* object) {
-    if(object == NULL) return NULL;
-    return object->description;
-}
-
-
 STATUS object_print(Object* object) {
 
   if (!object) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s, Moved description: %s, Link to open: %ld, Movable: %d, Hidden: %d, Illuminate: %d, Turnedon: %d)\n", object->id, object->name, object->description, object->moved_description, object->open, object->movable, object->hidden, object->illuminate, object->turnedon)){
+  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s, Moved descrption: %s)\n", object->id, object->name, object->description, object->moved_description)){
     return ERROR;
   }
+
   return OK;
 }
