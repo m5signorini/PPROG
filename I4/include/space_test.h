@@ -1,9 +1,9 @@
-/** 
+/**
  * @brief It declares the tests for the space module
- * 
+ *
  * @file space_test.h
  * @author Profesores Pprog
- * @version 2.0 
+ * @version 2.0
  * @date 19-01-2016
  * @copyright GNU Public License
  */
@@ -61,10 +61,10 @@ void test1_space_set_west();
 void test2_space_set_west();
 void test3_space_set_west();
 void test4_space_set_west();
-void test1_space_get_id();
+void test1_space_get_id_();
 void test2_space_get_id();
-void test1_space_set_object();
-void test2_space_set_object();
+void test1_space_add_object();
+void test2_space_add_object();
 void test1_space_get_name();
 void test2_space_get_name();
 void test1_space_get_north();
@@ -75,8 +75,8 @@ void test1_space_get_east();
 void test2_space_get_east();
 void test1_space_get_west();
 void test2_space_get_west();
-void test1_space_get_object();
-void test2_space_get_object();
-void test3_space_get_object();
+void test1_space_get_object_at();
+void test2_space_get_object_at();
+void test3_space_get_object_at();
 
 #endif

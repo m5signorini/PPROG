@@ -60,9 +60,9 @@ int main(int argc, char** argv) {
     if (all || test == 13) test2_space_set_west();
     if (all || test == 14) test1_space_get_name();
     if (all || test == 15) test2_space_get_name();
-    if (all || test == 16) test1_space_get_object();
-    if (all || test == 17) test2_space_get_object();
-    if (all || test == 18) test3_space_get_object();
+    if (all || test == 16) test1_space_get_object_at();
+    if (all || test == 17) test2_space_get_object_at();
+    if (all || test == 18) test3_space_get_object_at();
     if (all || test == 19) test1_space_get_north();
     if (all || test == 20) test2_space_get_north();
     if (all || test == 21) test1_space_get_south();
@@ -151,15 +151,15 @@ void test2_space_set_west() {
     PRINT_TEST_RESULT(space_set_west(s, 4) == ERROR);
 }
 
-void test1_space_set_object() {
+void test1_space_add_object() {
     Space *s;
     s = space_create(1);
-    PRINT_TEST_RESULT(space_set_object(s,TRUE) == OK);
+    PRINT_TEST_RESULT(space_add_object(s,12) == OK);
 }
 
-void test2_space_set_object() {
+void test2_space_add_object() {
     Space *s = NULL;
-    PRINT_TEST_RESULT(space_set_object(s,TRUE) == ERROR);
+    PRINT_TEST_RESULT(space_add_object(s,14) == ERROR);
 }
 
 void test1_space_get_name() {
@@ -176,24 +176,25 @@ void test2_space_get_name() {
 
 }
 
-void test1_space_get_object() {
+void test1_space_get_object_at() {
     Space *s;
     s = space_create(1);
-    PRINT_TEST_RESULT(space_get_object(s) == FALSE);
+    PRINT_TEST_RESULT(space_get_object_at(s,0) == NO_ID);
 
 }
 
-void test2_space_get_object() {
+void test2_space_get_object_at() {
     Space *s;
     s = space_create(1);
-    space_set_object(s,TRUE);
-    PRINT_TEST_RESULT(space_get_object(s) == TRUE);
+    space_add_object(s,12);
+    PRINT_TEST_RESULT(space_get_object_at(s,0) == 12);
 
 }
 
-void test3_space_get_object() {
+void test3_space_get_object_at() {
     Space *s = NULL;
-    PRINT_TEST_RESULT(space_get_object(s) == FALSE);
+    space_add_object(s,12);
+    PRINT_TEST_RESULT(space_get_object_at(s,1) == NO_ID);
 }
 
 void test1_space_get_north() {
