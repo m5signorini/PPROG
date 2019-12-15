@@ -879,6 +879,7 @@ STATUS game_callback_open(Game* game) {
   char link_name[WORD_SIZE+1];
   char obj_name[WORD_SIZE+1];
   Id link_id = NO_ID;
+  Link *link = NULL;
   Object *obj = NULL;
   Space *space_act = NULL;
 
@@ -899,37 +900,43 @@ STATUS game_callback_open(Game* game) {
   }
 
   link_id = space_get_north(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
 
   link_id = space_get_south(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
 
   link_id = space_get_east(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
 
   link_id = space_get_west(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
 
   link_id = space_get_up(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
 
   link_id = space_get_down(space_act);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID) {
+  link = game_get_link(game, link_id);
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && ) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
