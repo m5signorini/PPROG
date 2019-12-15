@@ -44,13 +44,13 @@ int main(int argc, char** argv) {
     }
 
 
-    if (all || test == 1) test_gamer_rules_create();
+    if (all || test == 1) test_game_rules_create();
     if (all || test == 2) test_game_rules_dark();
-    if (all || test == 3) test_game_rules_open_even_links();
+    if (all || test == 3) test_game_rules_clopen_links();
     if (all || test == 4) test_game_rules_hide_objects();
     if (all || test == 5) test_game_rules_rotation();
     if (all || test == 6) test_game_rules_teleport();
-    if (all || test == 7) test_game_rules_drop_objects()
+    if (all || test == 7) test_game_rules_drop_objects();
 
     PRINT_PASSED_PERCENTAGE;
 
@@ -70,10 +70,10 @@ void test_game_rules_dark() {
   PRINT_TEST_RESULT(game_rules_dark(game_rules) == OK);
 }
 
-void test_game_rules_open_even_links() {
+void test_game_rules_clopen_links() {
   Game* game = game_create();
   GameRules* game_rules = game_rules_create(game);
-  PRINT_TEST_RESULT(game_rules_open_even_links(game_rules) == OK);
+  PRINT_TEST_RESULT(game_rules_clopen_links(game_rules) == OK);
 }
 
 void test_game_rules_hide_objects() {

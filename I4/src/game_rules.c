@@ -16,10 +16,10 @@
 
 #define DIE_MAX
 #define DIE_MIN
-#define TURNS /**/
+#define TURNS
 
 struct _GameRules {
-  Game* game;    /*!< Id of the space*/
+  Game* game;
   int turn;
 };
 
