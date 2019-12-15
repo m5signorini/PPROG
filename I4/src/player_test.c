@@ -96,7 +96,8 @@ void test_player_add_object() {
 void test_player_delete_object(){
   Player *p;
   Id idObject = 3;
-  p = player_create(5)
+  p = player_create(5);
+  player_add_object(p, idObject);
   PRINT_TEST_RESULT(player_delete_object(p,idObject));
 }
 
