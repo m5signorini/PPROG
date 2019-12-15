@@ -179,6 +179,16 @@ const char * object_get_description(Object* object) {
   return object->moved_description;
 }
 
+const char * object_get_default_description(Object* object) {
+    if(object == NULL) return NULL;
+    return object->moved_description;
+}
+
+const char * object_get_moved_description(Object* object) {
+    if(object == NULL) return NULL;
+    return object->description;
+}
+
 Id object_get_open(Object* object) {
   if (!object) {
     return NO_ID;
