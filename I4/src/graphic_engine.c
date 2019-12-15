@@ -241,7 +241,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj) {
   if(ge == NULL || space == NULL) return ERROR;
   int i, j;
-  char str[STR_LEN] = "";
+  char str[STR_LEN];
+  memset(str, 0, STR_LEN);
 
   if(space_get_illuminated(space) != FALSE) {
     /* Space Image */
@@ -249,7 +250,7 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
       for(j=0; j < OFFSET; j++) {
         strcat(str, " ");
       }
-      strcat(str, "| ",obj);
+      strcat(str, "| ");
       strcat(str, space_get_image(space, i));
       strcat(str, " |");
       screen_area_puts(ge->map, str);
@@ -448,9 +449,10 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Link* link = NULL;
-  char str[STR_LEN] = "";
+  char str[STR_LEN];
   char temp[STR_LEN];
   int i;
+  memset(str, 0, STR_LEN);
 
   for(i=0; i < OFFSET; i++) {
     strcat(str, " ");
@@ -476,9 +478,10 @@ STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* spac
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Link* link = NULL;
-  char str[STR_LEN] = "";
+  char str[STR_LEN];
   char temp[STR_LEN];
   int i;
+  memset(str, 0, STR_LEN);
 
   for(i = 0; i < OFFSET; i++) {
     strcat(str, " ");
