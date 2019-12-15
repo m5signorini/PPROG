@@ -17,6 +17,7 @@
 #define MAX_LINE IMG_SIZE+3
 /* Max length of the str temporal variable*/
 #define STR_LEN 255
+#define OFFSET 12
 
 struct _Graphic_engine{
   Area *map, *descript, *banner, *help, *feedback;
@@ -240,23 +241,36 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj) {
   if(ge == NULL || space == NULL) return ERROR;
   int i, j;
-  char str[STR_LEN];
+  char str[STR_LEN] = "";
 
   if(space_get_illuminated(space) != FALSE) {
     /* Space Image */
     for(i=0; i < IMG_NUM; i++) {
-      sprintf(str, "        |  %s  |", space_get_image(space, i));
+      for(j=0; j < OFFSET; j++) {
+        strcat(str, " ");
+      }
+      strcat(str, "| ",obj);
+      strcat(str, space_get_image(space, i));
+      strcat(str, " |");
       screen_area_puts(ge->map, str);
     }
     /* Objects */
-    sprintf(str, "        |%s|",obj);
+    for(j=0; j < OFFSET; j++) {
+      strcat(str, " ");
+    }
+    strcat(str, "|");
+    strcat(str, obj);
+    strcat(str, "|");
     screen_area_puts(ge->map, str);
     return OK;
   }
   else {
     /* Dark Space */
     for(i=0; i < IMG_NUM+1; i++) {
-      sprintf(str, "        |*");
+      for(j=0; j < OFFSET; j++) {
+        strcat(str, " ");
+      }
+      strcat(str, "|*");
       for(j=0; j < IMG_SIZE; j++) {
         strcat(str, "*");
       }
@@ -355,12 +369,13 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
     if(link == NULL) {
       return ERROR;
     }
-    sprintf(temp, "    %.*s", 2, link_get_name(link));
+    sprintf(temp, "%.*s", OFFSET, link_get_name(link));
     strcat(str, temp);
   }
   else {
-    sprintf(temp, "      ");
-    strcat(str, temp);
+    for(i=0; i < OFFSET; i++) {
+      strcat(str, " ");
+    }
   }
 
   strcat(str, "  +");
@@ -390,7 +405,9 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
     strcat(str, temp);
   }
   else {
-    sprintf(temp, "       ");
+    for(i=0; i < OFFSET; i++) {
+      strcat(str, " ");
+    }
     strcat(str, temp);
   }
 
@@ -431,9 +448,13 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Link* link = NULL;
-  char str[STR_LEN] = "    ";
+  char str[STR_LEN] = "";
   char temp[STR_LEN];
   int i;
+
+  for(i=0; i < OFFSET; i++) {
+    strcat(str, " ");
+  }
 
   if((link_id = space_get_north(space)) != NO_ID) {
     for(i = 0; i<IMG_SIZE; i++) {
@@ -455,10 +476,13 @@ STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* spac
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Link* link = NULL;
-  char str[STR_LEN] = "    ";
+  char str[STR_LEN] = "";
   char temp[STR_LEN];
   int i;
 
+  for(i = 0; i < OFFSET; i++) {
+    strcat(str, " ");
+  }
   if((link_id = space_get_south(space)) != NO_ID) {
     for(i = 0; i<IMG_SIZE; i++) {
       strcat(str, " ");
