@@ -124,6 +124,10 @@ const char* object_get_name(Object* object);
 */
 const char * object_get_description(Object* object);
 
+const char * object_get_moved_description(Object* object);
+
+const char * object_get_default_description(Object* object);
+
 Id object_get_open(Object* object);
 
 BOOL object_get_movable(Object* object);
