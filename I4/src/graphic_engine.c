@@ -37,7 +37,7 @@ struct _Graphic_engine{
 * @param ge the graphic engine
 * @param game the game that the graphic engine is going to use
 */
-void graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
+STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 
 /**
 * @brief Gets the string of objects in a space
@@ -238,6 +238,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Private Functions
 */
 STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj) {
+  if(ge == NULL || space == NULL) return ERROR;
   int i, j;
   char str[STR_LEN];
 
@@ -267,7 +268,8 @@ STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj)
   return ERROR;
 }
 
-void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
+STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
+  if(ge == NULL || game == NULL) return ERROR;
   Id obj_id = NO_ID;
   Id obj_loc = NO_ID;
   char str[STR_LEN];
@@ -317,6 +319,7 @@ void graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   screen_area_puts(ge->descript, str);
   sprintf(str, "  %s", game_get_description(game));
   screen_area_puts(ge->descript, str);
+  return OK;
 }
 
 STATUS graphic_engine_paint_bot_border(Graphic_engine* ge) {
@@ -338,6 +341,8 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
   Id space_id = NO_ID;
+  Link* link = NULL;
+  Space* space = NULL;
   char str[STR_LEN];
   char temp[STR_LEN];
   char aux[STR_LEN];
@@ -346,7 +351,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
 
   /* PRINT - LINK */
   if((link_id = space_get_west(space)) != NO_ID) {
-    sprintf(temp, "    %2d", (int)link_id);
+    link = game_get_link(game, link_id);
+    if(link == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, "    %.*s", 2, link_get_name(link));
     strcat(str, temp);
   }
   else {
@@ -361,7 +370,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   strcat(str, "+  ");
 
   if((link_id = space_get_east(space)) != NO_ID) {
-    sprintf(temp, "%2d", (int)link_id);
+    link = game_get_link(game, link_id);
+    if(link == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, "%s", link_get_name(link));
     strcat(str, temp);
   }
   screen_area_puts(ge->map, str);
@@ -369,7 +382,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   /* PRINT ARROWS - SPACE */
   memset(str, 0 , STR_LEN);
   if((space_id = link_get_to(game_get_link(game, space_get_west(space)), space_get_id(space))) != NO_ID) {
-    sprintf(temp, " %2d <--", (int)space_id);
+    space = game_get_space(game, space_id);
+    if(space == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, " %.*s <--", 2, space_get_name(space));
     strcat(str, temp);
   }
   else {
@@ -398,7 +415,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   }
 
   if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
-    sprintf(temp, " --> %2d", (int)space_id);
+    space = game_get_space(game, space_id);
+    if(space == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, " --> %s", space_get_name(space));
     strcat(str, temp);
   }
 
@@ -409,6 +430,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
 STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* space) {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
+  Link* link = NULL;
   char str[STR_LEN] = "    ";
   char temp[STR_LEN];
   int i;
@@ -417,7 +439,11 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
     for(i = 0; i<IMG_SIZE; i++) {
       strcat(str, " ");
     }
-    sprintf(temp, "^ %d", (int)link_id);
+    link = game_get_link(game, link_id);
+    if(link == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, "v %s", link_get_name(link));
     strcat(str, temp);
   }
 
@@ -428,6 +454,7 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
 STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space) {
   if(space == NULL) return ERROR;
   Id link_id = NO_ID;
+  Link* link = NULL;
   char str[STR_LEN] = "    ";
   char temp[STR_LEN];
   int i;
@@ -436,7 +463,11 @@ STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* spac
     for(i = 0; i<IMG_SIZE; i++) {
       strcat(str, " ");
     }
-    sprintf(temp, "v %d", (int)link_id);
+    link = game_get_link(game, link_id);
+    if(link == NULL) {
+      return ERROR;
+    }
+    sprintf(temp, "v %s", link_get_name(link));
     strcat(str, temp);
   }
 
@@ -449,6 +480,7 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
   /* k is the number of non-null chars that can be in obj_str which size must be at least MAX_LINE + 1*/
   int k = MAX_LINE;
   int i = 0;
+  int aux = 0;  /* Number of printed objects */
   Id obj_id = NO_ID;
   Object *obj = NULL;
   Space *space = NULL;
@@ -460,18 +492,23 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
 
   /* While there is objects in the space and enough space in the string */
   while ((obj_id = space_get_object_at(space, i++)) != NO_ID && k > 0) {
+    obj = game_get_object(game, obj_id);
+    if(obj == NULL || object_get_name(obj) == NULL) return ERROR;
+
+    if(object_get_hidden(obj) == TRUE) {
+      continue;
+    }
+
     /* Add a comma if there are at least 2 objects*/
-    if(i > 1) {
+    if(aux > 1) {
       strcat(obj_str, ",");
       k--;
     }
 
-    obj = game_get_object(game, obj_id);
-    if(obj == NULL || object_get_name(obj) == NULL) return ERROR;
-
     /* Concat the name to the string up to k chars and remove its length from k */
     strncat(obj_str, object_get_name(obj), k);
     k -= strlen(object_get_name(obj));
+    aux++;
   }
 
   /* We put spaces after the objects while there is enough space in the string*/
