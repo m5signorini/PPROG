@@ -406,6 +406,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
       if(toks != NULL) {
         movable = (BOOL)atol(toks);
       }
+      toks = strtok(NULL, "|");
       if(toks != NULL) {
         moved = (BOOL)atol(toks);
       }
@@ -417,6 +418,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
       if(toks != NULL) {
         illuminate = (BOOL)atol(toks);
       }
+      toks = strtok(NULL, "|");
       if(toks != NULL) {
         turnedon = (BOOL)atol(toks);
       }

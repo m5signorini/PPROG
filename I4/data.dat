@@ -1,12 +1,12 @@
 --Player: Id/Nombre/pos_ini/inv_max
 #p:1|PlayerOne|1|2|
 
---Object: Id/Nombre/pos_ini/Desc/open/movable/moved/hidden/illuminate/turnedon
+--Object: Id/Nombre/pos_ini/Desc/Moved Desc/open/movable/moved/hidden/illuminate/turnedon
   Para objetos del jugador: pos_ini = p
-#o:1|O1|1|Descripcion del objeto 1|0|0|0|0|0|0|
-#o:2|O2|3|Descripcion del objeto 2|0|0|0|0|0|0|
-#o:3|O3|p|Descripcion del objeto 3|0|0|0|0|0|0|
-#o:4|O4|21|Descripcion del objeto 4|0|0|0|0|0|0|
+#o:1|O1|1|Descripcion del objeto 1|Moved Desc 1|1|0|0|0|1|0|
+#o:2|O2|3|Descripcion del objeto 2|Moved Desc 2|0|0|0|0|0|0|
+#o:3|O3|p|Descripcion del objeto 3|Moved Desc 3|0|0|0|0|0|0|
+#o:4|O4|21|Descripcion del objeto 4|Moved Desc 4|0|0|0|0|0|0|
 
 --Space: Id/Nombre/north/east/south/west/up/down/illuminated/IMG[IMG_NUM]/Desc/LongDesc
 #s:1|Casilla 1|-1|-1|1|-1|-1|-1|1|
@@ -36,34 +36,34 @@
 #s:25|Casilla 25|24|-1|-1|-1|-1|-1|1|         |         | <O)__/  |  \_-/   |         |WinnerWinner chicken dinner |Long Desc |
 
 --Link: Id/nombre/space1/space2/open
-#l:1|Enlace 1|1|2|0|
-#l:2|Enlace 2|2|3|0|
-#l:3|Enlace 3|3|4|0|
-#l:4|Enlace 4|4|5|0|
-#l:5|Enlace 5|5|6|0|
-#l:6|Enlace 6|6|7|0|
-#l:7|Enlace 7|7|8|0|
-#l:8|Enlace 8|8|9|0|
-#l:9|Enlace 9|9|10|0|
-#l:10|Enlace 10|10|11|0|
-#l:11|Enlace 11|11|12|0|
-#l:12|Enlace 12|12|13|0|
-#l:13|Enlace 13|13|14|0|
-#l:14|Enlace 14|14|15|0|
-#l:15|Enlace 15|15|16|0|
-#l:16|Enlace 16|16|17|0|
-#l:17|Enlace 17|17|18|0|
-#l:18|Enlace 18|18|19|0|
-#l:19|Enlace 19|19|20|0|
-#l:20|Enlace 20|20|21|0|
-#l:21|Enlace 21|21|22|0|
-#l:22|Enlace 22|22|23|0|
-#l:23|Enlace 23|23|24|0|
-#l:24|Enlace 24|24|25|0|
-#l:25|Enlace 25|5|9|0|
-#l:26|Enlace 26|9|13|0|
-#l:27|Enlace 27|13|17|0|
-#l:28|Enlace 28|17|21|0|
-#l:29|Enlace 29|21|25|0|
-#l:30|Enlace 30|8|16|0|
-#l:31|Enlace 31|22|1|0|
+#l:1|Enlace1|1|2|1|
+#l:2|Enlace2|2|3|0|
+#l:3|Enlace3|3|4|0|
+#l:4|Enlace4|4|5|0|
+#l:5|Enlace5|5|6|0|
+#l:6|Enlace6|6|7|0|
+#l:7|Enlace7|7|8|0|
+#l:8|Enlace8|8|9|0|
+#l:9|Enlace9|9|10|0|
+#l:10|Enlace10|10|11|0|
+#l:11|Enlace11|11|12|0|
+#l:12|Enlace12|12|13|0|
+#l:13|Enlace13|13|14|0|
+#l:14|Enlace14|14|15|0|
+#l:15|Enlace15|15|16|0|
+#l:16|Enlace16|16|17|0|
+#l:17|Enlace17|17|18|0|
+#l:18|Enlace18|18|19|0|
+#l:19|Enlace19|19|20|0|
+#l:20|Enlace20|20|21|0|
+#l:21|Enlace21|21|22|0|
+#l:22|Enlace22|22|23|0|
+#l:23|Enlace23|23|24|0|
+#l:24|Enlace24|24|25|0|
+#l:25|Enlace25|5|9|0|
+#l:26|Enlace26|9|13|0|
+#l:27|Enlace27|13|17|0|
+#l:28|Enlace28|17|21|0|
+#l:29|Enlace29|21|25|0|
+#l:30|Enlace30|8|16|0|
+#l:31|Enlace31|22|1|0|

@@ -345,6 +345,7 @@ Object* game_get_object_by_name_in_player(Game* game, char* name, Player* player
     if(obj == NULL) {
       return NULL;
     }
+    object_print(obj);
     if (strcmp(object_get_name(obj), name) == 0) {
       return obj;
     }
