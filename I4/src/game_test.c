@@ -17,6 +17,7 @@
 #include "object.h"
 #include "game_test.h"
 #include "game.h"
+#include "test.h"
 
 #define MAX_TESTS 18
 
@@ -97,7 +98,7 @@ void test_game_get_space() {
   Game *g;
   g = game_create();
   s = space_create(5);
-  game_add_space(g, s)
+  game_add_space(g, s);
   PRINT_TEST_RESULT(game_get_space(g, 0) == s);
 }
 

@@ -10,7 +10,7 @@
 
 #ifndef GAME_TEST_H
 #define GAME_TEST_H
-void
+
 void test_game_create();
 void test_game_update();
 void test_game_add_space();

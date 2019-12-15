@@ -83,13 +83,13 @@ void test_object_set_name() {
 void test_object_set_description() {
   Object *o;
   o = object_create(5);
-  PRINT_TEST_RESULT(object_set_descritpion(o, "hola") == OK);
+  PRINT_TEST_RESULT(object_set_description(o, "hola") == OK);
 }
 
 void test_object_set_moved_description() {
   Object *o;
   o = object_create(5);
-  PRINT_TEST_RESULT(object_set_moved_descritpion(o, "moved") == OK);
+  PRINT_TEST_RESULT(object_set_moved_description(o, "moved") == OK);
 }
 
 void test_object_set_movable(){
@@ -137,14 +137,14 @@ void test_object_get_id() {
 void test_object_get_name() {
     Object *o;
     o = object_create(5);
-    player_set_name(o, "hola");
+    object_set_name(o, "hola");
     PRINT_TEST_RESULT(strcmp(object_get_name(o), "hola") == 0);
 }
 
 void test_object_get_description(){
   Object *o;
   o = object_create(5);
-  player_set_description(o, "desc");
+  object_set_description(o, "desc");
   PRINT_TEST_RESULT(strcmp(object_get_description(o), "desc") == 0);
 }
 

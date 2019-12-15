@@ -129,5 +129,5 @@ void test_inventory_get_number_of_objects() {
   inventory_set_max(inventory, 5);
   inventory_add_id(inventory, 5);
   inventory_add_id(inventory, 3);
-  PRINT_TEST_RESULT(inventory_get_number_of_objects(inventory) == 2);
+  PRINT_TEST_RESULT(inventory_get_number_objects(inventory) == 2);
 }
