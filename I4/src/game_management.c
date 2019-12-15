@@ -439,7 +439,7 @@ STATUS game_management_load_objects(Game* game, char* filename) {
           object_destroy(obj);
           return ERROR;
         }
-        if (object_set_moved_escription(obj, moved_desc) == ERROR) {
+        if (object_set_moved_description(obj, moved_desc) == ERROR) {
           object_destroy(obj);
           return ERROR;
         }
