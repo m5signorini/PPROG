@@ -342,7 +342,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   Id link_id = NO_ID;
   Id space_id = NO_ID;
   Link* link = NULL;
-  Space* space = NULL;
+  Space* space_aux = NULL;
   char str[STR_LEN];
   char temp[STR_LEN];
   char aux[STR_LEN];
@@ -382,11 +382,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   /* PRINT ARROWS - SPACE */
   memset(str, 0 , STR_LEN);
   if((space_id = link_get_to(game_get_link(game, space_get_west(space)), space_get_id(space))) != NO_ID) {
-    space = game_get_space(game, space_id);
+    space_aux = game_get_space(game, space_id);
     if(space == NULL) {
       return ERROR;
     }
-    sprintf(temp, " %.*s <--", 2, space_get_name(space));
+    sprintf(temp, " %.*s <--", 2, space_get_name(space_aux));
     strcat(str, temp);
   }
   else {
@@ -415,11 +415,11 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   }
 
   if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
-    space = game_get_space(game, space_id);
+    space_aux = game_get_space(game, space_id);
     if(space == NULL) {
       return ERROR;
     }
-    sprintf(temp, " --> %s", space_get_name(space));
+    sprintf(temp, " --> %s", space_get_name(space_aux));
     strcat(str, temp);
   }
 
