@@ -304,7 +304,9 @@ STATUS game_management_load_spaces(Game* game, char* filename) {
         toks = strtok(NULL, "|");
         if(toks != NULL && strchr(toks, '\n') == NULL) {
           strncpy(img[i], toks, IMG_SIZE-1);
-          img[i][strlen(toks)] = ' ';
+          if(strlen(toks) < IMG_SIZE) {
+            img[i][strlen(toks)] = ' ';
+          }
         }
       }
       toks = strtok(NULL, "|");
