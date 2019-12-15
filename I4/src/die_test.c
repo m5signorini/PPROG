@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "die.h"
+#include "die_test.h"
+#include "test.h"
 
 #define MAX_TESTS 5
 

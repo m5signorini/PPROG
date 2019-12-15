@@ -8,6 +8,8 @@
  */
 #include <stdio.h>
 #include "link.h"
+#include "test.h"
+#include "link_test.h"
 
 #define MAX_TESTS 13
 

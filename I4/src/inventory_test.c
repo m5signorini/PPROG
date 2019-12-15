@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "inventory.h"
+#include "test.h"
+#include "inventory_test.h"
 
 #define MAX_TESTS 10
 

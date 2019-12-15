@@ -8,6 +8,8 @@
  */
 #include <stdio.h>
 #include "dialogue.h"
+#include "dialogue_test.h"
+#include "test.h"
 
 #define MAX_TESTS 13
 
