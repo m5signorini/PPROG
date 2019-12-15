@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "player.h"
+#include "object.h"
 #include "player_test.h"
 #include "test.h"
 
