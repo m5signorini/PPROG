@@ -58,7 +58,6 @@ int main(int argc, char** argv) {
     if (all || test == 7) test_game_set_player();
     if (all || test == 8) test_game_get_player();
     if (all || test == 9) test_game_add_object();
-    if (all || test == 9) test_game_get_object();
     if (all || test == 10) test_game_get_object_id_at();
     if (all || test == 11) test_game_get_object_at();
     if (all || test == 12) test_game_get_object_location();

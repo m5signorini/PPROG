@@ -34,11 +34,11 @@ set_test: $(ODIR)/set_test.o $(ODIR)/set.o
 	$(CC) $(CFLAGS) -o $@ $^
 link_test: $(ODIR)/link_test.o $(ODIR)/link.o
 	$(CC) $(CFLAGS) -o $@ $^
-inventory_test: $(ODIR)/inventory_test.o $(ODIR)/inventory.o #$(ODIR)/set.o
+inventory_test: $(ODIR)/inventory_test.o $(ODIR)/inventory.o $(ODIR)/set.o
 	$(CC) $(CFLAGS) -o $@ $^
 object_test: $(ODIR)/object_test.o $(ODIR)/object.o
 	$(CC) $(CFLAGS) -o $@ $^
-game_test: $(ODIR)/game_test.o $(ODIR)/game.o $(ODIR)/die.o $(ODIR)/space.o $(ODIR)/object.o $(ODIR)/player.o $(ODIR)/link.o $(ODIR)/command.o
+game_test: $(ODIR)/game_test.o $(ODIR)/game.o $(ODIR)/die.o $(ODIR)/space.o $(ODIR)/object.o $(ODIR)/player.o $(ODIR)/link.o $(ODIR)/command.o $(ODIR)/dialogue.o $(ODIR)/set.o $(ODIR)/inventory.o $(ODIR)/game_management.o
 	$(CC) $(CFLAGS) -o $@ $^
 game_rules_test: $(ODIR)/game_rules_test.o $(ODIR)/game_rules.o $(ODIR)/game.o #$(ODIR)/die.o
 	$(CC) $(CFLAGS) -o $@ $^
