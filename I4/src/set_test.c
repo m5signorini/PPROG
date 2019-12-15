@@ -62,7 +62,7 @@ void test_set_create() {
 }
 
 void test_set_add_id() {
-
+  Set* s;
   s = set_create();
   PRINT_TEST_RESULT(set_add_id(s, 3) == OK);
 }

@@ -60,63 +60,74 @@ int main(int argc, char** argv) {
 }
 
 void test_inventory_create() {
+  Inventory* inventory;
+
   inventory = inventory_create();
 
   PRINT_TEST_RESULT(inventory !=NULL);
 }
 
 void test_inventory_print() {
+  Inventory* inventory;
   inventory = inventory_create();
 
   PRINT_TEST_RESULT(inventory_print(inventory) == OK);
 }
 
 void test_inventory_add_id(){
+  Inventory* inventory;
   inventory = inventory_create();
 
   PRINT_TEST_RESULT(inventory_add_id(inventory, 1) == OK);
 }
 
 void test_inventory_destroy() {
-    inventory = inventory_create();
-    PRINT_TEST_RESULT(inventory_destroy(inventory) == OK);
+  Inventory* inventory;
+  inventory = inventory_create();
+  PRINT_TEST_RESULT(inventory_destroy(inventory) == OK);
 }
 
 void test_inventory_has_object() {
-    inventory = inventory_create();
-    inventory_add_id(inventory, 1);
-    PRINT_TEST_RESULT(inventory_has_object(inventory, 1) == TRUE);
+  Inventory* inventory;
+  inventory = inventory_create();
+  inventory_add_id(inventory, 1);
+  PRINT_TEST_RESULT(inventory_has_object(inventory, 1) == TRUE);
 }
 
 void test_inventory_set_max() {
-    inventory = inventory_create();
-    PRINT_TEST_RESULT(inventory_set_max(inventory, 5) == OK);
+  Inventory* inventory;
+  inventory = inventory_create();
+  PRINT_TEST_RESULT(inventory_set_max(inventory, 5) == OK);
 }
 
 void test_inventory_get_max() {
-    inventory = inventory_create();
-    inventory_set_max(inventory, 5);
-    PRINT_TEST_RESULT(inventory_get_max(inventory) == 5);
+  Inventory* inventory;
+  inventory = inventory_create();
+  inventory_set_max(inventory, 5);
+  PRINT_TEST_RESULT(inventory_get_max(inventory) == 5);
 }
 
 void test_inventory_delete_id() {
-    inventory = inventory_create();
-    inventory_set_max(inventory, 5);
-    inventory_add_id(inventory, 5);
-    PRINT_TEST_RESULT(inventory_delete_id(inventory, 5) == OK);
+  Inventory* inventory;
+  inventory = inventory_create();
+  inventory_set_max(inventory, 5);
+  inventory_add_id(inventory, 5);
+  PRINT_TEST_RESULT(inventory_delete_id(inventory, 5) == OK);
 }
 
 void test_inventory_get_id_at() {
-    inventory = inventory_create();
-    inventory_set_max(inventory, 5);
-    inventory_add_id(inventory, 5);
-    PRINT_TEST_RESULT(inventory_get_id_at(inventory, 0) == 5);
+  Inventory* inventory;
+  inventory = inventory_create();
+  inventory_set_max(inventory, 5);
+  inventory_add_id(inventory, 5);
+  PRINT_TEST_RESULT(inventory_get_id_at(inventory, 0) == 5);
 }
 
 void test_inventory_get_number_of_objects() {
-    inventory = inventory_create();
-    inventory_set_max(inventory, 5);
-    inventory_add_id(inventory, 5);
-    inventory_add_id(inventory, 3);
-    PRINT_TEST_RESULT(inventory_get_number_of_objects(inventory) == 2);
+  Inventory* inventory;
+  inventory = inventory_create();
+  inventory_set_max(inventory, 5);
+  inventory_add_id(inventory, 5);
+  inventory_add_id(inventory, 3);
+  PRINT_TEST_RESULT(inventory_get_number_of_objects(inventory) == 2);
 }
