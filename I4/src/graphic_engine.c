@@ -17,7 +17,7 @@
 #define MAX_LINE IMG_SIZE+3
 /* Max length of the str temporal variable*/
 #define STR_LEN 255
-#define OFFSET 12
+#define OFFSET 6
 
 struct _Graphic_engine{
   Area *map, *descript, *banner, *help, *feedback;
@@ -338,8 +338,13 @@ STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
 
 STATUS graphic_engine_paint_bot_border(Graphic_engine* ge) {
   if(ge == NULL) return ERROR;
-  char str[STR_LEN] = "      ";
+  char str[STR_LEN] = "";
+  char off[OFFSET+1];
   int i;
+  memset(off, ' ', OFFSET);
+  off[OFFSET] = '\0';
+
+  sprintf(str, "%s", off);
 
   strcat(str, "  +");
   for(i=0; i < IMG_SIZE + 3; i++) {
@@ -399,7 +404,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   memset(str, 0 , STR_LEN);
   if((space_id = link_get_to(game_get_link(game, space_get_west(space)), space_get_id(space))) != NO_ID) {
     space_aux = game_get_space(game, space_id);
-    if(space == NULL) {
+    if(space_aux == NULL) {
       return ERROR;
     }
     sprintf(temp, " %.*s <--", 2, space_get_name(space_aux));
@@ -407,7 +412,6 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
   }
   else {
     sprintf(str, "%s", off);
-    strcat(str, temp);
   }
 
   /* Print space depending if the player is in there */
@@ -432,7 +436,7 @@ STATUS graphic_engine_paint_side_links(Game* game, Graphic_engine* ge, Space* sp
 
   if((space_id = link_get_to(game_get_link(game, space_get_east(space)), space_get_id(space))) != NO_ID) {
     space_aux = game_get_space(game, space_id);
-    if(space == NULL) {
+    if(space_aux == NULL) {
       return ERROR;
     }
     sprintf(temp, " --> %s", space_get_name(space_aux));
@@ -465,7 +469,7 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
     if(link == NULL) {
       return ERROR;
     }
-    sprintf(temp, "v %s", link_get_name(link));
+    sprintf(temp, "^ %s", link_get_name(link));
     strcat(str, temp);
   }
 
