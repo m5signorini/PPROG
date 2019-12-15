@@ -28,7 +28,7 @@ typedef enum {
 } STATUS;
 
 typedef enum {
-  N, S, E, W, U, D
+  N, S, E, W, U, D, NO_DIR
 } DIRECTION;
 
 #endif
