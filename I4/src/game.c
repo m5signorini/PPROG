@@ -937,7 +937,7 @@ STATUS game_callback_open(Game* game) {
 
   link_id = space_get_down(space_act);
   link = game_get_link(game, link_id);
-  if (object_get_open(obj)==link_id && link_id!=NO_ID && ) {
+  if (object_get_open(obj)==link_id && link_id!=NO_ID && strcmp(link_get_name(link), link_name) == 0) {
     link_set_open(game_get_link(game, link_id), TRUE);
     return OK;
   }
