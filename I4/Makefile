@@ -17,7 +17,7 @@ ODIR = obj
 # Using [patsubst pattern, replacement, text] - Change text
 # Using [wildcard pattern] - Get text
 ######################################
-TESTS = die_test set_test inventory_test link_test
+TESTS = die_test set_test inventory_test link_test object_test game_test game_rules_test player_test space_test dialogue_test
 SRC_FILES = $(wildcard $(CDIR)/*.c)
 TST_O = $(patsubst %,$(ODIR)/%.o,$(TESTS))
 SRC_O = $(patsubst $(CDIR)/%.c,$(ODIR)/%.o,$(SRC_FILES))
@@ -35,6 +35,18 @@ set_test: $(ODIR)/set_test.o $(ODIR)/set.o
 link_test: $(ODIR)/link_test.o $(ODIR)/link.o
 	$(CC) $(CFLAGS) -o $@ $^
 inventory_test: $(ODIR)/inventory_test.o $(ODIR)/inventory.o $(ODIR)/set.o
+	$(CC) $(CFLAGS) -o $@ $^
+object_test: $(ODIR)/object_test.o $(ODIR)/object.o
+	$(CC) $(CFLAGS) -o $@ $^
+game_test: $(ODIR)/game_test.o $(ODIR)/game.o $(ODIR)/die.o $(ODIR)/space.o $(ODIR)/object.o $(ODIR)/player.o
+	$(CC) $(CFLAGS) -o $@ $^
+game_rules_test: $(ODIR)/game_rules_test.o $(ODIR)/game_rules.o $(ODIR)/game.o $(ODIR)/die.o
+	$(CC) $(CFLAGS) -o $@ $^
+player_test: $(ODIR)/player_test.o $(ODIR)/player.o
+	$(CC) $(CFLAGS) -o $@ $^
+space_test: $(ODIR)/space_test.o $(ODIR)/space.o
+	$(CC) $(CFLAGS) -o $@ $^
+dialogue_test: $(ODIR)/dialogue_test.o $(ODIR)/dialogue.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 dox:
