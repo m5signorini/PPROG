@@ -76,7 +76,7 @@ STATUS dialogue_set_feedback(Dialogue* feedback, const char* string) {
 
 const char* dialogue_get_feedback(Dialogue* feedback) {
   if (!feedback) {
-    return ERROR;
+    return NULL;
   }
 
   return feedback->feedback;
@@ -84,7 +84,7 @@ const char* dialogue_get_feedback(Dialogue* feedback) {
 
 T_Command dialogue_get_last_cmd(Dialogue* feedback) {
   if (!feedback) {
-    return ERROR;
+    return NO_CMD;
   }
 
   return feedback->last_cmd;
@@ -92,7 +92,7 @@ T_Command dialogue_get_last_cmd(Dialogue* feedback) {
 
 DIRECTION dialogue_get_direction(Dialogue* feedback) {
   if (!feedback) {
-    return ERROR;
+    return NO_DIR;
   }
 
   return feedback->dir;
@@ -100,7 +100,7 @@ DIRECTION dialogue_get_direction(Dialogue* feedback) {
 
 char* dialogue_get_description(Dialogue* feedback) {
   if (!feedback) {
-    return ERROR;
+    return NULL;
   }
 
   return feedback->description;

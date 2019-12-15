@@ -343,7 +343,7 @@ Object* game_get_object_by_name_in_player(Game* game, char* name, Player* player
   while ((obj_id = player_get_object_at(game->player, i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if(obj == NULL) {
-      return ERROR;
+      return NULL;
     }
     if (strcmp(object_get_name(obj), name) == 0) {
       return obj;
@@ -364,7 +364,7 @@ Object* game_get_object_by_name_in_space(Game* game, char* name, Space* space) {
   while((obj_id = space_get_object_at(space, i++)) != NO_ID) {
     obj = game_get_object(game, obj_id);
     if(obj == NULL) {
-      return ERROR;
+      return NULL;
     }
     if(strcmp(object_get_name(obj), name) == 0) {
       return obj;

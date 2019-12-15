@@ -56,29 +56,34 @@ int main(int argc, char** argv) {
 }
 
 void test_die_create() {
+  Die* die;
   die = die_create(1, 1, 6);
 
   PRINT_TEST_RESULT(die !=NULL);
 }
 
 void test_die_print() {
+  Die* die;
   die = die_create(1, 1, 6);
 
   PRINT_TEST_RESULT(die_print(die) == OK);
 }
 
 void test_die_roll(){
+  Die* die;
   die = die_create(1, 1, 6);
 
   PRINT_TEST_RESULT(die_roll(die) >0 && die_roll(die) <7);
 }
 
 void test_die_destroy() {
+    Die* die;
     die = die_create(1, 1, 6);
     PRINT_TEST_RESULT(die_destroy(die) == OK);
 }
 
 void test_die_get_last() {
+    Die* die;
     die = die_create(1, 1, 6);
     die_roll(die);
     PRINT_TEST_RESULT(die_get_last(die) >0 && die_get_last(die) <7);

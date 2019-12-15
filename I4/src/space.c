@@ -330,7 +330,7 @@ STATUS space_set_illuminated(Space* space, BOOL value){
 
 BOOL space_get_illuminated(Space* space){
   if (space == NULL){
-    return ERROR;
+    return FALSE;
   }
 
   return space->illuminated;
