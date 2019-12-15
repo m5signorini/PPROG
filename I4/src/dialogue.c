@@ -20,8 +20,8 @@ struct _Dialogue {
   char feedback[MAX_FEEDBACK + 1];  /*!< Feeback of the actual command.*/
   char last_cmd;  /*!< Feeback of the last command.*/
   STATUS last_status;   /*!< Status value of the last command.*/
-  char description[MAX_DESC + 1];
-  DIRECTION dir;
+  char description[MAX_DESC + 1]; /*!< Description of a space.*/
+  DIRECTION dir; /*!< Direction of the move command.*/
 };
 
 
