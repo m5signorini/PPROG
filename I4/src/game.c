@@ -880,7 +880,7 @@ STATUS game_callback_turnoff(Game* game) {
 
 STATUS game_callback_open(Game* game) {
   char link_name[WORD_SIZE+1];
-  char obj_name[WORD_SIZE+1];
+  char obj_name[WORD_SIZE+1] = "";
   Id link_id = NO_ID;
   Link *link = NULL;
   Object *obj = NULL;
