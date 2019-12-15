@@ -238,9 +238,8 @@ STATUS object_print(Object* object) {
     return ERROR;
   }
 
-  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s, Moved descrption: %s)\n", object->id, object->name, object->description, object->moved_description)){
+  if(!fprintf(stdout, "--> Object (Id: %ld; Name: %s, Description: %s, Moved description: %s, Link to open: %ld, Movable: %d, Hidden: %d, Illuminate: %d, Turnedon: %d)\n", object->id, object->name, object->description, object->moved_description, object->open, object->movable, object->hidden, object->illuminate, object->turnedon)){
     return ERROR;
   }
-
   return OK;
 }
