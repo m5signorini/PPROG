@@ -13,6 +13,7 @@
 #include "game_rules_test.h"
 #include "test.h"
 #include "game_rules.h"
+#include "game.h"
 
 #define MAX_TESTS 7
 

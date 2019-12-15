@@ -17,6 +17,7 @@
 #include "object.h"
 #include "game_test.h"
 #include "game.h"
+#include "link.h"
 #include "test.h"
 
 #define MAX_TESTS 18
