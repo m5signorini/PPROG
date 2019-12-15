@@ -16,7 +16,7 @@ ODIR = obj
 
 # Using [patsubst pattern, replacement, text] - Change text
 # Using [wildcard pattern] - Get text
-######################################
+#####################################
 TESTS = die_test set_test inventory_test link_test object_test game_test game_rules_test player_test space_test dialogue_test
 SRC_FILES = $(wildcard $(CDIR)/*.c)
 TST_O = $(patsubst %,$(ODIR)/%.o,$(TESTS))
