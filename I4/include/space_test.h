@@ -61,7 +61,7 @@ void test1_space_set_west();
 void test2_space_set_west();
 void test3_space_set_west();
 void test4_space_set_west();
-void test1_space_get_id_();
+void test1_space_get_id();
 void test2_space_get_id();
 void test1_space_add_object();
 void test2_space_add_object();
