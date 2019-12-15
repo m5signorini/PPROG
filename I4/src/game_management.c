@@ -176,7 +176,7 @@ STATUS game_management_save(Game* game, char* filename) {
     if (sprintf(aux, "#s:%ld|%s|%ld|%ld|%ld|%ld|%ld|%ld|%d|", space_get_id(space), space_get_name(space), space_get_north(space), space_get_east(space), space_get_south(space), space_get_west(space), space_get_up(space), space_get_down(space), space_get_illuminated(space))<0) {
       return ERROR;
     }
-    
+
     for (j=0; j<IMG_NUM; j++) {
       strcat(aux, space_get_image(space, j));
       strcat(aux, "|");
@@ -304,6 +304,7 @@ STATUS game_management_load_spaces(Game* game, char* filename) {
         toks = strtok(NULL, "|");
         if(toks != NULL && strchr(toks, '\n') == NULL) {
           strncpy(img[i], toks, IMG_SIZE-1);
+          img[i][strlen(toks)] = ' ';
         }
       }
       toks = strtok(NULL, "|");
