@@ -28,6 +28,19 @@
 * @return game the game that will be created
 */
 Game* game_management_create_from_file(char* filename);
+
+/**
+* @brief Loads a game from a file to a already existing game structure
+*
+* game_management_load_from_file loads a game based on the data of a file
+*
+* @date 19/09/2019
+* @author: Martin Sanchez Signorini
+*
+* @param filename the name of the file with the data for loading the game
+* @param game the game structure to which the game will be loaded
+* @return game a pointer to the game that will be loaded
+*/
 Game* game_management_load_from_file(Game* game, char* filename);
 
 /**
