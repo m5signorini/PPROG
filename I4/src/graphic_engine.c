@@ -17,7 +17,7 @@
 #define MAX_LINE IMG_SIZE+3
 /* Max length of the str temporal variable*/
 #define STR_LEN 255
-#define OFFSET 12
+#define OFFSET 6
 
 struct _Graphic_engine{
   Area *map, *descript, *banner, *help, *feedback;
