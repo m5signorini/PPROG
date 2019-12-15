@@ -697,6 +697,9 @@ STATUS game_callback_take(Game* game){
   if(obj == NULL) {
     return ERROR;
   }
+  if(object_get_movable(obj) == FALSE) {
+    return ERROR;
+  }
   obj_id = object_get_id(obj);
   player_add_object(game_get_player(game), obj_id);
   space_delete_object(space_act, obj_id);
