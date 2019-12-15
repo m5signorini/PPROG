@@ -221,6 +221,17 @@ BOOL object_get_turnedon(Object* object) {
   return object->turnedon;
 }
 
+const char * object_get_default_description(Object* object) {
+    if(object == NULL) return NULL;
+    return object->moved_description;
+}
+
+const char * object_get_moved_description(Object* object) {
+    if(object == NULL) return NULL;
+    return object->description;
+}
+
+
 STATUS object_print(Object* object) {
 
   if (!object) {
