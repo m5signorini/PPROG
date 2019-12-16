@@ -1,15 +1,15 @@
 /**
- * @brief It defines the game interface
- * for each command
- *
- * The game manages the spaces, players and objects
- *
- * @file game.h
- * @author Martin Sanchez Signorini
- * @version 3.0
- * @date 30-10-2019
- * @copyright GNU Public License
- */
+* @brief It defines the game interface
+* for each command
+*
+* The game manages the spaces, players and objects
+*
+* @file game.h
+* @author Martin Sanchez Signorini
+* @version 3.0
+* @date 30-10-2019
+* @copyright GNU Public License
+*/
 
 #ifndef GAME_H
 #define GAME_H
@@ -327,12 +327,90 @@ STATUS game_add_link(Game* game, Link* link);
 * @return the description of the game
 */
 char* game_get_description(Game*game);
+
+/**
+* @brief Gets the link of the given position
+*
+* game_get_link_at returns the link with the given position
+*
+* @date 21/11/2019
+* @author: Félix Estaún Bescós
+*
+* @param game the game from which the link will be returned
+* @param position of the link that will be returned
+* @return the link
+*/
 Link* game_get_link_at(Game* game, int position);
+
+/**
+* @brief Gets the space of the given position
+*
+* game_get_space_at returns the space with the given position
+*
+* @date 21/11/2019
+* @author: César Ramírez Martínez
+*
+* @param game the game from which the space will be returned
+* @param position of the space that will be returned
+* @return the space
+*/
 Space* game_get_space_at(Game* game, int index);
+
+/**
+* @brief Gets the object of the given position
+*
+* game_get_object_at returns the object with the given position
+*
+* @date 21/11/2019
+* @author: César Ramírez Martínez
+*
+* @param game the game from which the object will be returned
+* @param position of the object that will be returned
+* @return the object
+*/
 Object* game_get_object_at(Game* game, int index);
+
+/**
+* @brief Checks the illumination of a given space
+*
+* game_check_light_space space illumination check
+*
+* @date 21/11/2019
+* @author: Martín Sánchez Signorini
+*
+* @param game the game
+* @param space whose illumination will be checked
+* @return OK or ERROR for error management
+*/
 STATUS game_check_light_space(Game* game, Space* space);
+
+/**
+* @brief Checks if the space in which the player is located
+*        must be illuminated. This will happen if he is carrying
+*        an illuminated object.
+*
+* game_check_light_player space illumination check
+*
+* @date 21/11/2019
+* @author: Martín Sánchez Signorini
+*
+* @param game the game
+* @param space whose illumination will be checked
+* @return OK or ERROR for error management
+*/
 STATUS game_check_light_player(Game* game, Space* space);
 
+/**
+* @brief It empties the game without destroying it
+*
+* game_clear empties all the fields of the game structure
+*
+* @date 21/11/2019
+* @author: Martín Sánchez Signorini
+*
+* @param game the game that will be cleared
+* @return OK or ERROR for error management
+*/
 STATUS game_clear(Game* game);
 
 #endif
