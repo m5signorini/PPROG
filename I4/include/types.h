@@ -1,23 +1,26 @@
 /**
-* @brief It defines common types
-*
-* @file types.h
-* @author Profesores PPROG
-* @version 1.0
-* @date 13-01-2015
-* @copyright GNU Public License
-*/
+ * @brief It defines common types
+ *
+ * @file types.h
+ * @author Profesores PPROG
+ * @version 1.0
+ * @date 13-01-2015
+ * @copyright GNU Public License
+ */
 
 #ifndef TYPES_H
 #define TYPES_H
 
-#define WORD_SIZE 10000
+#define WORD_SIZE 1000
 #define NO_ID -1
-#define IMG_SIZE 70
-#define IMG_NUM 30
+#define IMG_SIZE 10
+#define IMG_NUM 5
 #define MAX_DESC 128
-#define DIE_MAX 7
 #define DIE_MIN 1
+#define DIE_MAX 7
+#define GUILTY_ID 666
+#define VICTORY_ID 777
+#define DEFEAT_ID 22
 
 typedef long Id;
 
