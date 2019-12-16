@@ -3,38 +3,38 @@
 
 --Object: Id/Nombre/pos_ini/Desc/Moved_desc/open/movable/moved/hidden/illuminate/turnedon
   Para objetos del jugador: pos_ini = p
-#o:1|Note|14|It is a note with something written on it|The note says: he had always hated me, I heard him saying: "She is stupid, she will never know about it", now I know everything and killing him is the only posibility|0|1|0|0|0|0|
-#o:2|Cup|16|Its is a cup with rests of something|Seems like the cup has rests of a kind of green liquid|0|1|0|0|0|0|
-#o:3|Knife|3|This knife is sharpened|This knife is sharpened|0|1|0|0|0|0|
-#o:4|Toothbrush|4|Seems like it has been used|Seems like it has been used|0|1|0|0|0|0|
-#o:5|Shirt|5|It is a stained shirt|This shirt is stained with blood|0|1|0|0|0|0|
-#o:6|Test tube|8|It is an empty test tube|It is an empty test tube|0|1|0|0|0|0|
-#o:7|Old book|6|It is an old book|Seems like this book is about a goose|0|1|0|0|0|0|
-#o:8|Rusty key|7|It is a rusty key|Maybe I can open a door with this rusty key|13|1|0|0|0|0|
-#o:9|Metal key|13|It is a metal key|Maybe I can open a door with this metal key|18|1|0|0|0|0|
-#o:10|Key card|21|It is a key card|Maybe I can open a door with this key card|7|1|0|0|0|0|
-#o:11|Guillotine|21|Seems like it has not been used|Seems like it has not been used|0|0|0|0|0|0|
-#o:12|Piano|18|It is an old piano|Bad Gyal-Alocao starts playing|0|0|0|0|0|0|
-#o:13|Chimney|5|Seems like there is something more than wood in the chimney|Seems like there is something more than wood in the chimney|0|0|0|0|0|1|
-#o:14|Sink|9|This sink is covered with blood|This sink is covered with blood|0|0|0|0|0|0|
-#o:15|Coffee|13|It is a hot coffee|If I drink it I will need to go to the bath|0|1|0|0|0|0|
-#o:16|Contract note|19|It is a kind of contract|This contract is about the new cooker who is a woman|0|1|0|0|0|0|
-#o:17|Computer|13|Seems like someone has left a more than 18 years webpage opened|Seems like someone has left a more than 18 years webpage opened|0|0|0|0|0|0|
-#o:18|Swimming pool|7|The water is a bit dirty, better not to have a bath|The water is a bit dirty, better not to have a bath|0|0|0|0|0|0|
+#o:1|Note|14|It's a note with something written on it|The note says: He had always hated me, I heard him saying: "She is stupid, she will never know about it", now I know everything, and killing him is the only possibility|0|1|0|0|0|0|
+#o:2|Cup|16|It's is a cup with rests of something|Seems like the cup has rests of some kind of green liquid|0|1|0|0|0|0|
+#o:3|Knife|3|This knife is quite sharp|This knife is quite sharp|0|1|0|0|0|0|
+#o:4|Toothbrush|4|Seems like it has been used a lot|Seems like it has been used a lot|0|1|0|0|0|0|
+#o:5|Shirt|5|It's a stained shirt|The shirt is stained with blood|0|1|0|0|0|0|
+#o:6|Test tube|8|It's an empty test tube|It's an empty test tube|0|1|0|0|0|0|
+#o:7|Old book|6|It's an old book|Seems like the book is about a goose|0|1|0|0|0|0|
+#o:8|Rusty key|7|It's a rusty key|Perhaps I can open some door with this rusty key|13|1|0|0|0|0|
+#o:9|Metal key|13|It's a metal key|Perhaps I can open some door with this metal key|18|1|0|0|0|0|
+#o:10|Key card|21|It's a key card|Perhaps I can open some door with this key card|7|1|0|0|0|0|
+#o:11|Guillotine|21|Seems like it hasn't been used in ages|Seems like it hasn't been used in ages|0|0|0|0|0|0|
+#o:12|Piano|18|It's an old piano|Bad Gyal-Alocao starts playing|0|0|0|0|0|0|
+#o:13|Chimney|5|Seems like there is something more than just wood in the chimney|Seems like there is something more than just wood in the chimney|0|0|0|0|0|1|
+#o:14|Sink|9|The sink is covered with blood|The sink is covered with blood|0|0|0|0|0|0|
+#o:15|Coffee|13|It's a cup of hot coffee|If I drink it I will probably need to go to the toilet|0|1|0|0|0|0|
+#o:16|Contract note|19|It's some kind of contract|This contract is about the new woman cook|0|1|0|0|0|0|
+#o:17|Computer|13|Seems like someone has left a +18 webpage open|Seems like someone has left a +18 webpage open|0|0|0|0|0|0|
+#o:18|Swimming pool|7|The water is a bit dirty, better not to have a swim|The water is a bit dirty, better not to have a swim|0|0|0|0|0|0|
 #o:19|Mouse|16|Seems tasty|Seems tasty|0|0|0|0|0|0|
 #o:20|Bed|16|Maybe I could sleep with the mouse|Maybe I could sleep with the mouse||0|0|0|0|0|0|
 #o:21|Bed|5|Seems comfortable|Seems comfortable|0|0|0|0|0|0|
-#o:22|Bed|12|Maybe I will take a nap|Maybe I will take a nap|0|0|0|0|0|0|
-#o:23|Trunk|5|I'm sure there is something important in it|I'm sure there is something important in it|0|0|0|0|0|0|
-#o:24|Mirror|11|I didn't realized I was so perfect|I didn't realized I was so perfect|0|0|0|0|0|0|
+#o:22|Bed|12|Maybe I should take a nap|Maybe I should take a nap|0|0|0|0|0|0|
+#o:23|Chest|5|I'm sure there's something important in it|I'm sure there's something important in it|0|0|0|0|0|0|
+#o:24|Mirror|11|I hadn't realized I was so perfect|I hadn't realized I was so perfect|0|0|0|0|0|0|
 #o:25|WC|11|Seems like someone has diarrhea|Seems like someone has diarrhea|0|0|0|0|0|0|
-#o:26|Paper bin|4|It is empty|It is empty|0|0|0|0|0|0|
-#o:27|Lantern|3|It is a lantern with battery|It is a lantern with battery|0|1|0|0|1|0|
+#o:26|Paper bin|4|It's empty|It's empty|0|0|0|0|0|0|
+#o:27|Lantern|3|It's a lantern with battery|It's a lantern with battery|0|1|0|0|1|0|
 #o:28|Light bulb|18|It is broken|It is broken|0|1|0|0|0|0|
-#o:29|Chimney|3|Seems like there is something more than wood in the chimney|Seems like there is something more than wood in the chimney|0|0|0|0|0|1|
-#o:30|Mirror|4|I didn't realized I was so perfect|I didn't realized I was so perfect|0|0|0|0|0|0|
-#o:31|WC|4|At least is clean|At least is clean|0|0|0|0|0|0|
-#o:32|Corpse|22|Someone tried to make the others think it was a suicide but I know someone is an assassin|Someone tried to make the others think it was a suicide but I know someone is an assassin|0|0|0|0|0|0|
+#o:29|Chimney|3|Seems like there's something more than wood in the chimney|Seems like there's something more than wood in the chimney|0|0|0|0|0|1|
+#o:30|Mirror|4|I hadn't realized I was so perfect|I hadn't realized I was so perfect|0|0|0|0|0|0|
+#o:31|WC|4|At least it's clean|At least it's clean|0|0|0|0|0|0|
+#o:32|Corpse|22|Someone tried to make people think it was a suicide but I know someone is an assassin|Someone tried to make people think it was a suicide but I know someone is an assassin|0|0|0|0|0|0|
 #o:33|Lamp|2|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:34|Lamp|3|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:35|Lamp|4|It is a lamp|It is a lamp|0|0|0|0|1|1|
@@ -56,11 +56,11 @@
 #o:51|Lamp|21|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:52|Lamp|23|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:53|Lamp|24|It is a lamp|It is a lamp|0|0|0|0|1|1|
-#o:54|Cesar|23|Please I didn't kill him, he is lying!|Please I didn't kill him, he is lying!|0|0|0|0|0|0|
-#o:55|Gonzalo|23|I know he is the assassin we have to kill him!|I know he is the assassin we have to kill him!|0|0|0|0|0|0|
-#o:56|Rodolfo|6|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|0|0|0|0|0|0|
+#o:54|Cesar|23|Please, I didn't kill him, he is lying!|Please, I didn't kill him, he is lying!|0|0|0|0|0|0|
+#o:55|Gonzalo|23|I know he is the assassin, we have to kill him!|I know he is the assassin, we have to kill him!|0|0|0|0|0|0|
+#o:56|Rodolfo|6|The woman at the laboratory is a bit weird, she has been there all day and left just once, with a strange jar filled with something green|The woman at the laboratory is a bit weird, she has been there all day and left just once, with a strange jar filled with something green|0|0|0|0|0|0|
 #o:666|Maria Sarnabo|7|I am working, please stop bothering me and go away|I am working, please stop bothering me and go away|0|0|0|0|0|0|
-#o:58|Natalia|17|I had to kill a pig for the dinner and I got covered with blood, I had to take a bath|I had to kill a pig for the dinner and I got covered with blood, I had to take a bath|0|0|0|0|0|0|
+#o:58|Natalia|17|I had to kill a pig for the dinner and I got covered in blood, I had to take a bath|I had to kill a pig for the dinner and I got covered in blood, I had to take a bath|0|0|0|0|0|0|
 #o:59|Ruperta|24|I have been here all day, if you are going to drink something remember to bring the cup back please, one is missing|I have been here all day, if you are going to drink something remember to bring the cup back please, one is missing|0|0|0|0|0|0|
 
 --Space: Id/Nombre/north/east/south/west/up/down/illuminated/IMG[IMG_NUM]/Desc/LongDesc
