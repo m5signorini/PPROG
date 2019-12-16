@@ -3,16 +3,16 @@
 
 --Object: Id/Nombre/pos_ini/Desc/Moved_desc/open/movable/moved/hidden/illuminate/turnedon
   Para objetos del jugador: pos_ini = p
-#o:1|Note|14|It is a note with something written in it|The note says: he had always hated me, I heard him saying: "She is stupid, she will never know about it", now I know everything and killing him is the only posibility|0|1|0|0|0|0|
+#o:1|Note|14|It is a note with something written on it|The note says: he had always hated me, I heard him saying: "She is stupid, she will never know about it", now I know everything and killing him is the only posibility|0|1|0|0|0|0|
 #o:2|Cup|16|Its is a cup with rests of something|Seems like the cup has rests of a kind of green liquid|0|1|0|0|0|0|
 #o:3|Knife|3|This knife is sharpened|This knife is sharpened|0|1|0|0|0|0|
 #o:4|Toothbrush|4|Seems like it has been used|Seems like it has been used|0|1|0|0|0|0|
 #o:5|Shirt|5|It is a stained shirt|This shirt is stained with blood|0|1|0|0|0|0|
 #o:6|Test tube|8|It is an empty test tube|It is an empty test tube|0|1|0|0|0|0|
 #o:7|Old book|6|It is an old book|Seems like this book is about a goose|0|1|0|0|0|0|
-#o:8|Rusty key|7|It is a rusty key|Maybe I can open a door with this rusty key|x|1|0|0|0|0|
-#o:9|Metal key|13|It is a metal key|Maybe I can open a door with this metal key|x|1|0|0|0|0|
-#o:10|Key card|21|It is a key card|Maybe I can open a door with this key card|x|1|0|0|0|0|
+#o:8|Rusty key|7|It is a rusty key|Maybe I can open a door with this rusty key|13|1|0|0|0|0|
+#o:9|Metal key|13|It is a metal key|Maybe I can open a door with this metal key|18|1|0|0|0|0|
+#o:10|Key card|21|It is a key card|Maybe I can open a door with this key card|7|1|0|0|0|0|
 #o:11|Guillotine|21|Seems like it has not been used|Seems like it has not been used|0|0|0|0|0|0|
 #o:12|Piano|18|It is an old piano|Bad Gyal-Alocao starts playing|0|0|0|0|0|0|
 #o:13|Chimney|5|Seems like there is something more than wood in the chimney|Seems like there is something more than wood in the chimney|0|0|0|0|0|1|
@@ -23,7 +23,7 @@
 #o:18|Swimming pool|7|The water is a bit dirty, better not to have a bath|The water is a bit dirty, better not to have a bath|0|0|0|0|0|0|
 #o:19|Mouse|16|Seems tasty|Seems tasty|0|0|0|0|0|0|
 #o:20|Bed|16|Maybe I could sleep with the mouse|Maybe I could sleep with the mouse||0|0|0|0|0|0|
-#o:21|Bed|5|Perfect for fucking bald people|0|0|0|0|0|0|
+#o:21|Bed|5|Seems comfortable|Seems comfortable|0|0|0|0|0|0|
 #o:22|Bed|12|Maybe I will take a nap|Maybe I will take a nap|0|0|0|0|0|0|
 #o:23|Trunk|5|I'm sure there is something important in it|I'm sure there is something important in it|0|0|0|0|0|0|
 #o:24|Mirror|11|I didn't realized I was so perfect|I didn't realized I was so perfect|0|0|0|0|0|0|
@@ -56,10 +56,10 @@
 #o:51|Lamp|21|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:52|Lamp|23|It is a lamp|It is a lamp|0|0|0|0|1|1|
 #o:53|Lamp|24|It is a lamp|It is a lamp|0|0|0|0|1|1|
-#o:54|César|23|Please I didn't kill him, he is lying!|Please I didn't kill him, he is lying!|0|0|0|0|0|0|
+#o:54|Cesar|23|Please I didn't kill him, he is lying!|Please I didn't kill him, he is lying!|0|0|0|0|0|0|
 #o:55|Gonzalo|23|I know he is the assassin we have to kill him!|I know he is the assassin we have to kill him!|0|0|0|0|0|0|
-#o:56|Calvo|6|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|0|0|0|0|0|0|
-#o:666|María Sarnabo|7|I am working, please stop bothering me and go away|I am working, please stop bothering me and go away|0|0|0|0|0|0|
+#o:56|Rodolfo|6|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|The woman of the laboratory is a bit weird, she has been there all day and just went away once with a strange jar with something green in it|0|0|0|0|0|0|
+#o:666|Maria Sarnabo|7|I am working, please stop bothering me and go away|I am working, please stop bothering me and go away|0|0|0|0|0|0|
 #o:58|Natalia|17|I had to kill a pig for the dinner and I got covered with blood, I had to take a bath|I had to kill a pig for the dinner and I got covered with blood, I had to take a bath|0|0|0|0|0|0|
 #o:59|Ruperta|24|I have been here all day, if you are going to drink something remember to bring the cup back please, one is missing|I have been here all day, if you are going to drink something remember to bring the cup back please, one is missing|0|0|0|0|0|0|
 
@@ -91,26 +91,26 @@
 #s:25|Defeat|-1|-1|-1|-1|-1|-1|1    |                                                                               |                                                                               |                                                                               |                                                                               |                     GAME OVER                                                 |                                                                               |                     YOU LOST                                                  |                        ___                                                    |                     .-'   `'.                                                 |                    /         \                                                |                    │         ;                                                |                    │         │           ___.--,                              |           _.._     │0) ~ (0) │    _.---'`__.-( (_.                            |    __.--'`_.. '.__.\    '--. \_.-' ,.--'`     `""`                            |   ( ,.--'`   ',__ /./;   ;, '.__.'`    __                                     |   _`) )  .---.__.' / │   │\   \__..--""  """--.,_                             |  `---' .'.''-._.-'`_./  /\ '.  \ _.-~~~````~~~-._`-.__.'                      |        │ │  .' _.-' │  │  \  \  '.               `~---`                       |         \ \/ .'     \  \   '. '-._)                                           |          \/ /        \  \    `=.__`~-.                                        |          / /\         `) )    / / `"".`\                                      |    , _.-'.'\ \        / /    ( (     / /                                      |     `--~`   ) )    .-'.'      '.'.  │ (                                       |            (/`    ( (`          ) )  '-;                                      |             `      '-;         (-'                                            |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               | Desc | Long Desc |
 #s:26|Victory|-1|-1|-1|-1|-1|-1|1   |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                            VICTORY                                            |                                                                               |                     CONGRATULATIONS! YOU WON!                                 |                           ___________                                         |                          '._==_==_=_.'                                        |                          .-\:      /-.                                        |                         │ (│:.     │) │                                       |                          '-│:.     │-'                                        |                            \::.    /                                          |                             '::. .'                                           |                               ) (                                             |                             _.' '._                                           |                            `"""""""`                                          |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               |                                                                               | Desc | Long Desc |
 --Link: Id/nombre/space1/space2/open
-#l:1|Entrada|1|2|0|
-#l:2|Pasillo|2|3|0|
-#l:3|Puerta|3|4|0|
-#l:4|Puerta|4|5|0|
-#l:5|Puerta|3|6|0|
-#l:6|Puerta|6|7|0|
-#l:7|Puerta|6|8|1|
-#l:8|Pasillo|2|9|0|
-#l:9|Puerta|9|10|0|
-#l:10|Puerta|10|11|0|
-#l:11|Puerta|10|12|0|
-#l:12|Puerta|10|13|0|
-#l:13|Puerta|13|14|1|
-#l:14|Escaleras|2|15|0|
-#l:15|Puerta|15|16|0|
-#l:16|Puerta|16|17|0|
-#l:17|Puerta|15|18|0|
-#l:18|Puerta|18|19|1|
-#l:19|Escaleras|2|20|0|
-#l:20|Pasillo|20|21|0|
-#l:21|Puerta|21|22|0|
-#l:22|Escaleras|21|23|0|
-#l:23|Puerta|20|24|0|
+#l:1|Entry|1|2|0|
+#l:2|Corridor|2|3|0|
+#l:3|Door|3|4|0|
+#l:4|Door|4|5|0|
+#l:5|Door|3|6|0|
+#l:6|Door|6|7|0|
+#l:7|Door|6|8|1|
+#l:8|Corridor|2|9|0|
+#l:9|Door|9|10|0|
+#l:10|Door|10|11|0|
+#l:11|Door|10|12|0|
+#l:12|Door|10|13|0|
+#l:13|Door|13|14|1|
+#l:14|Stairs|2|15|0|
+#l:15|Door|15|16|0|
+#l:16|Door|16|17|0|
+#l:17|Door|15|18|0|
+#l:18|Door|18|19|1|
+#l:19|Stairs|2|20|0|
+#l:20|Corridor|20|21|0|
+#l:21|Door|21|22|0|
+#l:22|Stairs|21|23|0|
+#l:23|Door|20|24|0|

@@ -1,0 +1,56 @@
+move north
+move west
+take Lantern
+move east
+move down
+move west
+move south
+turnon Lantern
+inspect Corpse
+move north
+move east
+move east
+inspect Ruperta
+move west
+move up
+move west
+move north
+inspect Rodolfo
+move east
+take Rusty key
+move west
+move south
+move east
+move east
+move north
+move east
+open Door
+move east
+turnon Lantern
+drop Rusty key
+take Note
+inspect Note
+move west
+move west
+move south
+move west
+move up
+move west
+drop Note
+take Cup
+inspect Cup
+move east
+move down
+move down
+move west
+drop Cup
+take Key card
+move east
+move up
+move west
+move north
+open Door
+move west
+inspect Maria Sarnabo
+inspect Test tube
+accuse Maria Sarnabo
