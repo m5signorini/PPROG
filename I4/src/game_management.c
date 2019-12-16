@@ -14,7 +14,7 @@
 #include <string.h>
 #include "game_management.h"
 
-#define MAX_DATA 1024
+#define MAX_DATA 10024
 
 /**
 Private Functions Prototypes
@@ -303,9 +303,10 @@ STATUS game_management_load_spaces(Game* game, char* filename) {
       for(i = 0; i < IMG_NUM; i++) {
         toks = strtok(NULL, "|");
         if(toks != NULL && strchr(toks, '\n') == NULL) {
+          printf("tok:%s\n", toks);
           strncpy(img[i], toks, IMG_SIZE-1);
           if(strlen(toks) < IMG_SIZE) {
-            img[i][strlen(toks)] = ' ';
+            memset(img[i]+strlen(toks), ' ', IMG_SIZE-strlen(toks)-1);
           }
         }
       }

@@ -17,7 +17,7 @@
 #include "game.h"
 
 #define N_CALLBACK 18
-#define MAX_OBJECTS 50
+#define MAX_OBJECTS 200
 #define MAX_LINKS 4*(MAX_SPACES + 1)
 
 struct _Game {
@@ -522,6 +522,7 @@ STATUS game_callback_next(Game* game) {
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, S);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -544,6 +545,7 @@ STATUS game_callback_back(Game* game) {
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, N);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -566,6 +568,7 @@ STATUS game_callback_right(Game* game){
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, E);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -588,6 +591,7 @@ STATUS game_callback_left(Game* game){
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, W);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -611,6 +615,7 @@ STATUS game_callback_up(Game* game){
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, U);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -633,6 +638,7 @@ STATUS game_callback_down(Game* game){
   }
   space_next = game_get_space(game, dest);
   dialogue_set_direction(game->dialogue, D);
+  dialogue_set_description(game->dialogue, space_get_name(space_next));
   /*Check if there is still a light source*/
   game_check_light_space(game, space_act);
   game_check_light_space(game, space_next);
@@ -700,6 +706,7 @@ STATUS game_callback_take(Game* game){
   if(object_get_movable(obj) == FALSE) {
     return ERROR;
   }
+  dialogue_set_description(game->dialogue, object_get_description(obj));
   obj_id = object_get_id(obj);
   player_add_object(game_get_player(game), obj_id);
   space_delete_object(space_act, obj_id);

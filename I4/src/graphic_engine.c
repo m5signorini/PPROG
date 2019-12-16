@@ -14,10 +14,10 @@
 #include "screen.h"
 #include "graphic_engine.h"
 
-#define MAX_LINE IMG_SIZE+3
+#define MAX_LINE (IMG_SIZE+3)
 /* Max length of the str temporal variable*/
 #define STR_LEN 255
-#define OFFSET 15
+#define OFFSET 20
 
 struct _Graphic_engine{
   Area *map, *descript, *banner, *help, *feedback;
@@ -118,11 +118,16 @@ Graphic_engine *graphic_engine_create(){
   screen_init();
   ge = (Graphic_engine *) malloc(sizeof(Graphic_engine));
 
-  ge->map      = screen_area_init( 1, 1, 48, 21);
-  ge->descript = screen_area_init(50, 1, 29, 21);
-  ge->banner   = screen_area_init(28,23, 23,  1);
-  ge->help     = screen_area_init( 1,24, 78,  3);
-  ge->feedback = screen_area_init( 1,28, 78,  3);
+  /*ge->map      = screen_area_init( 1, 1, 48, 21);*/
+  ge->map      = screen_area_init( 1, 1, MAP_W, MAP_H);
+  /*ge->descript = screen_area_init(50, 1, 29, 21);*/
+  ge->descript = screen_area_init(MAP_W+2, 1, SCREEN_MAX_STR - MAP_W - 3, MAP_H);
+  /*ge->banner   = screen_area_init(28,23, 23,  1);*/
+  ge->banner   = screen_area_init(MAP_W/2,MAP_H+2, MAP_W/2,  1);
+  /*ge->help     = screen_area_init( 1,24, 78,  3);*/
+  ge->help     = screen_area_init( 1,MAP_H+3, SCREEN_MAX_STR-2,  3);
+  /*ge->feedback = screen_area_init( 1,28, 78,  3);*/
+  ge->feedback = screen_area_init( 1,MAP_H+7, SCREEN_MAX_STR-2,  3);
 
   return ge;
 }
@@ -152,9 +157,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   char obj[MAX_LINE+1];
   char str[STR_LEN];
   char tmp[STR_LEN];
-  T_Command last_cmd = UNKNOWN;
+  //T_Command last_cmd = UNKNOWN;
   extern char *cmd_to_str[];
   extern char *short_cmd_to_str[];
+  Dialogue* diag = NULL;
   int i;
 
 
@@ -219,6 +225,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */
+  diag = game_get_dialogue(game);
+  sprintf(str, "%s", dialogue_get_feedback(diag));
+  screen_area_puts(ge->feedback, str);
+  /*
   last_cmd = game_get_last_command(game);
   sprintf(str, " %s:", cmd_to_str[last_cmd-NO_CMD]);
   if(game_get_last_command_stat(game) == OK) {
@@ -227,7 +237,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   else {
     strcat(str, "ERROR");
   }
-  screen_area_puts(ge->feedback, str);
+  screen_area_puts(ge->feedback, str);*/
 
   /* Dump to the terminal */
   screen_paint();
@@ -284,6 +294,8 @@ STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
   if(ge == NULL || game == NULL) return ERROR;
   Id obj_id = NO_ID;
   Id obj_loc = NO_ID;
+  Object* obj = NULL;
+  Space* space = NULL;
   char str[STR_LEN];
   int i = 0;
 
@@ -298,11 +310,14 @@ STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game) {
 
   while((obj_id = game_get_object_id_at(game, i++)) != NO_ID) {
     obj_loc = game_get_object_location(game, obj_id);
-
     /* If the object is in a space */
     if(obj_loc != NO_ID) {
-      sprintf(str, "    %s:%d", object_get_name(game_get_object(game, obj_id)),(int)obj_loc);
-      screen_area_puts(ge->descript, str);
+      obj = game_get_object(game, obj_id);
+      if(object_get_hidden(obj) == FALSE) {
+        space = game_get_space(game, obj_loc);
+        sprintf(str, "    %*s : %s", OFFSET/2, object_get_name(obj),space_get_name(space));
+        screen_area_puts(ge->descript, str);
+      }
     }
   }
 

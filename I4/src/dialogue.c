@@ -49,7 +49,6 @@ STATUS dialogue_set_description(Dialogue* feedback, const char* desc) {
   if (!feedback || !desc) {
     return ERROR;
   }
-
   strncpy(feedback->description, desc, MAX_DESC);
   return OK;
 }
@@ -152,8 +151,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   if (cmd==NO_CMD) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == NO_CMD) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == NO_CMD) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -168,8 +167,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==UNKNOWN) {
       //Error
-      if (feedback->last_status == ERROR) {
-        if (feedback->last_cmd == UNKNOWN) {
+      if (status == ERROR) {
+        if (feedback->last_status == ERROR && feedback->last_cmd == UNKNOWN) {
           dialogue_set_feedback(feedback,"You have done this before without success.");
           return OK;
         }
@@ -184,8 +183,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==EXIT) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == EXIT) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == EXIT) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -205,10 +204,10 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
   }
 
-  else if (cmd==NEXT  || (cmd==MOVE && feedback->dir == N)) {
+  else if (cmd==NEXT  || (cmd==MOVE && feedback->dir == S)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == NEXT) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == NEXT) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -230,10 +229,10 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
   }
 
-  else if (cmd==BACK  || (cmd==MOVE && feedback->dir == S)) {
+  else if (cmd==BACK  || (cmd==MOVE && feedback->dir == N)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == BACK) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == BACK) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -257,8 +256,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==RIGHT  || (cmd==MOVE && feedback->dir == E)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == RIGHT) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == RIGHT) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -282,8 +281,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==LEFT || (cmd==MOVE && feedback->dir == W)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == LEFT) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == LEFT) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -307,8 +306,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==UP || (cmd==MOVE && feedback->dir == U)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == UP) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == UP) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -332,8 +331,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==DOWN || (cmd==MOVE && feedback->dir == D)) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == DOWN) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == DOWN) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -357,8 +356,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==TAKE) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == TAKE) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == TAKE) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -382,8 +381,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==DROP) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == DROP) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == DROP) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -407,8 +406,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==ROLL) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == ROLL) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == ROLL) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -430,8 +429,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==INSPECT) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == INSPECT) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == INSPECT) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -444,7 +443,7 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
     //Success
     else {
-      dialogue_set_feedback(feedback,"You've inspected it with success.");
+      dialogue_set_feedback(feedback,feedback->description);
       dialogue_set_last_cmd(feedback, INSPECT);
       dialogue_set_last_status(feedback, OK);
       return OK;
@@ -453,8 +452,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==TURNON) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == TURNON) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == TURNON) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
@@ -477,8 +476,8 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
 
   else if (cmd==TURNOFF) {
     //Error
-    if (feedback->last_status == ERROR) {
-      if (feedback->last_cmd == TURNOFF) {
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == TURNOFF) {
         dialogue_set_feedback(feedback,"You have done this before without success.");
         return OK;
       }
