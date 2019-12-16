@@ -13,6 +13,7 @@
 #include <string.h>
 #include "graphic_engine.h"
 #include "game_management.h"
+#include "game_rules.h"
 #include "command.h"
 
 int main(int argc, char *argv[]){

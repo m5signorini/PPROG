@@ -14,9 +14,7 @@
 #include "types.h"
 #include "game_rules.h"
 
-#define DIE_MAX
-#define DIE_MIN
-#define TURNS
+#define TURNS 5
 
 struct _GameRules {
   Game* game; /*!< Game in which the  gam_rules will be applied*/
@@ -104,8 +102,15 @@ STATUS game_rules_hide_objects(GameRules* game_rules){
   int i = 0;
 
   while ((object = game_get_object_at(game_rules->game, i)) != NULL){
-    if (object_set_hidden(object, TRUE) == ERROR){
-      return ERROR;
+    if(object_get_hidden(object) == TRUE) {
+      if (object_set_hidden(object, FALSE) == ERROR){
+        return ERROR;
+      }
+    }
+    else if(object_get_hidden(object) == FALSE) {
+      if (object_set_hidden(object, TRUE) == ERROR){
+        return ERROR;
+      }
     }
     i++;
   }
@@ -179,13 +184,34 @@ STATUS game_rules_rotation(GameRules* game_rules){
   return OK;
 }
 
+STATUS game_rules_no_rule(GameRules* game_rules) {
+  if(game_rules == NULL) {
+    return ERROR;
+  }
+  return OK;
+}
+
 STATUS game_rules_main(GameRules* game_rules){
   if(game_rules == NULL){
     return ERROR;
   }
   STATUS control;
+  int num;
+  game_rules->turn = (game_rules->turn+1)%TURNS;
 
-  switch (game_rules->turn){
+  #ifdef NO_RULES
+  control = game_rules_no_rule(game_rules);
+  return control;
+  #endif
+
+  if(game_rules->turn != 0) {
+    return OK;
+  }
+  else {
+    num = die_roll(game_get_die(game_rules->game));
+  }
+
+  switch (num){
     case 1:
     control = game_rules_dark(game_rules);
     break;
@@ -203,6 +229,9 @@ STATUS game_rules_main(GameRules* game_rules){
     break;
     case 6:
     control = game_rules_rotation(game_rules);
+    break;
+    case 7:
+    control = game_rules_no_rule(game_rules);
     break;
 
   }

@@ -111,7 +111,7 @@ Game* game_management_load_from_file(Game* game, char* filename) {
     return NULL;
   }
 
-  die = die_create(1, 1, 6);
+  die = die_create(1, DIE_MIN, DIE_MAX);
   if(die == NULL) {
     game_destroy(game);
     return NULL;
