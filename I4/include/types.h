@@ -11,10 +11,10 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#define WORD_SIZE 1000
+#define WORD_SIZE 10000
 #define NO_ID -1
-#define IMG_SIZE 10
-#define IMG_NUM 5
+#define IMG_SIZE 70
+#define IMG_NUM 30
 #define MAX_DESC 128
 
 typedef long Id;

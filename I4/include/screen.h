@@ -12,7 +12,9 @@
 #ifndef __SCREEN__
 #define __SCREEN__
 
-#define SCREEN_MAX_STR 80
+#define MAP_W (48+65)
+#define MAP_H (21+50)
+#define SCREEN_MAX_STR (80+80)
 
 typedef struct _Area Area;
 

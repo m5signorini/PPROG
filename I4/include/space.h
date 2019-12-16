@@ -17,7 +17,7 @@
 
 typedef struct _Space Space;
 
-#define MAX_SPACES 11000
+#define MAX_SPACES 1000
 #define FIRST_SPACE 1
 
 /**
