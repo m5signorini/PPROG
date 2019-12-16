@@ -136,7 +136,7 @@ STATUS game_rules_no_rule(GameRules* game_rules);
 * @author: César Ramírez Martínez
 *
 * @param game_rules the game_rules that will be used
-* @return OK or ERROR for error management
+* @return OK or ERROR for knowing if a gamerule was applied
 */
 
 STATUS game_rules_main(GameRules* game_rules);
