@@ -83,6 +83,9 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_accuse
 };
 
+/* Private light source functions */
+STATUS game_check_light_space(Game* game, Space* space);
+STATUS game_check_light_player(Game* game, Space* space);
 
 /**
 Game interface implementation
