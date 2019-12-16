@@ -16,6 +16,8 @@
 #define IMG_SIZE 70
 #define IMG_NUM 30
 #define MAX_DESC 128
+#define DIE_MAX 7
+#define DIE_MIN 1
 
 typedef long Id;
 

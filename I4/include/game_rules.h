@@ -100,9 +100,9 @@ STATUS game_rules_hide_objects(GameRules* game_rules);
 
 STATUS game_rules_rotation(GameRules* game_rules);
 /**
-* @brief This rule rotates all the links where the player is placed
+* @brief This rule drops the item of the player
 *
-* game_rules_rotation fifth rule of the game rules
+* game_rules_drop_objects makes the player to drop his items
 *
 * @date 15/12/2019
 * @author: César Ramírez Martínez
@@ -112,6 +112,21 @@ STATUS game_rules_rotation(GameRules* game_rules);
 */
 
 STATUS game_rules_drop_objects(GameRules* game_rules);
+
+/**
+* @brief This rule does nothing
+*
+* game_rules_no_rule doesnt do anything
+*
+* @date 15/12/2019
+* @author: César Ramírez Martínez
+*
+* @param game_rules the game_rules that will be used
+* @return OK or ERROR for error management
+*/
+
+STATUS game_rules_no_rule(GameRules* game_rules);
+
 /**
 * @brief This rule drops all the objects that the player is carrying in the actual space
 *
