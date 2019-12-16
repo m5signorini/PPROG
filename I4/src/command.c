@@ -1,12 +1,12 @@
 /**
-* @brief It implements the command interpreter
-*
-* @file command.c
-* @author Profesores PPROG
-* @version 1.0
-* @date 19-12-2014
-* @copyright GNU Public License
-*/
+ * @brief It implements the command interpreter
+ *
+ * @file command.c
+ * @author Profesores PPROG
+ * @version 1.0
+ * @date 19-12-2014
+ * @copyright GNU Public License
+ */
 
 #include <stdio.h>
 #include <strings.h>
@@ -14,8 +14,8 @@
 
 #define CMD_LENGHT 30
 
-char* cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Next", "Back", "Right", "Left", "Up", "Down", "Move", "Take", "Drop", "Roll", "Inspect", "Turnon", "Turnoff", "Open", "Save", "Load"};
-char* short_cmd_to_str[N_CMD] = {"","","e","n","b", "r", "l", "u", "dw", "m", "t","d", "rl", "i", "ton", "toff", "o", "s", "ld"};
+char* cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Next", "Back", "Right", "Left", "Up", "Down", "Move", "Take", "Drop", "Roll", "Inspect", "Turnon", "Turnoff", "Open", "Save", "Load", "Accuse"};
+char* short_cmd_to_str[N_CMD] = {"","","e","n","b", "r", "l", "u", "dw", "m", "t","d", "rl", "i", "ton", "toff", "o", "s", "ld", "a"};
 
 
 T_Command command_get_user_input() {
@@ -30,7 +30,7 @@ T_Command command_get_user_input() {
         cmd = i + NO_CMD;
       }
       else {
-        i++;
+         i++;
       }
     }
   }
