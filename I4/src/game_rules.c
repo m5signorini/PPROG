@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage the rules of the game
- *
- * @file game_rules.c
- * @author Cesar Ramirez
- * @version 1.0
- * @date 27-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage the rules of the game
+*
+* @file game_rules.c
+* @author Cesar Ramirez
+* @version 1.0
+* @date 27-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,9 +66,9 @@ STATUS game_rules_dark(GameRules* game_rules){
   int i = 0;
 
   while ((space = game_get_space_at(game_rules->game, i++)) != NULL){
-       if (space_set_illuminated(space, FALSE) == ERROR){
-         return ERROR;
-       }
+    if (space_set_illuminated(space, FALSE) == ERROR){
+      return ERROR;
+    }
   }
   return OK;
 }
@@ -81,15 +81,15 @@ STATUS game_rules_clopen_links(GameRules* game_rules){
   int i = 0;
 
   while ((link = game_get_link_at(game_rules->game, i)) != NULL){
-       if(link_get_open(link) == TRUE){
-         if (link_set_open(link, FALSE) == ERROR){
-           return ERROR;
-         }
-       }
-       else {
-         if (link_set_open(link, TRUE) == ERROR){
-           return ERROR;
-         }
+    if(link_get_open(link) == TRUE){
+      if (link_set_open(link, FALSE) == ERROR){
+        return ERROR;
+      }
+    }
+    else {
+      if (link_set_open(link, TRUE) == ERROR){
+        return ERROR;
+      }
       i++;
     }
   }
@@ -104,10 +104,10 @@ STATUS game_rules_hide_objects(GameRules* game_rules){
   int i = 0;
 
   while ((object = game_get_object_at(game_rules->game, i)) != NULL){
-       if (object_set_hidden(object, TRUE) == ERROR){
-         return ERROR;
-       }
-      i++;
+    if (object_set_hidden(object, TRUE) == ERROR){
+      return ERROR;
+    }
+    i++;
   }
   return OK;
 }
@@ -124,13 +124,13 @@ STATUS game_rules_drop_objects(GameRules* game_rules){
   Space* space = game_get_space(game_rules->game, idSpace);
 
   while ((idObject = player_get_object_at(player, i)) != NO_ID){
-      if (space_add_object(space, idObject) == ERROR){
-         return ERROR;
-       }
-      if (player_delete_object(player, idObject) == ERROR){
-        return ERROR;
-      }
-      i++;
+    if (space_add_object(space, idObject) == ERROR){
+      return ERROR;
+    }
+    if (player_delete_object(player, idObject) == ERROR){
+      return ERROR;
+    }
+    i++;
   }
   return OK;
 }
@@ -142,9 +142,9 @@ STATUS game_rules_teleport(GameRules* game_rules){
   int i;
   int random;
   for (i = 0; i < MAX_SPACES; i++){
-     if(game_get_space_id_at(game_rules->game, i) == NO_ID){
-       break;
-     }
+    if(game_get_space_id_at(game_rules->game, i) == NO_ID){
+      break;
+    }
   }
   random = (rand()/(RAND_MAX + 1.) * ((i - 1) + 1) + 1);
 
@@ -187,23 +187,23 @@ STATUS game_rules_main(GameRules* game_rules){
 
   switch (game_rules->turn){
     case 1:
-       control = game_rules_dark(game_rules);
-       break;
+    control = game_rules_dark(game_rules);
+    break;
     case 2:
-       control = game_rules_clopen_links(game_rules);
-       break;
+    control = game_rules_clopen_links(game_rules);
+    break;
     case 3:
-       control = game_rules_hide_objects(game_rules);
-       break;
+    control = game_rules_hide_objects(game_rules);
+    break;
     case 4:
-       control = game_rules_drop_objects(game_rules);
-       break;
+    control = game_rules_drop_objects(game_rules);
+    break;
     case 5:
-       control = game_rules_teleport(game_rules);
-       break;
+    control = game_rules_teleport(game_rules);
+    break;
     case 6:
-       control = game_rules_rotation(game_rules);
-       break;
+    control = game_rules_rotation(game_rules);
+    break;
 
   }
   return control;

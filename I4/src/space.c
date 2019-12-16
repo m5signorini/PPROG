@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage the spaces of the game
- *
- * @file space.c
- * @author Profesores PPROG
- * @version 1.0
- * @date 27-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage the spaces of the game
+*
+* @file space.c
+* @author Profesores PPROG
+* @version 1.0
+* @date 27-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +38,7 @@ Space* space_create(Id id) {
   Set* objects = NULL;
 
   if (id == NO_ID)
-    return NULL;
+  return NULL;
 
   new_space = (Space *) malloc(sizeof (Space));
 
@@ -166,9 +166,9 @@ BOOL space_has_object(Space* space, Id id){
   if (space == NULL || id <= NO_ID){
     return TRUE;
   }
-   if (set_has_id (space->objects, id) > -1){
-     return TRUE;
-   }
+  if (set_has_id (space->objects, id) > -1){
+    return TRUE;
+  }
   return FALSE;
 }
 

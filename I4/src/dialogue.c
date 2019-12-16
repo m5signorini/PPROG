@@ -166,12 +166,12 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
   }
 
   else if (cmd==UNKNOWN) {
-      //Error
-      if (status == ERROR) {
-        if (feedback->last_status == ERROR && feedback->last_cmd == UNKNOWN) {
-          dialogue_set_feedback(feedback,"You have done this before without success.");
-          return OK;
-        }
+    //Error
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == UNKNOWN) {
+        dialogue_set_feedback(feedback,"You have done this before without success.");
+        return OK;
+      }
       else {
         dialogue_set_feedback(feedback,"Learn how to write please...");
         dialogue_set_last_cmd(feedback, UNKNOWN);

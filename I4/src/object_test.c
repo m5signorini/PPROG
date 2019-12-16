@@ -1,12 +1,12 @@
 /**
- * @brief It tests object module
- *
- * @file object_test.c
- * @author Cesar Ramirez
- * @version 2.0
- * @date 12-12-2019
- * @copyright GNU Public License
- */
+* @brief It tests object module
+*
+* @file object_test.c
+* @author Cesar Ramirez
+* @version 2.0
+* @date 12-12-2019
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,55 +18,55 @@
 #define MAX_TESTS 19
 
 /**
- * @brief Funcion principal de pruebas para el modulo Object.
- *
- * Dos modos de ejecucion:
- *   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
- *   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
- *      la prueba indicada
- *
- */
+* @brief Funcion principal de pruebas para el modulo Object.
+*
+* Dos modos de ejecucion:
+*   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
+*   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
+*      la prueba indicada
+*
+*/
 int main(int argc, char** argv) {
 
-    int test = 0;
-    int all = 1;
+  int test = 0;
+  int all = 1;
 
-    if (argc < 2) {
-        printf("Running all test for module Object:\n");
-    } else {
-        test = atoi(argv[1]);
-        all = 0;
-        printf("Running test %d:\t", test);
-	if (test < 1 && test > MAX_TESTS) {
-	  printf("Error: unknown test %d\t", test);
-	  exit(EXIT_SUCCESS);
-        }
+  if (argc < 2) {
+    printf("Running all test for module Object:\n");
+  } else {
+    test = atoi(argv[1]);
+    all = 0;
+    printf("Running test %d:\t", test);
+    if (test < 1 && test > MAX_TESTS) {
+      printf("Error: unknown test %d\t", test);
+      exit(EXIT_SUCCESS);
     }
+  }
 
 
-    if (all || test == 1) test_object_create();
-    if (all || test == 2) test_object_set_name();
-    if (all || test == 3) test_object_set_description();
-    if (all || test == 4) test_object_set_moved_description();
-    if (all || test == 5) test_object_set_movable();
-    if (all || test == 6) test_object_set_moved();
-    if (all || test == 7) test_object_set_hidden();
-    if (all || test == 8) test_object_set_illuminate();
-    if (all || test == 9) test_object_set_turnedon();
-    if (all || test == 10) test_object_set_open();
-    if (all || test == 11) test_object_get_id();
-    if (all || test == 12) test_object_get_name();
-    if (all || test == 13) test_object_get_description();
-    if (all || test == 14) test_object_get_open();
-    if (all || test == 15) test_object_get_movable();
-    if (all || test == 16) test_object_get_moved();
-    if (all || test == 17) test_object_get_hidden();
-    if (all || test == 18) test_object_get_illuminate();
-    if (all || test == 19)test_object_get_turnedon();
+  if (all || test == 1) test_object_create();
+  if (all || test == 2) test_object_set_name();
+  if (all || test == 3) test_object_set_description();
+  if (all || test == 4) test_object_set_moved_description();
+  if (all || test == 5) test_object_set_movable();
+  if (all || test == 6) test_object_set_moved();
+  if (all || test == 7) test_object_set_hidden();
+  if (all || test == 8) test_object_set_illuminate();
+  if (all || test == 9) test_object_set_turnedon();
+  if (all || test == 10) test_object_set_open();
+  if (all || test == 11) test_object_get_id();
+  if (all || test == 12) test_object_get_name();
+  if (all || test == 13) test_object_get_description();
+  if (all || test == 14) test_object_get_open();
+  if (all || test == 15) test_object_get_movable();
+  if (all || test == 16) test_object_get_moved();
+  if (all || test == 17) test_object_get_hidden();
+  if (all || test == 18) test_object_get_illuminate();
+  if (all || test == 19)test_object_get_turnedon();
 
-    PRINT_PASSED_PERCENTAGE;
+  PRINT_PASSED_PERCENTAGE;
 
-    return 1;
+  return 1;
 }
 
 void test_object_create() {
@@ -135,10 +135,10 @@ void test_object_get_id() {
 }
 
 void test_object_get_name() {
-    Object *o;
-    o = object_create(5);
-    object_set_name(o, "hola");
-    PRINT_TEST_RESULT(strcmp(object_get_name(o), "hola") == 0);
+  Object *o;
+  o = object_create(5);
+  object_set_name(o, "hola");
+  PRINT_TEST_RESULT(strcmp(object_get_name(o), "hola") == 0);
 }
 
 void test_object_get_description(){

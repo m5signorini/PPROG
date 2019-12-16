@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage sets
- *
- * @file object.c
- * @author César Ramírez Martínes
- * @version 1.0
- * @date 10-10-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage sets
+*
+* @file object.c
+* @author César Ramírez Martínes
+* @version 1.0
+* @date 10-10-2019
+* @copyright GNU Public License
+*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -136,8 +136,8 @@ STATUS set_print(Set* set) {
     }
   }
   if (!fprintf(stdout, "Number of elements in the set: %d\n", set->n_elements)){
-  return ERROR;
+    return ERROR;
   }
 
-return OK;
+  return OK;
 }

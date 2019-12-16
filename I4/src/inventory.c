@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage the inventory
- *
- * @file inventory.c
- * @author César Ramírez Martínes
- * @version 1.0
- * @date 20-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage the inventory
+*
+* @file inventory.c
+* @author César Ramírez Martínes
+* @version 1.0
+* @date 20-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -59,7 +59,7 @@ BOOL inventory_has_object(Inventory* inventory, Id id){
   int res = 0;
   res = set_has_id (inventory->ids, id);
   if ( res == UNABLE || res == ABLE_TO_ADD){
-   return FALSE;
+    return FALSE;
   }
   return TRUE;
 }

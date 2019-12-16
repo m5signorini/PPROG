@@ -1,12 +1,12 @@
 /**
- * @brief It implements the command interpreter
- *
- * @file command.c
- * @author Profesores PPROG
- * @version 1.0
- * @date 19-12-2014
- * @copyright GNU Public License
- */
+* @brief It implements the command interpreter
+*
+* @file command.c
+* @author Profesores PPROG
+* @version 1.0
+* @date 19-12-2014
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <strings.h>
@@ -30,7 +30,7 @@ T_Command command_get_user_input() {
         cmd = i + NO_CMD;
       }
       else {
-         i++;
+        i++;
       }
     }
   }

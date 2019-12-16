@@ -782,23 +782,23 @@ STATUS game_callback_inspect(Game* game){
       return OK;
     }
 
-     /* Look for matching object in the space */
-     obj = game_get_object_by_name_in_space(game, name, space_act);
-     if(obj != NULL) {
-       /* Object in the space */
-       if(space_get_illuminated(space_act) == TRUE){
-         strcpy(game->description, object_get_description(obj));
-         dialogue_set_description(game->dialogue, object_get_description(obj));
-         return OK;
-       }
-       else {
-         strcpy(game->description, "It's too dark");
-         dialogue_set_description(game->dialogue, "\0");
-         return OK;
-       }
-     }
-   }
-   return ERROR;
+    /* Look for matching object in the space */
+    obj = game_get_object_by_name_in_space(game, name, space_act);
+    if(obj != NULL) {
+      /* Object in the space */
+      if(space_get_illuminated(space_act) == TRUE){
+        strcpy(game->description, object_get_description(obj));
+        dialogue_set_description(game->dialogue, object_get_description(obj));
+        return OK;
+      }
+      else {
+        strcpy(game->description, "It's too dark");
+        dialogue_set_description(game->dialogue, "\0");
+        return OK;
+      }
+    }
+  }
+  return ERROR;
 }
 
 STATUS game_callback_turnon(Game* game) {

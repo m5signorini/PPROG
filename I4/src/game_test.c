@@ -1,12 +1,12 @@
 /**
- * @brief It tests game module
- *
- * @file game_test.c
- * @author Gonzalo Martín
- * @version 2.0
- * @date 12-12-2019
- * @copyright GNU Public License
- */
+* @brief It tests game module
+*
+* @file game_test.c
+* @author Gonzalo Martín
+* @version 2.0
+* @date 12-12-2019
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,53 +24,53 @@
 #define MAX_TESTS 17
 
 /**
- * @brief Funcion principal de pruebas para el modulo Player.
- *
- * Dos modos de ejecucion:
- *   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
- *   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
- *      la prueba indicada
- *
- */
+* @brief Funcion principal de pruebas para el modulo Player.
+*
+* Dos modos de ejecucion:
+*   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
+*   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
+*      la prueba indicada
+*
+*/
 int main(int argc, char** argv) {
 
-    int test = 0;
-    int all = 1;
+  int test = 0;
+  int all = 1;
 
-    if (argc < 2) {
-        printf("Running all test for module Game:\n");
-    } else {
-        test = atoi(argv[1]);
-        all = 0;
-        printf("Running test %d:\t", test);
-	if (test < 1 && test > MAX_TESTS) {
-	  printf("Error: unknown test %d\t", test);
-	  exit(EXIT_SUCCESS);
-        }
+  if (argc < 2) {
+    printf("Running all test for module Game:\n");
+  } else {
+    test = atoi(argv[1]);
+    all = 0;
+    printf("Running test %d:\t", test);
+    if (test < 1 && test > MAX_TESTS) {
+      printf("Error: unknown test %d\t", test);
+      exit(EXIT_SUCCESS);
     }
+  }
 
 
-    if (all || test == 1) test_game_create();
-    if (all || test == 2) test_game_add_space();
-    if (all || test == 3) test_game_get_space();
-    if (all || test == 4) test_game_get_space_id_at();
-    if (all || test == 5) test_game_get_space_at();
-    if (all || test == 6) test_game_set_player();
-    if (all || test == 7) test_game_get_player();
-    if (all || test == 8) test_game_add_object();
-    if (all || test == 9) test_game_get_object_id_at();
-    if (all || test == 10) test_game_get_object_at();
-    if (all || test == 11) test_game_get_object_location();
-    if (all || test == 12) test_game_set_die();
-    if (all || test == 13) test_game_get_die();
-    if (all || test == 14) test_game_add_link();
-    if (all || test == 15) test_game_get_link();
-    if (all || test == 16) test_game_get_link_id_at();
-    if (all || test == 17) test_game_get_link_at();
+  if (all || test == 1) test_game_create();
+  if (all || test == 2) test_game_add_space();
+  if (all || test == 3) test_game_get_space();
+  if (all || test == 4) test_game_get_space_id_at();
+  if (all || test == 5) test_game_get_space_at();
+  if (all || test == 6) test_game_set_player();
+  if (all || test == 7) test_game_get_player();
+  if (all || test == 8) test_game_add_object();
+  if (all || test == 9) test_game_get_object_id_at();
+  if (all || test == 10) test_game_get_object_at();
+  if (all || test == 11) test_game_get_object_location();
+  if (all || test == 12) test_game_set_die();
+  if (all || test == 13) test_game_get_die();
+  if (all || test == 14) test_game_add_link();
+  if (all || test == 15) test_game_get_link();
+  if (all || test == 16) test_game_get_link_id_at();
+  if (all || test == 17) test_game_get_link_at();
 
-    PRINT_PASSED_PERCENTAGE;
+  PRINT_PASSED_PERCENTAGE;
 
-    return 1;
+  return 1;
 }
 
 void test_game_create() {

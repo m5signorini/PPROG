@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage a die
- *
- * @file object.c
- * @author Martin Sanchez
- * @version 1.0
- * @date 20-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage a die
+*
+* @file object.c
+* @author Martin Sanchez
+* @version 1.0
+* @date 20-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdlib.h>
 #include <time.h>

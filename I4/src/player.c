@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage the player
- *
- * @file player.c
- * @author César Ramírez Martínes
- * @version 1.0
- * @date 20-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage the player
+*
+* @file player.c
+* @author César Ramírez Martínes
+* @version 1.0
+* @date 20-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +28,7 @@ Player* player_create(Id id) {
   Player *new_player = NULL;
 
   if (id == NO_ID)
-    return NULL;
+  return NULL;
 
   new_player = (Player *) malloc(sizeof (Player));
 

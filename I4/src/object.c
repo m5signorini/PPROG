@@ -1,12 +1,12 @@
 /**
- * @brief It implements all the functions used to manage the objects
- *
- * @file object.c
- * @author César Ramírez Martínez
- * @version 1.0
- * @date 20-09-2019
- * @copyright GNU Public License
- */
+* @brief It implements all the functions used to manage the objects
+*
+* @file object.c
+* @author César Ramírez Martínez
+* @version 1.0
+* @date 20-09-2019
+* @copyright GNU Public License
+*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +33,7 @@ Object* object_create(Id id) {
   Object *new_object = NULL;
 
   if (id == NO_ID)
-    return NULL;
+  return NULL;
 
   new_object = (Object *) malloc(sizeof (Object));
 
@@ -180,13 +180,13 @@ const char * object_get_description(Object* object) {
 }
 
 const char * object_get_default_description(Object* object) {
-    if(object == NULL) return NULL;
-    return object->moved_description;
+  if(object == NULL) return NULL;
+  return object->moved_description;
 }
 
 const char * object_get_moved_description(Object* object) {
-    if(object == NULL) return NULL;
-    return object->description;
+  if(object == NULL) return NULL;
+  return object->description;
 }
 
 Id object_get_open(Object* object) {

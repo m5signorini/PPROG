@@ -1,11 +1,11 @@
 /**
- * @brief It implements all the functions used to manage the links between spaces of the game
- *
- * @file link.c
- * @author Félix Estaún
- * @version 1.0
- * @date 07-11-2019
- */
+* @brief It implements all the functions used to manage the links between spaces of the game
+*
+* @file link.c
+* @author Félix Estaún
+* @version 1.0
+* @date 07-11-2019
+*/
 
 #include <stdio.h>
 #include <stdlib.h>

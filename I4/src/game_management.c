@@ -186,7 +186,7 @@ STATUS game_management_save(Game* game, char* filename) {
 
 
     if (fprintf(pfile, "%s", aux) < 0) {
-    return ERROR;
+      return ERROR;
     }
   }
   i = 0; j= 0;
@@ -212,7 +212,7 @@ STATUS game_management_save(Game* game, char* filename) {
     }
     else {
       if (sprintf(aux, "#o:%ld|%s|%ld|%s|%s|%ld|%d|%d|%d|%d|%d|\n", object_get_id(obj), object_get_name(obj), game_get_object_location(game, obj_id), object_get_default_description(obj), object_get_moved_description(obj), object_get_open(obj), object_get_movable(obj), object_get_moved(obj), object_get_hidden(obj), object_get_illuminate(obj), object_get_turnedon(obj))<0) {
-      return ERROR;
+        return ERROR;
       }
       if (fprintf(pfile, "%s", aux) < 0) {
         return ERROR;
@@ -233,7 +233,7 @@ STATUS game_management_save(Game* game, char* filename) {
     }
 
     if (fprintf(pfile, "%s", aux) < 0) {
-    return ERROR;
+      return ERROR;
     }
   }
   i = 0; j = 0;
@@ -242,7 +242,7 @@ STATUS game_management_save(Game* game, char* filename) {
   return OK;
 }
 /**
-  Private Functions
+Private Functions
 */
 
 STATUS game_management_load_spaces(Game* game, char* filename) {

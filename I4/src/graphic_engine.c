@@ -1,12 +1,12 @@
 /**
- * @brief It implements the graphic_engine
- *
- * @file graphic_engine.c
- * @author Martin Sanchez Signorini
- * @version 3.0
- * @date 30-10-2019
- * @copyright GNU Public License
- */
+* @brief It implements the graphic_engine
+*
+* @file graphic_engine.c
+* @author Martin Sanchez Signorini
+* @version 3.0
+* @date 30-10-2019
+* @copyright GNU Public License
+*/
 
 #include <string.h>
 #include <stdlib.h>
@@ -24,7 +24,7 @@ struct _Graphic_engine{
 };
 
 /**
-  Private Functions Prototypes
+Private Functions Prototypes
 */
 
 /**
@@ -105,7 +105,7 @@ STATUS graphic_engine_paint_top_link(Game* game, Graphic_engine* ge, Space* spac
 */
 STATUS graphic_engine_paint_bot_link(Game* game, Graphic_engine* ge, Space* space);
 /**
-  Public Functions
+Public Functions
 */
 
 
@@ -113,7 +113,7 @@ Graphic_engine *graphic_engine_create(){
   static Graphic_engine *ge = NULL;
 
   if (ge)
-    return ge;
+  return ge;
 
   screen_init();
   ge = (Graphic_engine *) malloc(sizeof(Graphic_engine));
@@ -134,7 +134,7 @@ Graphic_engine *graphic_engine_create(){
 
 void graphic_engine_destroy(Graphic_engine *ge){
   if (!ge)
-    return;
+  return;
 
   screen_area_destroy(ge->map);
   screen_area_destroy(ge->descript);
@@ -232,21 +232,21 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   last_cmd = game_get_last_command(game);
   sprintf(str, " %s:", cmd_to_str[last_cmd-NO_CMD]);
   if(game_get_last_command_stat(game) == OK) {
-    strcat(str, "OK");
-  }
-  else {
-    strcat(str, "ERROR");
-  }
-  screen_area_puts(ge->feedback, str);*/
+  strcat(str, "OK");
+}
+else {
+strcat(str, "ERROR");
+}
+screen_area_puts(ge->feedback, str);*/
 
-  /* Dump to the terminal */
-  screen_paint();
-  printf("prompt:> ");
+/* Dump to the terminal */
+screen_paint();
+printf("prompt:> ");
 }
 
 
 /**
-  Private Functions
+Private Functions
 */
 STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj) {
   if(ge == NULL || space == NULL) return ERROR;

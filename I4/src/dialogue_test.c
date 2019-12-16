@@ -1,11 +1,11 @@
 /**
- * @brief Test for dialogue module
- *
- * @file dialogue_test.c
- * @author Gonzalo Martín
- * @version 1.1
- * @date 13-12-2019
- */
+* @brief Test for dialogue module
+*
+* @file dialogue_test.c
+* @author Gonzalo Martín
+* @version 1.1
+* @date 13-12-2019
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,51 +16,51 @@
 #define MAX_TESTS 13
 
 /**
- * @brief Funcion principal de pruebas para el modulo Space.
- *
- * Dos modos de ejecucion:
- *   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
- *   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
- *      la prueba indicada
- *
- */
+* @brief Funcion principal de pruebas para el modulo Space.
+*
+* Dos modos de ejecucion:
+*   1.-Si se ejecuta sin parametros se ejecutan todas las pruebas
+*   2.-Si se ejecuta con un numero entre 1 y el numero de pruebas solo ejecuta
+*      la prueba indicada
+*
+*/
 
 int main(int argc, char** argv) {
 
-    int test = 0;
-    int all = 1;
+  int test = 0;
+  int all = 1;
 
-    if (argc < 2) {
-        printf("Running all test for module Dialogue:\n");
-    } else {
-        test = atoi(argv[1]);
-        all = 0;
-        printf("Running test %d:\t", test);
-	if (test < 1 && test > MAX_TESTS) {
-	  printf("Error: unknown test %d\t", test);
-	  exit(EXIT_SUCCESS);
-        }
+  if (argc < 2) {
+    printf("Running all test for module Dialogue:\n");
+  } else {
+    test = atoi(argv[1]);
+    all = 0;
+    printf("Running test %d:\t", test);
+    if (test < 1 && test > MAX_TESTS) {
+      printf("Error: unknown test %d\t", test);
+      exit(EXIT_SUCCESS);
     }
+  }
 
 
-    if (all || test == 1) test_dialogue_create();
-    if (all || test == 2) test_dialogue_destroy();
-    if (all || test == 3) test_dialogue_set_last_cmd();
-    if (all || test == 4) test_dialogue_set_last_status();
-    if (all || test == 5) test_dialogue_set_direction();
-    if (all || test == 6) test_dialogue_set_feedback();
-    if (all || test == 7) test_dialogue_set_description();
-    if (all || test == 8) test_dialogue_get_last_cmd();
-    if (all || test == 9) test_dialogue_get_last_status();
-    if (all || test == 10) test_dialogue_get_direction();
-    if (all || test == 11) test_dialogue_get_feedback();
-    if (all || test == 12) test_dialogue_get_description();
-    if (all || test == 13) test_dialogue_produce();
+  if (all || test == 1) test_dialogue_create();
+  if (all || test == 2) test_dialogue_destroy();
+  if (all || test == 3) test_dialogue_set_last_cmd();
+  if (all || test == 4) test_dialogue_set_last_status();
+  if (all || test == 5) test_dialogue_set_direction();
+  if (all || test == 6) test_dialogue_set_feedback();
+  if (all || test == 7) test_dialogue_set_description();
+  if (all || test == 8) test_dialogue_get_last_cmd();
+  if (all || test == 9) test_dialogue_get_last_status();
+  if (all || test == 10) test_dialogue_get_direction();
+  if (all || test == 11) test_dialogue_get_feedback();
+  if (all || test == 12) test_dialogue_get_description();
+  if (all || test == 13) test_dialogue_produce();
 
 
-    PRINT_PASSED_PERCENTAGE;
+  PRINT_PASSED_PERCENTAGE;
 
-    return 1;
+  return 1;
 }
 
 void test_dialogue_create() {
