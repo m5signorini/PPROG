@@ -1,15 +1,15 @@
 /**
-* @brief It defines the game interface
-* for each command
-*
-* The game manages the spaces, players and objects
-*
-* @file game.h
-* @author Martin Sanchez Signorini
-* @version 3.0
-* @date 30-10-2019
-* @copyright GNU Public License
-*/
+ * @brief It defines the game interface
+ * for each command
+ *
+ * The game manages the spaces, players and objects
+ *
+ * @file game.h
+ * @author Martin Sanchez Signorini
+ * @version 3.0
+ * @date 30-10-2019
+ * @copyright GNU Public License
+ */
 
 #ifndef GAME_H
 #define GAME_H
@@ -327,7 +327,6 @@ STATUS game_add_link(Game* game, Link* link);
 * @return the description of the game
 */
 char* game_get_description(Game*game);
-Dialogue* game_get_dialogue(Game* game);
 Link* game_get_link_at(Game* game, int position);
 Space* game_get_space_at(Game* game, int index);
 Object* game_get_object_at(Game* game, int index);
