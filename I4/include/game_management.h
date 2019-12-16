@@ -1,13 +1,13 @@
 /**
- * @brief It defines the game management for saving and loading games
- *
- *
- *
- * @file game_managemenet.h
- * @author Félix Estaún
- * @version 2.0
- * @date 26-09-2019
- */
+* @brief It defines the game management for saving and loading games
+*
+*
+*
+* @file game_managemenet.h
+* @author Félix Estaún
+* @version 2.0
+* @date 26-09-2019
+*/
 
 
 #ifndef GAME_MANAGEMENT_H

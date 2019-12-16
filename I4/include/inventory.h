@@ -1,14 +1,14 @@
 /**
- * @brief It defines a inventory
- *
- * Added descriptions
- *
- * @file inventory.h
- * @author César Ramírez Martínez
- * @version 1.0
- * @date 20-09-2019
- * @copyright GNU Public License
- */
+* @brief It defines a inventory
+*
+* Added descriptions
+*
+* @file inventory.h
+* @author César Ramírez Martínez
+* @version 1.0
+* @date 20-09-2019
+* @copyright GNU Public License
+*/
 
 #ifndef inventory_H
 #define inventory_H

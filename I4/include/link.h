@@ -1,13 +1,13 @@
 /**
- * @brief It defines a link
- *
- * Now bidirectional
- *
- * @file link.h
- * @author Félix Estaún
- * @version 2.0
- * @date 01-11-2019
- */
+* @brief It defines a link
+*
+* Now bidirectional
+*
+* @file link.h
+* @author Félix Estaún
+* @version 2.0
+* @date 01-11-2019
+*/
 
 #ifndef LINK_H
 #define LINK_H

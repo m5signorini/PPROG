@@ -1,14 +1,14 @@
 /**
- * @brief It defines the dice interface
- *
- * The dice is used for generating random ints
- *
- * @file die.h
- * @author Martin Sanchez Signorini
- * @version 3.0
- * @date 03-10-2019
- * @copyright GNU Public License
- */
+* @brief It defines the dice interface
+*
+* The dice is used for generating random ints
+*
+* @file die.h
+* @author Martin Sanchez Signorini
+* @version 3.0
+* @date 03-10-2019
+* @copyright GNU Public License
+*/
 
 #ifndef DIE_H
 #define DIE_H

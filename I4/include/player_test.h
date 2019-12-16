@@ -1,12 +1,12 @@
 /**
- * @brief It declares the tests for the PLAYER module
- *
- * @file PLAYER_test.h
- * @author Profesores Pprog
- * @version 2.0
- * @date 19-01-2016
- * @copyright GNU Public License
- */
+* @brief It declares the tests for the PLAYER module
+*
+* @file PLAYER_test.h
+* @author Profesores Pprog
+* @version 2.0
+* @date 19-01-2016
+* @copyright GNU Public License
+*/
 
 #ifndef PLAYER_TEST_H
 #define PLAYER_TEST_H

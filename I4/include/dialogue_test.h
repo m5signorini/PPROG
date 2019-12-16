@@ -1,11 +1,11 @@
 /**
- * @brief It declares the tests for the dialogue module
- *
- * @file dialogue_test.h
- * @author Gonzalo Martín
- * @version 2.0
- * @date 13-12-2019
- */
+* @brief It declares the tests for the dialogue module
+*
+* @file dialogue_test.h
+* @author Gonzalo Martín
+* @version 2.0
+* @date 13-12-2019
+*/
 
 #ifndef DIALOGUE_TEST_H
 #define DIALOGUE_TEST_H

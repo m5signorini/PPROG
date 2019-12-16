@@ -1,14 +1,14 @@
 /**
- * @brief It defines a space
- *
- * Added descriptions
- *
- * @file space.h
- * @author Profesores PPROG
- * @version 2.0
- * @date 13-01-2015
- * @copyright GNU Public License
- */
+* @brief It defines a space
+*
+* Added descriptions
+*
+* @file space.h
+* @author Profesores PPROG
+* @version 2.0
+* @date 13-01-2015
+* @copyright GNU Public License
+*/
 
 #ifndef GAME_RULES_H
 #define GAME_RULES_H

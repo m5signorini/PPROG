@@ -1,12 +1,12 @@
 /**
- * @brief It defines a textual graphic engine
- *
- * @file graphic_engine.h
- * @author Martin Sanchez Signorini
- * @version 1.0
- * @date 18-01-2017
- * @copyright GNU Public License
- */
+* @brief It defines a textual graphic engine
+*
+* @file graphic_engine.h
+* @author Martin Sanchez Signorini
+* @version 1.0
+* @date 18-01-2017
+* @copyright GNU Public License
+*/
 
 #ifndef __GRAPHIC_ENGINE__
 #define __GRAPHIC_ENGINE__

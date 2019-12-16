@@ -1,15 +1,15 @@
 /**
- * @brief It defines the game interface
- * for each command
- *
- * The game manages the spaces, players and objects
- *
- * @file game.h
- * @author Martin Sanchez Signorini
- * @version 3.0
- * @date 30-10-2019
- * @copyright GNU Public License
- */
+* @brief It defines the game interface
+* for each command
+*
+* The game manages the spaces, players and objects
+*
+* @file game.h
+* @author Martin Sanchez Signorini
+* @version 3.0
+* @date 30-10-2019
+* @copyright GNU Public License
+*/
 
 #ifndef GAME_H
 #define GAME_H

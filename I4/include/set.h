@@ -1,14 +1,14 @@
 /**
- * @brief It defines sets to manage different groups of elements
- *
- * Added descriptions
- *
- * @file set.h
- * @author César Ramírez Martínez
- * @version 1.0
- * @date 10-10-1019
- * @copyright GNU Public License
- */
+* @brief It defines sets to manage different groups of elements
+*
+* Added descriptions
+*
+* @file set.h
+* @author César Ramírez Martínez
+* @version 1.0
+* @date 10-10-1019
+* @copyright GNU Public License
+*/
 
 #ifndef SET_H
 #define SET_H
@@ -69,7 +69,7 @@ STATUS set_add_id(Set* set, Id id);
 * @param id the id we want to check
 * @return the position of the id in the set if it is in, or -1 if it is not
 */
- int set_has_id (Set* set, Id id);
+int set_has_id (Set* set, Id id);
 
 /**
 * @brief Deletes the id

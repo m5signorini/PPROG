@@ -1,12 +1,12 @@
 /**
- * @brief It defines common types
- *
- * @file types.h
- * @author Profesores PPROG
- * @version 1.0
- * @date 13-01-2015
- * @copyright GNU Public License
- */
+* @brief It defines common types
+*
+* @file types.h
+* @author Profesores PPROG
+* @version 1.0
+* @date 13-01-2015
+* @copyright GNU Public License
+*/
 
 #ifndef TYPES_H
 #define TYPES_H

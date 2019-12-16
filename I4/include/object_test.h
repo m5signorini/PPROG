@@ -1,12 +1,12 @@
 /**
- * @brief It declares the tests for the object module
- *
- * @file space_test.h
- * @author Profesores Pprog
- * @version 2.0
- * @date 19-01-2016
- * @copyright GNU Public License
- */
+* @brief It declares the tests for the object module
+*
+* @file space_test.h
+* @author Profesores Pprog
+* @version 2.0
+* @date 19-01-2016
+* @copyright GNU Public License
+*/
 
 #ifndef OBJECT_TEST_H
 #define OBJECT_TEST_H

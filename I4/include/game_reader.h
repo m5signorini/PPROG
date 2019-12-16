@@ -1,13 +1,13 @@
 /**
- * @brief It defines the game reader for loading
- *
- * Added descriptions
- *
- * @file game_reader.h
- * @author Martin Sanchez Signorini
- * @version 2.0
- * @date 26-09-2019
- */
+* @brief It defines the game reader for loading
+*
+* Added descriptions
+*
+* @file game_reader.h
+* @author Martin Sanchez Signorini
+* @version 2.0
+* @date 26-09-2019
+*/
 
 
 #ifndef GAME_READER_H

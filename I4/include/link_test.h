@@ -1,11 +1,11 @@
 /**
- * @brief It declares the tests for the link module
- *
- * @file link_test.h
- * @author Gonzalo Martín
- * @version 2.0
- * @date 13-12-2019
- */
+* @brief It declares the tests for the link module
+*
+* @file link_test.h
+* @author Gonzalo Martín
+* @version 2.0
+* @date 13-12-2019
+*/
 
 #ifndef LINK_TEST_H
 #define LINK_TEST_H

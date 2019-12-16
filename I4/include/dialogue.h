@@ -1,14 +1,14 @@
 /**
- * @brief It defines the dialogue interface
- *
- *
- *
- * @file dialogue.h
- * @author Gonzalo Martín Rollán
- * @version 3.0
- * @date 01-12-2019
- * @copyright GNU Public License
- */
+* @brief It defines the dialogue interface
+*
+*
+*
+* @file dialogue.h
+* @author Gonzalo Martín Rollán
+* @version 3.0
+* @date 01-12-2019
+* @copyright GNU Public License
+*/
 
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
