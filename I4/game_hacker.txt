@@ -24,7 +24,7 @@ move east
 move east
 move north
 move east
-open Door
+open Door with Rusty key
 move east
 turnon Lantern
 drop Rusty key
@@ -49,7 +49,7 @@ move east
 move up
 move west
 move north
-open Door
+open Door with Key card
 move west
 inspect Maria Sarnabo
 inspect Test tube
