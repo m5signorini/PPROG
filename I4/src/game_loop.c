@@ -20,6 +20,7 @@ int main(int argc, char *argv[]){
   Game *game = NULL;
   T_Command command = NO_CMD;
   Graphic_engine *gengine;
+  GameRules* game_rules = NULL;
   FILE* logfile;
   int log_flag = 0;
   STATUS status;
@@ -56,8 +57,18 @@ int main(int argc, char *argv[]){
     if (log_flag == 1) fclose(logfile);
     return EXIT_FAILURE;
   }
+  if ((game_rules = game_rules_create(game)) == NULL){
+    fprintf(stderr, "Error while initializing game rules.\n");
+    game_destroy(game);
+    graphic_engine_destroy(gengine);
+    if (log_flag == 1) fclose(logfile);
+    return EXIT_FAILURE;
+  }
   while ( (command != EXIT) && !game_is_over(game) ){
     graphic_engine_paint_game(gengine, game);
+    if(game_rules_main(game_rules) == OK) {
+      graphic_engine_paint_game(gengine, game);
+    }
     command = command_get_user_input();
     status = game_update(game, command);
 
@@ -75,6 +86,7 @@ int main(int argc, char *argv[]){
 
   game_destroy(game);
   graphic_engine_destroy(gengine);
+  game_rules_destroy(game_rules);
   if (log_flag == 1) fclose(logfile);
   return 0;
 }

@@ -45,14 +45,7 @@ STATUS game_rules_destroy(GameRules* game_rules) {
   if (!game_rules) {
     return ERROR;
   }
-
-  if(game_destroy(game_rules->game) == ERROR){
-    return ERROR;
-  }
-
   free(game_rules);
-  game_rules = NULL;
-
   return OK;
 }
 
@@ -177,7 +170,7 @@ STATUS game_rules_rotation(GameRules* game_rules){
   westId =  space_get_west(space);
 
   space_set_north(space, westId);
-  space_set_south(space,eastId);
+  space_set_south(space, eastId);
   space_set_west(space, southId);
   space_set_east(space, northId);
 
@@ -188,7 +181,7 @@ STATUS game_rules_no_rule(GameRules* game_rules) {
   if(game_rules == NULL) {
     return ERROR;
   }
-  return OK;
+  return ERROR;
 }
 
 STATUS game_rules_main(GameRules* game_rules){
@@ -205,7 +198,7 @@ STATUS game_rules_main(GameRules* game_rules){
   #endif
 
   if(game_rules->turn != 0) {
-    return OK;
+    return ERROR;
   }
   else {
     num = die_roll(game_get_die(game_rules->game));
@@ -214,24 +207,31 @@ STATUS game_rules_main(GameRules* game_rules){
   switch (num){
     case 1:
     control = game_rules_dark(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 1");
     break;
     case 2:
     control = game_rules_clopen_links(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 2");
     break;
     case 3:
     control = game_rules_hide_objects(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 3");
     break;
     case 4:
     control = game_rules_drop_objects(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 4");
     break;
     case 5:
     control = game_rules_teleport(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 5");
     break;
     case 6:
     control = game_rules_rotation(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 6");
     break;
-    case 7:
+    default:
     control = game_rules_no_rule(game_rules);
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 7");
     break;
 
   }
