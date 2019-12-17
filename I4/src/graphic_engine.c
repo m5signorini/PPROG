@@ -56,7 +56,32 @@ STATUS graphic_engine_paint_objects(Graphic_engine *ge, Game *game);
 */
 STATUS graphic_engine_get_object_str(Game* game, Id space_id, char* obj_str);
 
+/**
+* @brief Gets the string of objects in a space
+*
+* graphic_engine_paint_bot_border paints bot border
+*
+* @date 25/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param ge the graphic engine is going to use
+* @return the status of the function for error management
+*/
 STATUS graphic_engine_paint_bot_border(Graphic_engine* ge);
+
+/**
+* @brief Gets the string of objects in a space
+*
+* graphic_engine_paint_visuals paints visuals
+*
+* @date 25/10/2019
+* @author: Martin Sanchez Signorini
+*
+* @param game the game that the graphic engine is going to use
+* @param space the space to paint
+* @param obj string of min size MAX_LINE that will store the objects names
+* @return the status of the function for error management
+*/
 STATUS graphic_engine_paint_visuals(Graphic_engine* ge, Space* space, char* obj);
 
 /**
@@ -208,7 +233,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   graphic_engine_paint_objects(ge, game);
 
   /* Paint the in the banner area */
-  screen_area_puts(ge->banner, " The game of the Goose ");
+  screen_area_puts(ge->banner, " Octocluedo - A game of mistery and a murder ");
 
   /* Paint the in the help area */
   screen_area_clear(ge->help);
@@ -547,7 +572,7 @@ STATUS graphic_engine_get_object_str(Game *game, Id space_id, char* obj_str) {
     }
 
     /* Add a comma if there are at least 2 objects*/
-    if(aux > 1) {
+    if(aux >= 1) {
       strcat(obj_str, ",");
       k--;
     }

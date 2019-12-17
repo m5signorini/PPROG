@@ -401,6 +401,21 @@ STATUS game_check_light_space(Game* game, Space* space);
 STATUS game_check_light_player(Game* game, Space* space);
 
 /**
+* @brief Gets the dialogue of the given game
+*
+* game_get_dialogue returns the actual dialogue of the game
+*
+* @date 21/11/2019
+* @author: Martín Sánchez Signorini
+*
+* @param game the game from which the dialogue will be returned
+* @return the dialogue
+*/
+Dialogue* game_get_dialogue(Game* game);
+
+STATUS game_set_dialogue(Game* game);
+
+/**
 * @brief It empties the game without destroying it
 *
 * game_clear empties all the fields of the game structure

@@ -497,5 +497,74 @@ STATUS dialogue_produce(T_Command cmd, STATUS status, Dialogue* feedback) {
     }
   }
 
+  else if (cmd==SAVE) {
+    //Error
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == SAVE) {
+        dialogue_set_feedback(feedback,"You have done this before without success.");
+        return OK;
+      }
+      else {
+        dialogue_set_feedback(feedback,"You can't save the game.");
+        dialogue_set_last_cmd(feedback, SAVE);
+        dialogue_set_last_status(feedback, ERROR);
+        return OK;
+      }
+    }
+    //Success
+    else {
+      dialogue_set_feedback(feedback,"You've saved the game.");
+      dialogue_set_last_cmd(feedback, SAVE);
+      dialogue_set_last_status(feedback, OK);
+      return OK;
+    }
+  }
+
+  else if (cmd==LOAD) {
+    //Error
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == LOAD) {
+        dialogue_set_feedback(feedback,"You have done this before without success.");
+        return OK;
+      }
+      else {
+        dialogue_set_feedback(feedback,"You can't load the game.");
+        dialogue_set_last_cmd(feedback, LOAD);
+        dialogue_set_last_status(feedback, ERROR);
+        return OK;
+      }
+    }
+    //Success
+    else {
+      dialogue_set_feedback(feedback,"You've loaded the game.");
+      dialogue_set_last_cmd(feedback, LOAD);
+      dialogue_set_last_status(feedback, OK);
+      return OK;
+    }
+  }
+
+  else if (cmd==ACCUSE) {
+    //Error
+    if (status == ERROR) {
+      if (feedback->last_status == ERROR && feedback->last_cmd == ACCUSE) {
+        dialogue_set_feedback(feedback,"You have done this before without success.");
+        return OK;
+      }
+      else {
+        dialogue_set_feedback(feedback,"You can't accuse that.");
+        dialogue_set_last_cmd(feedback, ACCUSE);
+        dialogue_set_last_status(feedback, ERROR);
+        return OK;
+      }
+    }
+    //Success
+    else {
+      dialogue_set_feedback(feedback,"You've accused someone.");
+      dialogue_set_last_cmd(feedback, ACCUSE);
+      dialogue_set_last_status(feedback, OK);
+      return OK;
+    }
+  }
+
   return ERROR;
 }

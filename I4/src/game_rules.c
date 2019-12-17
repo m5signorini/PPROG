@@ -81,8 +81,8 @@ STATUS game_rules_clopen_links(GameRules* game_rules){
       if (link_set_open(link, TRUE) == ERROR){
         return ERROR;
       }
-      i++;
     }
+    i++;
   }
   return OK;
 }
@@ -207,31 +207,31 @@ STATUS game_rules_main(GameRules* game_rules){
   switch (num){
     case 1:
     control = game_rules_dark(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 1");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Now all spaces are dark");
     break;
     case 2:
     control = game_rules_clopen_links(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 2");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "What is closed, now is open and the other way around");
     break;
     case 3:
     control = game_rules_hide_objects(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 3");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "What is hidden, now is visible and the other way around");
     break;
     case 4:
     control = game_rules_drop_objects(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 4");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "All your items have fallen down");
     break;
     case 5:
     control = game_rules_teleport(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 5");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "You've been teleported");
     break;
     case 6:
     control = game_rules_rotation(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 6");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "This space has been rotated");
     break;
     default:
     control = game_rules_no_rule(game_rules);
-    dialogue_set_feedback(game_get_dialogue(game_rules->game), "Game Rule 7");
+    dialogue_set_feedback(game_get_dialogue(game_rules->game), "No rule applied");
     break;
 
   }

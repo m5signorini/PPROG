@@ -118,6 +118,7 @@ Game* game_management_load_from_file(Game* game, char* filename) {
   }
 
   game_set_die(game, die);
+  game_set_dialogue(game);
 
   return game;
 }
